@@ -10,16 +10,26 @@ class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        if (app()->isProduction()) {
+            // Nothing in here belongs on a live site: the admin below has a
+            // known password and the rest is placeholder content. Create the
+            // real first account with `php artisan make:filament-user`.
+            $this->command?->warn('Production detected. Skipping the development admin and all placeholder content.');
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+            return;
+        }
+
+        User::firstOrCreate(
+            ['email' => 'admin@i-nnovacmr.com'],
+            [
+                'name' => 'I-NNOVA Admin',
+                // Development only. Must be changed before anything is deployed.
+                'password' => 'innova-dev-2026',
+            ],
+        );
+
+        $this->call(PlaceholderContentSeeder::class);
     }
 }
