@@ -280,6 +280,11 @@ silently remove it.
 ## Sprint 5: Content load & launch
 
 - [ ] Load real images via CMS: team, products, institutions, internships
+- [ ] **Replace the 16 stand-in photographs.** The galleries are built and
+      running; each row currently points at a remote stand-in. Upload the real
+      photograph to the record in the admin and it takes over automatically.
+      The Photography list shows a "Stand-in" badge per row and a count in the
+      sidebar, so what is outstanding is never a guess.
 - [ ] Real case studies (PAXHI, SAHIK)
 - [ ] Real testimonials with photos
 - [ ] **Correct contact details**: no placeholder phone, email domain matching the site

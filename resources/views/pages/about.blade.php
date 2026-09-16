@@ -136,5 +136,12 @@
         </section>
     @endif
 
+    @include('sections.gallery', [
+        'images' => $photos,
+        'eyebrow' => __('Inside I-NNOVA'),
+        'title' => __('Life here'),
+        'lead' => __('The building in Bamenda, and the team at work in it.'),
+    ])
+
     @include('sections.cta', ['settings' => $settings])
 @endsection

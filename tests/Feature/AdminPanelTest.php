@@ -24,6 +24,7 @@ class AdminPanelTest extends TestCase
             'team members' => ['team-members'],
             'values' => ['company-values'],
             'testimonials' => ['testimonials'],
+            'photography' => ['gallery-images'],
             'how we work' => ['process-steps'],
             'kickstarter tracks' => ['kickstarter-tracks'],
             'kickstarter mentors' => ['kickstarter-mentors'],

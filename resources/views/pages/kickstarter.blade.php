@@ -190,6 +190,14 @@
         </section>
     @endif
 
+    @include('sections.gallery', [
+        'images' => $photos,
+        'eyebrow' => __('The programme in action'),
+        'title' => __('What a cohort actually looks like'),
+        'lead' => __('Internships running, projects being built, and the people doing it.'),
+        'tone' => 'dark',
+    ])
+
     @if ($alumni->isNotEmpty())
         <section class="bg-paper py-(--spacing-band)">
             <div class="mx-auto max-w-6xl px-4 sm:px-6">

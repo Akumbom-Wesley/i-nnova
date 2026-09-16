@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\GalleryPlacement;
 use App\Models\CaseStudy;
 use App\Models\Client;
 use App\Models\CompanyValue;
+use App\Models\GalleryImage;
 use App\Models\KickstarterTrack;
 use App\Models\Product;
 use App\Models\SiteSetting;
@@ -29,6 +31,7 @@ class HomeController extends Controller
             'stats' => Stat::query()->context(Stat::CONTEXT_SITE)->ordered()->get(),
             // Verified only. An unconfirmed logo must never reach a page.
             'clients' => Client::query()->verified()->ordered()->get(),
+            'photos' => GalleryImage::query()->placedOn(GalleryPlacement::Home)->ordered()->get(),
         ]);
     }
 }
