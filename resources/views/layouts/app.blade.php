@@ -4,6 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    {{--
+        Both yields need a non-empty default. Blade's two-argument @section
+        calls ob_start() when the value is null, which leaks an output buffer,
+        so pages must pass a string rather than a nullable model attribute.
+    --}}
     <title>@yield('title', config('app.name'))</title>
     <meta name="description" content="@yield('description', '')">
 
