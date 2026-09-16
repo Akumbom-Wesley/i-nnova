@@ -8,9 +8,11 @@
 @php $isDark = $tone === 'dark'; @endphp
 
 <div {{ $attributes->class('group') }}>
-    <p class="font-display text-h1 tabular-nums {{ $isDark ? 'text-white' : 'text-primary' }}">
-        {{ $value }}
-    </p>
+    {{-- The finished figure is in the markup; the count only animates a
+         number that is already there. --}}
+    <p x-data="countUp(@js($value))"
+       x-text="display"
+       class="font-display text-h1 tabular-nums {{ $isDark ? 'text-white' : 'text-primary' }}">{{ $value }}</p>
 
     <div class="rule-draw mt-3 h-0.5 w-10 bg-accent" aria-hidden="true"></div>
 

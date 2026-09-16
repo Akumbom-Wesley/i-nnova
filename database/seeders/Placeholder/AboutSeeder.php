@@ -29,52 +29,46 @@ class AboutSeeder extends Seeder
      * Six values: the five the company states on its own site, plus
      * "empowering innovators" from the roll-up, which the others do not say.
      */
+    /**
+     * The four pillars stated on the roll-up, which is the current statement
+     * of what the company says it stands for.
+     */
     private function values(): void
     {
         $rows = [
             [
-                'title' => ['en' => 'Innovation First', 'fr' => 'L innovation d abord'],
+                'title' => ['en' => 'Innovative Solutions', 'fr' => 'Solutions Innovantes'],
                 'body' => [
                     'en' => '<p>Smart solutions that solve real world problems rather than demonstrate technology.</p>',
                     'fr' => '<p>Des solutions intelligentes qui resolvent de vrais problemes plutot que de demontrer la technologie.</p>',
                 ],
             ],
             [
-                'title' => ['en' => 'Community Impact', 'fr' => 'Impact communautaire'],
+                'title' => ['en' => 'Community Impact', 'fr' => 'Impact Communautaire'],
                 'body' => [
                     'en' => '<p>Transforming communities, empowering innovators. The work is measured by what it changes locally.</p>',
                     'fr' => '<p>Transformer les communautes, autonomiser les innovateurs. Le travail se mesure a ce qu il change localement.</p>',
                 ],
             ],
             [
-                'title' => ['en' => 'Excellence and Quality', 'fr' => 'Excellence et qualite'],
+                'title' => ['en' => 'Tech Excellence', 'fr' => 'Excellence Technique'],
                 'body' => [
                     'en' => '<p>Driven by STEM. Industry standard tools and workflows, applied with discipline.</p>',
                     'fr' => '<p>Portes par les STEM. Outils et methodes standards, appliques avec rigueur.</p>',
                 ],
             ],
             [
-                'title' => ['en' => 'Integrity and Transparency', 'fr' => 'Integrite et transparence'],
+                'title' => ['en' => 'Empowering Innovators', 'fr' => 'Autonomiser les Innovateurs'],
                 'body' => [
-                    'en' => '<p>We say what we have shipped and what we have not. Nothing unlaunched is presented as running.</p>',
-                    'fr' => '<p>Nous disons ce que nous avons livre et ce que nous n avons pas livre. Rien d inacheve n est presente comme operationnel.</p>',
-                ],
-            ],
-            [
-                'title' => ['en' => 'Collaboration and Growth', 'fr' => 'Collaboration et croissance'],
-                'body' => [
-                    'en' => '<p>Open, team driven and inclusive. We encourage shared thinking and open dialogue.</p>',
-                    'fr' => '<p>Ouvert, porte par l equipe et inclusif. Nous encourageons la reflexion partagee et le dialogue ouvert.</p>',
-                ],
-            ],
-            [
-                'title' => ['en' => 'Empowering Innovators', 'fr' => 'Autonomiser les innovateurs'],
-                'body' => [
-                    'en' => '<p>We do not just build software. We build the builders.</p>',
-                    'fr' => '<p>Nous ne construisons pas que des logiciels. Nous formons ceux qui les construisent.</p>',
+                    'en' => '<p>Built for the next generation of tech leaders. Learn, build, collaborate, transform.</p>',
+                    'fr' => '<p>Concu pour la prochaine generation de leaders tech. Apprendre, construire, collaborer, transformer.</p>',
                 ],
             ],
         ];
+
+        // Anything beyond the four the roll-up states is removed, so the page
+        // and the printed material say the same thing.
+        CompanyValue::query()->whereNotIn('id', range(1, count($rows)))->delete();
 
         foreach ($rows as $order => $row) {
             $value = CompanyValue::updateOrCreate(

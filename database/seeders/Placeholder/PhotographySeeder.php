@@ -61,7 +61,7 @@ class PhotographySeeder extends Seeder
             ],
             [
                 'home', 'team-banner-four.jpeg',
-                'The builders',
+                'Hands-on learning',
                 'Engineers who build the products and teach the programme',
             ],
 

@@ -2,14 +2,11 @@
 
 namespace App\Filament\Resources\Partners\Schemas;
 
-use App\Enums\PartnerLockup;
 use App\Filament\Support\LocaleTabs;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 
 class PartnerForm
@@ -51,18 +48,6 @@ class PartnerForm
                             ->helperText('Nothing appears on the site until this is on. A logo for a relationship that has not been confirmed must never be published.')
                             ->columnSpanFull(),
 
-                        Toggle::make('is_featured')
-                            ->label('Show as a co-branded pairing')
-                            ->helperText('Featured partners get the paired lockup from the brand guide instead of a place in the row.')
-                            ->live()
-                            ->columnSpanFull(),
-
-                        Select::make('lockup')
-                            ->label('Pairing arrangement')
-                            ->options(PartnerLockup::class)
-                            ->default(PartnerLockup::Horizontal)
-                            ->helperText('The two arrangements the brand guide allows. Our logo always carries the trademark name in a pairing, never the stand-alone mark.')
-                            ->visible(fn (Get $get): bool => (bool) $get('is_featured')),
 
                         TextInput::make('sort_order')
                             ->label('Order')

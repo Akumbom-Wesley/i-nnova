@@ -30,9 +30,26 @@ class SettingsSeeder extends Seeder
             'hero_cta_label' => ['en' => 'See our work', 'fr' => 'Voir nos realisations'],
             'hero_cta_url' => '/work',
 
+            // The main site sells the programme and hands off here.
+            'kickstarter_url' => 'https://innovakickstarter.com',
+
+            'socials' => [
+                'facebook' => 'https://facebook.com/innovacm',
+                'twitter' => 'https://twitter.com/innovacm',
+                'linkedin' => 'https://linkedin.com/company/innovacm',
+                'instagram' => 'https://instagram.com/innovacm',
+                'github' => 'https://github.com/innovacm',
+            ],
+
             'about_heading' => [
-                'en' => 'We do not just build software. We build the builders.',
-                'fr' => 'Nous ne construisons pas que des logiciels. Nous formons ceux qui les construisent.',
+                'en' => 'A technology company committed to building smart, innovative solutions that solve real world problems and transform communities.',
+                'fr' => 'Une entreprise technologique engagee a creer des solutions innovantes qui resolvent de vrais problemes et transforment les communautes.',
+            ],
+
+            // The word that cycles at the end of the About headline.
+            'about_rotating_words' => [
+                'en' => ['innovators', 'builders', 'businesses', 'institutions', 'careers'],
+                'fr' => ['innovateurs', 'batisseurs', 'entreprises', 'institutions', 'carrieres'],
             ],
             // Mission and vision, in the company's own words.
             'mission' => [

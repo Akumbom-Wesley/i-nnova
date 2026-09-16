@@ -10,12 +10,44 @@
 @endphp
 
 @section('content')
-    <x-ui.page-header
-        eyebrow="{{ __('About') }}"
-        :title="$settings->about_heading ?: 'We do not just build software. We build the builders.'"
-        lead="{{ __('Transforming communities, empowering innovators.') }}"
-        motif="code"
-    />
+    @php
+        $rotating = array_values(array_filter((array) ($settings->about_rotating_words ?? [])));
+    @endphp
+
+    <header class="relative overflow-hidden border-b border-ink/10 bg-paper">
+        <div class="pointer-events-none absolute inset-x-0 -top-40 h-96 bg-gradient-to-b from-primary-soft to-transparent"
+             aria-hidden="true"></div>
+
+        <x-tech.code class="pointer-events-none absolute -right-20 top-0 hidden w-[28rem] text-primary/[0.11] lg:block" />
+
+        <div class="relative mx-auto max-w-6xl px-4 pt-(--spacing-band-sm) pb-(--spacing-band) sm:px-6">
+            <x-ui.reveal from="none">
+                <p class="text-eyebrow font-semibold uppercase text-accent-text">{{ __('About') }}</p>
+            </x-ui.reveal>
+
+            <x-ui.reveal :delay="80">
+                <h1 class="mt-5 max-w-4xl font-display text-h1 text-ink">
+                    {{ __('Transforming communities,') }}<br>
+                    {{ __('empowering') }}
+                    @if ($rotating !== [])
+                        <x-ui.rotating-word :words="$rotating" class="text-accent-text" />
+                    @else
+                        <span class="text-accent-text">{{ __('innovators') }}</span>
+                    @endif
+                </h1>
+            </x-ui.reveal>
+
+            <x-ui.reveal :delay="140">
+                <div class="rule-draw mt-6 h-0.5 w-16 bg-accent" aria-hidden="true"></div>
+            </x-ui.reveal>
+
+            @if ($settings->about_heading)
+                <x-ui.reveal :delay="200">
+                    <p class="text-lead mt-7 max-w-2xl text-muted">{{ $settings->about_heading }}</p>
+                </x-ui.reveal>
+            @endif
+        </div>
+    </header>
 
     @if (filled($settings->about_story))
         <section class="bg-paper py-(--spacing-band)">
@@ -140,7 +172,7 @@
 
     @include('sections.timeline', ['milestones' => $milestones])
 
-    @include('sections.partners', ['partners' => $partners])
+    @include('sections.trusted', ['partners' => $partners, 'clients' => $clients])
 
     @include('sections.gallery', [
         'images' => $photos,

@@ -13,7 +13,7 @@
     <x-ui.page-header
         eyebrow="{{ __('I-NNOVA Kickstarter') }}"
         title="{{ __('Launch your tech career. Build the future.') }}"
-        lead="{{ __('Real projects, industry standard tools and workflows, mentorship from working engineers, and a Career Capital Score that shows where you actually stand.') }}"
+        lead="{{ __('We do not just build software. We build the builders.') }}"
         motif="network"
     >
         <x-ui.reveal :delay="260" class="mt-10 flex flex-wrap gap-4">
@@ -101,10 +101,10 @@
                             :columns="2"
                             :items="[
                                 __('Technical skills'),
-                                __('Project portfolio'),
-                                __('Freelance experience'),
-                                __('Soft skills'),
-                                __('Professional readiness'),
+                                __('Interview performance'),
+                                __('Portfolio'),
+                                __('Collaboration'),
+                                __('Learning'),
                             ]"
                         />
                     </x-ui.reveal>

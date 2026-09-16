@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\GalleryPlacement;
+use App\Models\Client;
 use App\Models\CompanyValue;
 use App\Models\GalleryImage;
 use App\Models\Milestone;
@@ -23,6 +24,7 @@ class AboutController extends Controller
             'steps' => ProcessStep::query()->ordered()->get(),
             'milestones' => Milestone::query()->ordered()->get(),
             'partners' => Partner::query()->verified()->ordered()->get(),
+            'clients' => Client::query()->verified()->ordered()->get(),
             'photos' => GalleryImage::query()->placedOn(GalleryPlacement::About)->ordered()->get(),
             'stats' => Stat::query()->context(Stat::CONTEXT_SITE)->ordered()->get(),
             // The full team, grouped by department, with anyone unassigned last.

@@ -35,47 +35,23 @@ class KickstarterSeeder extends Seeder
         // Five tracks: the four the company lists on its own site, plus
         // cybersecurity from the roll-up. "Software Development" from the
         // roll-up is not repeated because Web and Mobile already cover it.
+        // The five tracks named on the roll-up, which is the current statement
+        // of the programme.
         $rows = [
             [
-                'slug' => 'web-development',
-                'name' => ['en' => 'Web Development', 'fr' => 'Developpement Web'],
+                'slug' => 'software-development',
+                'name' => ['en' => 'Software Development', 'fr' => 'Developpement Logiciel'],
                 'summary' => [
-                    'en' => 'Frontend, backend and full-stack. Build modern web applications end to end.',
-                    'fr' => 'Frontend, backend et full-stack. Construire des applications web de bout en bout.',
+                    'en' => 'Build modern web, mobile and desktop applications.',
+                    'fr' => 'Construire des applications web, mobiles et bureau modernes.',
                 ],
             ],
             [
-                'slug' => 'mobile-development',
-                'name' => ['en' => 'Mobile Development', 'fr' => 'Developpement Mobile'],
+                'slug' => 'ai-machine-learning',
+                'name' => ['en' => 'AI and Machine Learning', 'fr' => 'IA et Apprentissage Automatique'],
                 'summary' => [
-                    'en' => 'Android, iOS and cross-platform. Ship to the device people actually carry.',
-                    'fr' => 'Android, iOS et multiplateforme. Livrer sur l appareil que les gens portent vraiment.',
-                ],
-            ],
-            [
-                'slug' => 'ui-ux-design',
-                'name' => ['en' => 'UI and UX Design', 'fr' => 'Design UI et UX'],
-                'summary' => [
-                    'en' => 'Design thinking and prototyping. Decide what to build before building it.',
-                    'fr' => 'Design thinking et prototypage. Decider quoi construire avant de le construire.',
-                ],
-            ],
-            [
-                'slug' => 'data-and-ai',
-                'name' => ['en' => 'Data and AI', 'fr' => 'Donnees et IA'],
-                'summary' => [
-                    'en' => 'Data science and machine learning. Turn data into decisions.',
-                    'fr' => 'Science des donnees et apprentissage automatique. Transformer les donnees en decisions.',
-                ],
-            ],
-            [
-                // Legible on the physical roll-up in the team photograph, but
-                // not in the roll-up file, so it was missed first time round.
-                'slug' => 'cloud-engineering',
-                'name' => ['en' => 'Cloud Engineering', 'fr' => 'Ingenierie Cloud'],
-                'summary' => [
-                    'en' => 'Design, build and manage scalable cloud infrastructure.',
-                    'fr' => 'Concevoir, construire et gerer une infrastructure cloud evolutive.',
+                    'en' => 'Create intelligent systems and predictive solutions.',
+                    'fr' => 'Creer des systemes intelligents et des solutions predictives.',
                 ],
             ],
             [
@@ -84,6 +60,22 @@ class KickstarterSeeder extends Seeder
                 'summary' => [
                     'en' => 'Protect systems, data and networks. Build a secure digital future.',
                     'fr' => 'Proteger les systemes, les donnees et les reseaux. Construire un avenir numerique sur.',
+                ],
+            ],
+            [
+                'slug' => 'data-science',
+                'name' => ['en' => 'Data Science', 'fr' => 'Science des Donnees'],
+                'summary' => [
+                    'en' => 'Turn data into insights. Solve problems with data driven decisions.',
+                    'fr' => 'Transformer les donnees en decisions fondees sur les faits.',
+                ],
+            ],
+            [
+                'slug' => 'cloud-engineering',
+                'name' => ['en' => 'Cloud Engineering', 'fr' => 'Ingenierie Cloud'],
+                'summary' => [
+                    'en' => 'Design, build and manage scalable cloud infrastructure.',
+                    'fr' => 'Concevoir, construire et gerer une infrastructure cloud evolutive.',
                 ],
             ],
         ];
@@ -162,7 +154,7 @@ class KickstarterSeeder extends Seeder
             [Stat::CONTEXT_SITE, '3+', ['en' => 'Years building', 'fr' => 'Annees de construction']],
             [Stat::CONTEXT_KICKSTARTER, '500+', ['en' => 'Students reached', 'fr' => 'Etudiants touches']],
             [Stat::CONTEXT_KICKSTARTER, '90%+', ['en' => 'Employed within 3 months', 'fr' => 'Employes en moins de 3 mois']],
-            [Stat::CONTEXT_KICKSTARTER, '6', ['en' => 'Accelerator tracks', 'fr' => 'Parcours accelerateur']],
+            [Stat::CONTEXT_KICKSTARTER, '5', ['en' => 'Accelerator tracks', 'fr' => 'Parcours accelerateur']],
         ];
 
         foreach ($rows as $order => [$context, $value, $label]) {

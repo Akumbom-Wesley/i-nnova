@@ -288,30 +288,36 @@ indicator, so the ring is now orange with a white halo either side and clears
 rule at zero specificity, so a component can restyle its focus but cannot
 silently remove it.
 
-## Taken from the live site at i-nnovacmr.com
+## The roll-up is the source of truth
 
-The previous site is still up and carries real material the rebuild was
-missing. Pulled across: the founding year and the 2022 to 2025 timeline, the
-mission and vision in the company's own words, the real leadership team, and
-the real numbers (500+ students reached, 100+ businesses served, 90%+ employed
-within three months, 3+ years, 6 products).
+Where the roll-up artwork and the older site at i-nnovacmr.com disagree, the
+roll-up wins, and product names come from it alone. The line is therefore
+I-NNOVA POS, I-NNOVA Integrated Hospital Software, EduTrust Schools, Hotel
+Booking System, and the custom work it calls "and more". Marketplace and
+BookIt appear only on the older site and are not carried over.
 
-**Where the live site and the roll-up disagree, both were kept rather than one
-picked.** The product line is the union of the two, with the hospital software
-marked in development because only the roll-up claims it. The accelerator runs
-five tracks: the four the site lists plus cybersecurity from the roll-up, with
-"software development" dropped only because web and mobile already cover it.
-Values are six: the site's five plus "empowering innovators" from the roll-up.
-Career Capital uses the site's five dimensions, because those are the ones it
-actually shows scores against.
+The same rule settles the rest: five accelerator tracks (software development,
+AI and machine learning, cybersecurity, data science, cloud engineering, the
+last legible on the physical banner rather than in the roll-up file), the
+Career Capital dimensions, and the four value pillars.
 
-**Deliberately not taken:** the contact details, `info@innovacm.com` and
-`+237 670 000 000`, which are the exact placeholder phone and mismatched
-domain on the do-not-repeat list. The roll-up's are the real ones and a test
-now fails if either of the old ones ever reappears. The blog is not taken
-either, since it is locked as none. The testimonials are not taken: they make
-specific claims such as a 150% revenue increase, which want verifying before
-being republished.
+Still taken from the older site, because the roll-up does not cover it: the
+leadership team, the founding year and timeline, the mission and vision, the
+real figures, and the social profiles.
+
+**Deliberately not taken:** `info@innovacm.com` and `+237 670 000 000`, which
+are the placeholder phone and mismatched domain on the do-not-repeat list. A
+test fails if either reappears.
+
+## "We build the builders" lives in one place
+
+It is a claim about the accelerator rather than about the company, so it
+appears once, as the lead on the Kickstarter page, and nowhere else. A grep
+for it across the views returns exactly one hit.
+
+The About page leads instead with "Transforming communities, empowering" and a
+word that cycles through innovators, builders, businesses, institutions and
+careers. The words are editable, since which ones are right is a copy decision.
 
 ## Sprint 5: Content load & launch
 

@@ -1,6 +1,6 @@
 @props(['settings'])
 
-<section class="relative overflow-hidden bg-primary py-(--spacing-band) text-white">
+<section class="band-sheen relative overflow-hidden bg-primary py-(--spacing-band) text-white">
     <x-tech.network class="pointer-events-none absolute -right-16 bottom-0 w-[26rem] text-white/[0.12]" />
 
     <div class="relative mx-auto max-w-6xl px-4 sm:px-6">
@@ -15,8 +15,7 @@
                     </h2>
 
                     <p class="text-lead mt-7 max-w-xl text-white/75">
-                        Real projects, industry standard tools, mentorship from working
-                        engineers, and a Career Capital Score that shows where you actually stand.
+                        {{ __('Hands-on learning on real projects, career focused and community driven, with a Career Capital Score that shows where you actually stand.') }}
                     </p>
                 </x-ui.reveal>
 

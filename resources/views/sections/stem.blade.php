@@ -4,7 +4,7 @@
     The STEM band. This is where the positioning gets room to breathe and
     where the motif animates at full contrast rather than as a wash.
 --}}
-<section class="relative overflow-hidden bg-ink py-(--spacing-band-lg) text-white">
+<section class="band-sheen relative overflow-hidden bg-ink py-(--spacing-band-lg) text-white">
     <x-tech.code class="pointer-events-none absolute -left-20 top-1/2 w-[30rem] -translate-y-1/2 text-white/[0.09]" />
 
     <div class="relative mx-auto max-w-6xl px-4 sm:px-6">
@@ -25,12 +25,6 @@
                         Our accelerator runs four tracks, each one built around shipping
                         real work rather than finishing a syllabus.
                     </p>
-                </x-ui.reveal>
-
-                <x-ui.reveal from="left" :delay="160" class="mt-10">
-                    <x-ui.button :href="route('kickstarter')" size="lg">
-                        {{ __('Explore Kickstarter') }}
-                    </x-ui.button>
                 </x-ui.reveal>
             </div>
 

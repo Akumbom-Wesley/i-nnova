@@ -13,7 +13,7 @@
 
 <{{ $tag }}
     @if ($href) href="{{ $href }}" @endif
-    {{ $attributes->class('card-lift group flex h-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper hover:border-accent/40 hover:shadow-xl hover:shadow-ink/5') }}
+    {{ $attributes->class('card-lift card-trace group flex h-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper hover:border-accent/40 hover:shadow-xl hover:shadow-ink/5') }}
 >
     @if ($image)
         <div class="aspect-[16/10] overflow-hidden bg-paper-dim">

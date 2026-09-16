@@ -1,7 +1,7 @@
 @props(['settings'])
 
 @if (filled($settings->mission) || filled($settings->vision))
-    <section class="relative overflow-hidden bg-primary py-(--spacing-band) text-white">
+    <section class="band-sheen relative overflow-hidden bg-primary py-(--spacing-band) text-white">
         <x-tech.network class="pointer-events-none absolute -right-16 top-1/2 hidden w-[26rem] -translate-y-1/2 text-white/[0.12] lg:block" />
 
         <div class="relative mx-auto max-w-6xl px-4 sm:px-6">

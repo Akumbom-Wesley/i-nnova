@@ -42,7 +42,7 @@ class PartnersTest extends TestCase
 
         $this->get($path)
             ->assertSuccessful()
-            ->assertDontSee('Organisations we build alongside')
+            ->assertDontSee('Trusted partners and clients')
             ->assertDontSee('A Real Partner');
     }
 
@@ -52,7 +52,7 @@ class PartnersTest extends TestCase
         $this->partner();
 
         $this->get($path)
-            ->assertSee('Organisations we build alongside')
+            ->assertSee('Trusted partners and clients')
             ->assertSee('A Real Partner');
     }
 
@@ -105,22 +105,38 @@ class PartnersTest extends TestCase
         }
     }
 
-    public function test_a_featured_partner_gets_the_pairing_and_the_rest_get_the_row(): void
+    public function test_partners_are_marks_only_while_clients_can_be_followed(): void
     {
-        $this->partner(['name' => 'Featured Partner', 'is_featured' => true]);
-        $this->partner(['name' => 'Row Partner', 'sort_order' => 1]);
+        $this->partner(['name' => 'A Partner']);
+
+        \App\Models\Client::create([
+            'name' => 'A Client',
+            'website_url' => 'https://client.example',
+            'is_verified' => true,
+        ]);
 
         $html = $this->get('/en')->getContent();
 
-        $this->assertStringContainsString('Featured Partner', $html);
-        $this->assertStringContainsString('Row Partner', $html);
+        $this->assertStringContainsString('A Partner', $html);
+        $this->assertStringContainsString('A Client', $html);
 
-        // Only the featured one brings our own logo into a pairing. Counted
-        // as an image tag, because the Organization schema also names the
-        // logo file and that is not a pairing.
-        preg_match_all('/<img [^>]*images\/logo\.png[^>]*>/', preg_replace('/\s+/', ' ', $html), $matches);
+        // A client can be followed through to their own site; a partner is a
+        // logo and nothing else.
+        $this->assertStringContainsString('https://client.example', $html);
+        $this->assertStringNotContainsString('partner-mark-link', $html);
+    }
 
-        $this->assertCount(1, $matches[0]);
+    public function test_an_unconfirmed_client_is_not_published_either(): void
+    {
+        \App\Models\Client::create([
+            'name' => 'Unconfirmed Client',
+            'website_url' => 'https://nope.example',
+            'is_verified' => false,
+        ]);
+
+        $this->get('/en')
+            ->assertDontSee('Unconfirmed Client')
+            ->assertDontSee('https://nope.example');
     }
 
     public function test_the_admin_counts_partnerships_awaiting_confirmation(): void

@@ -5,8 +5,8 @@
         <div class="mx-auto max-w-6xl px-4 sm:px-6">
             <x-ui.section-header
                 eyebrow="{{ __('What we stand for') }}"
-                title="{{ __('We do not just build software. We build the builders.') }}"
-                lead="{{ __('Transforming communities, empowering innovators.') }}"
+                title="{{ __('Smart solutions that solve real world problems') }}"
+                lead="{{ __('Four things the work is held to.') }}"
             />
 
             <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">

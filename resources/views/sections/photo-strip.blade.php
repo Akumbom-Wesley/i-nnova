@@ -5,7 +5,7 @@
     phone, so a row of photographs never squashes into stamps.
 --}}
 @if ($images->isNotEmpty())
-    <section class="overflow-hidden bg-ink py-(--spacing-band)" aria-labelledby="life-here">
+    <section class="band-sheen overflow-hidden bg-ink py-(--spacing-band)" aria-labelledby="life-here">
         <div class="mx-auto max-w-6xl px-4 sm:px-6">
             <x-ui.section-header
                 eyebrow="{{ __('Inside I-NNOVA') }}"
@@ -18,13 +18,13 @@
         <div class="mt-14 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 sm:px-6 lg:justify-center lg:overflow-visible">
             @foreach ($images as $index => $image)
                 <figure data-reveal="scale" style="--reveal-delay: {{ $index * 90 }}ms"
-                        class="card-lift group relative w-72 shrink-0 snap-start overflow-hidden rounded-2xl sm:w-80">
-                    <div class="aspect-[4/5] overflow-hidden bg-ink-soft">
+                        class="card-lift group relative w-[20rem] shrink-0 snap-start overflow-hidden rounded-2xl sm:w-[26rem] lg:w-[30rem]">
+                    <div class="aspect-[4/3] overflow-hidden bg-ink-soft">
                         <x-ui.photo
                             :image="$image"
-                            :width="640"
-                            :height="800"
-                            sizes="(min-width: 40rem) 20rem, 18rem"
+                            :width="960"
+                            :height="720"
+                            sizes="(min-width: 64rem) 30rem, (min-width: 40rem) 26rem, 20rem"
                             class="transition-transform duration-700 ease-[var(--ease-brand)] group-hover:scale-[1.05]"
                         />
                     </div>

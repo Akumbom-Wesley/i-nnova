@@ -10,7 +10,7 @@
 @php $isDark = $tone === 'dark'; @endphp
 
 <figure {{ $attributes->class([
-    'card-lift flex h-full flex-col rounded-2xl border p-8',
+    'card-lift card-trace flex h-full flex-col overflow-hidden rounded-2xl border p-8',
     'border-white/15 bg-white/5' => $isDark,
     'border-ink/10 bg-paper hover:border-accent/40 hover:shadow-lg hover:shadow-ink/5' => ! $isDark,
 ]) }}>
