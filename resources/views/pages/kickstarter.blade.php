@@ -1,13 +1,19 @@
 @extends('layouts.app')
 
-@section('title', 'Kickstarter | I-NNOVA')
-@section('description', 'Learn in-demand skills, build real projects, launch your tech career.')
+@push('schema')
+    <x-seo.people :people="$mentors" />
+@endpush
+
+@php
+    $seoTitle = __('Kickstarter') . ' | I-NNOVA';
+    $seoDescription = __('Learn in-demand skills, build real projects, launch your tech career.');
+@endphp
 
 @section('content')
     <x-ui.page-header
-        eyebrow="I-NNOVA Kickstarter"
-        title="Launch your tech career. Build the future."
-        lead="Real projects, industry standard tools and workflows, mentorship from working engineers, and a Career Capital Score that shows where you actually stand."
+        eyebrow="{{ __('I-NNOVA Kickstarter') }}"
+        title="{{ __('Launch your tech career. Build the future.') }}"
+        lead="{{ __('Real projects, industry standard tools and workflows, mentorship from working engineers, and a Career Capital Score that shows where you actually stand.') }}"
         motif="network"
     >
         <x-ui.reveal :delay="260" class="mt-10 flex flex-wrap gap-4">
@@ -35,9 +41,9 @@
         <section id="tracks" class="scroll-mt-24 bg-paper py-(--spacing-band)">
             <div class="mx-auto max-w-6xl px-4 sm:px-6">
                 <x-ui.section-header
-                    eyebrow="Accelerator tracks"
-                    title="Four ways in"
-                    lead="Each track is built around shipping real work rather than finishing a syllabus."
+                    eyebrow="{{ __('Accelerator tracks') }}"
+                    title="{{ __('Four ways in') }}"
+                    lead="{{ __('Each track is built around shipping real work rather than finishing a syllabus.') }}"
                 />
 
                 <div class="mt-16 grid gap-6 sm:grid-cols-2">
@@ -72,8 +78,8 @@
                     <x-ui.score-ring
                         :value="27"
                         :max="100"
-                        label="Career Capital Score"
-                        caption="Rookie level. It climbs as you complete activities."
+                        label="{{ __('Career Capital Score') }}"
+                        caption="{{ __('Rookie level. It climbs as you complete activities.') }}"
                         class="text-white"
                     />
                 </x-ui.reveal>
@@ -85,8 +91,7 @@
                         <h2 class="mt-5 font-display text-h1">Progress you can point at.</h2>
 
                         <p class="text-lead mt-7 text-white/75">
-                            Five measures, scored out of 100, so what you have built is visible
-                            to an employer rather than asserted in a CV.
+                            {{ __('Five measures, scored out of 100, so what you have built is visible to an employer rather than asserted in a CV.') }}
                         </p>
                     </x-ui.reveal>
 
@@ -95,11 +100,11 @@
                             tone="dark"
                             :columns="2"
                             :items="[
-                                'Technical skills',
-                                'Interview performance',
-                                'Portfolio',
-                                'Collaboration',
-                                'Learning',
+                                __('Technical skills'),
+                                __('Interview performance'),
+                                __('Portfolio'),
+                                __('Collaboration'),
+                                __('Learning'),
                             ]"
                         />
                     </x-ui.reveal>
@@ -111,28 +116,28 @@
     <section class="bg-paper py-(--spacing-band)">
         <div class="mx-auto grid max-w-6xl gap-16 px-4 sm:px-6 lg:grid-cols-2">
             <div>
-                <x-ui.section-header eyebrow="Why join" title="What the programme gives you" />
+                <x-ui.section-header eyebrow="{{ __('Why join') }}" title="{{ __('What the programme gives you') }}" />
 
                 <x-ui.reveal :delay="120" class="mt-10">
                     <x-ui.feature-list :items="[
-                        'Real projects that build your portfolio',
-                        'Industry standard tools and workflows',
-                        'Mentorship from working engineers',
-                        'Career coaching and resume support',
-                        'Internship and job opportunities',
-                        'A community of builders and innovators',
+                        __('Real projects that build your portfolio'),
+                        __('Industry standard tools and workflows'),
+                        __('Mentorship from working engineers'),
+                        __('Career coaching and resume support'),
+                        __('Internship and job opportunities'),
+                        __('A community of builders and innovators'),
                     ]" />
                 </x-ui.reveal>
             </div>
 
             <div>
-                <x-ui.section-header eyebrow="What you get" title="Learn, build, launch" />
+                <x-ui.section-header eyebrow="{{ __('What you get') }}" title="{{ __('Learn, build, launch') }}" />
 
                 <div class="mt-10 space-y-4">
                     @foreach ([
-                        ['Learn', 'in-demand skills'],
-                        ['Build', 'real projects'],
-                        ['Launch', 'your future'],
+                        [__('Learn'), __('in-demand skills')],
+                        [__('Build'), __('real projects')],
+                        [__('Launch'), __('your future')],
                     ] as $index => [$verb, $detail])
                         <x-ui.reveal :delay="$index * 110"
                                      class="card-lift flex items-center gap-5 rounded-2xl border border-ink/10 bg-paper-dim p-6 hover:border-accent/40">
@@ -155,8 +160,8 @@
         <section class="border-y border-ink/10 bg-paper-dim py-(--spacing-band)">
             <div class="mx-auto max-w-6xl px-4 sm:px-6">
                 <x-ui.section-header
-                    eyebrow="Mentors"
-                    title="Taught by people doing the work"
+                    eyebrow="{{ __('Mentors') }}"
+                    title="{{ __('Taught by people doing the work') }}"
                 />
 
                 <div class="mt-16 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
@@ -164,7 +169,7 @@
                         <x-ui.reveal :delay="$index * 90" from="scale" class="group text-center">
                             <div class="relative mx-auto aspect-square w-36 overflow-hidden rounded-full bg-paper">
                                 @if ($photo = $mentor->getFirstMediaUrl('photo', 'thumb'))
-                                    <img src="{{ $photo }}" alt="{{ $mentor->name }}" loading="lazy"
+                                    <img src="{{ $photo }}" alt="{{ $mentor->name }}" width="144" height="144" loading="lazy" decoding="async"
                                          class="h-full w-full object-cover transition-transform duration-700 ease-[var(--ease-brand)] group-hover:scale-105">
                                 @endif
 
@@ -189,9 +194,9 @@
         <section class="bg-paper py-(--spacing-band)">
             <div class="mx-auto max-w-6xl px-4 sm:px-6">
                 <x-ui.section-header
-                    eyebrow="Alumni outcomes"
-                    title="Where people went next"
-                    lead="The measure of the programme is not what it teaches but what it leads to."
+                    eyebrow="{{ __('Alumni outcomes') }}"
+                    title="{{ __('Where people went next') }}"
+                    lead="{{ __('The measure of the programme is not what it teaches but what it leads to.') }}"
                 />
 
                 <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -200,7 +205,7 @@
                                      class="card-lift h-full rounded-2xl border border-ink/10 bg-paper p-7 hover:border-accent/40 hover:shadow-lg hover:shadow-ink/5">
                             <div class="flex items-center gap-4">
                                 @if ($photo = $person->getFirstMediaUrl('photo', 'thumb'))
-                                    <img src="{{ $photo }}" alt="" loading="lazy"
+                                    <img src="{{ $photo }}" alt="" width="56" height="56" loading="lazy" decoding="async"
                                          class="h-14 w-14 shrink-0 rounded-full object-cover">
                                 @endif
 
@@ -260,7 +265,7 @@
                         @endif
 
                         <x-ui.button :href="route('contact')" variant="ghost-light" size="lg">
-                            Ask a question
+                            {{ __('Ask a question') }}
                         </x-ui.button>
                     </div>
                 </div>

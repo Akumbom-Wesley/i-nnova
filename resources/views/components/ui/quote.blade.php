@@ -24,7 +24,7 @@
 
     <figcaption class="mt-8 flex items-center gap-4 border-t pt-6 {{ $isDark ? 'border-white/15' : 'border-ink/10' }}">
         @if ($photo)
-            <img src="{{ $photo }}" alt="" class="h-12 w-12 shrink-0 rounded-full object-cover" loading="lazy">
+            <img src="{{ $photo }}" alt="" width="48" height="48" loading="lazy" decoding="async" class="h-12 w-12 shrink-0 rounded-full object-cover">
         @endif
 
         <div class="min-w-0">

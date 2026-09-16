@@ -241,14 +241,41 @@ policies and puts the links back.
 
 ## Sprint 4: Bilingual, SEO & performance
 
-- [ ] EN/FR routing + language switcher
-- [ ] Translate all static UI strings
-- [ ] Meta tags, OG images **that actually resolve** (current site 404s)
-- [ ] sitemap.xml, robots.txt
-- [ ] schema.org: Organization, Product, Person
-- [ ] Image optimization, lazy loading, responsive srcsets
-- [ ] Lighthouse pass: target 90+ across the board
-- [ ] Accessibility pass: contrast, focus states, keyboard nav, alt text
+- [x] EN/FR routing + language switcher
+- [x] Translate all static UI strings
+- [x] Meta tags, OG images **that actually resolve** (current site 404s)
+- [x] sitemap.xml, robots.txt
+- [x] schema.org: Organization, Product, Person
+- [x] Image optimization, lazy loading, responsive srcsets
+- [ ] Lighthouse pass: target 90+ across the board (not yet measured, see note)
+- [x] Accessibility pass: contrast, focus states, keyboard nav, alt text
+
+
+**URL shape.** Every public page lives under its locale: `/en/products`,
+`/fr/products`. Anything without one redirects to the default locale, keeping
+the path. The locale is registered as a URL default in middleware, which is why
+no `route()` call in the views takes a locale argument, and it is dropped from
+the route parameters so it never arrives as a controller's first argument.
+
+**The switcher keeps your place.** It rebuilds the current route in the other
+language rather than sending you to the home page.
+
+**Lighthouse is not measured.** There is no browser in this environment, so the
+90+ target is unverified and the box stays unticked. What was measured instead:
+CSS 51 KB raw and 9 KB gzipped, JS 53 KB raw and 18 KB gzipped, and total page
+weight between 26 KB and 181 KB. Every image carries intrinsic width and height,
+so layout shift should be nil, and everything below the fold is lazy loaded.
+Covers carry a srcset and sizes. Run Lighthouse against a production build
+before launch.
+
+**Accessibility, measured rather than assumed.** All twelve palette contrast
+pairs clear WCAG AA, and there is a test computing the ratios so the palette
+cannot regress. One real defect was found and fixed: a single orange focus ring
+measures 1.96:1 against the blue band, failing the 3:1 required of a non-text
+indicator, so the ring is now orange with a white halo either side and clears
+3:1 on white, blue and navy alike. Focus styling lives in a `:where()` base
+rule at zero specificity, so a component can restyle its focus but cannot
+silently remove it.
 
 ## Sprint 5: Content load & launch
 

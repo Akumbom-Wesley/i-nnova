@@ -1,7 +1,15 @@
 @extends('layouts.app')
 
-@section('title', $product->name . ' | I-NNOVA')
-@section('description', $product->tagline ?? '')
+@php
+    $seoTitle = $product->name . ' | I-NNOVA';
+    $seoDescription = $product->tagline ?? '';
+    $seoImage = $product->getFirstMediaUrl('cover') ?: null;
+    $seoType = 'product';
+@endphp
+
+@push('schema')
+    <x-seo.product :product="$product" />
+@endpush
 
 @section('content')
     <x-ui.page-header
@@ -9,7 +17,7 @@
         :title="$product->name"
         :lead="$product->tagline"
         :back="route('products.index')"
-        back-label="All products"
+        back-label="{{ __('All products') }}"
         motif="circuit"
     >
         <x-ui.reveal :delay="260" class="mt-8 flex flex-wrap items-center gap-4">
@@ -27,10 +35,16 @@
         </x-ui.reveal>
     </x-ui.page-header>
 
-    @if ($cover = $product->getFirstMediaUrl('cover'))
+    @php $coverMedia = $product->getFirstMedia('cover'); @endphp
+
+    @if ($coverMedia)
         <div class="mx-auto max-w-6xl px-4 sm:px-6">
             <x-ui.reveal from="scale" class="-mt-10 overflow-hidden rounded-2xl border border-ink/10 shadow-xl shadow-ink/5">
-                <img src="{{ $cover }}" alt="{{ $product->name }}" class="w-full object-cover">
+                <img src="{{ $coverMedia->getUrl('wide') ?: $coverMedia->getUrl() }}"
+                     srcset="{{ $coverMedia->getSrcset('wide') }}"
+                     sizes="(min-width: 72rem) 72rem, 100vw"
+                     alt="{{ $product->name }}" width="1600" height="900"
+                     fetchpriority="high" decoding="async" class="w-full object-cover">
             </x-ui.reveal>
         </div>
     @endif
@@ -60,7 +74,7 @@
                         </p>
 
                         <x-ui.button :href="route('contact')" class="mt-8">
-                            Ask us about it
+                            {{ __('Ask us about it') }}
                         </x-ui.button>
                     </x-ui.reveal>
                 @endif
@@ -73,7 +87,7 @@
                             <x-ui.reveal :delay="$index * 90" from="scale"
                                          class="overflow-hidden rounded-xl border border-ink/10">
                                 <img src="{{ $shot->getUrl('thumb') ?: $shot->getUrl() }}"
-                                     alt="{{ $product->name }} screenshot" loading="lazy"
+                                     alt="{{ $product->name }} screenshot" width="720" height="450" loading="lazy" decoding="async"
                                      class="w-full object-cover">
                             </x-ui.reveal>
                         @endforeach

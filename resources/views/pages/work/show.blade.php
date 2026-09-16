@@ -1,7 +1,11 @@
 @extends('layouts.app')
 
-@section('title', $caseStudy->institution . ' | Work | I-NNOVA')
-@section('description', $caseStudy->summary ?? '')
+@php
+    $seoTitle = $caseStudy->institution . ' | ' . __('Work') . ' | I-NNOVA';
+    $seoDescription = $caseStudy->summary ?? '';
+    $seoImage = $caseStudy->getFirstMediaUrl('cover') ?: null;
+    $seoType = 'article';
+@endphp
 
 @section('content')
     <x-ui.page-header
@@ -9,7 +13,7 @@
         :title="$caseStudy->institution"
         :lead="$caseStudy->summary"
         :back="route('work.index')"
-        back-label="All work"
+        back-label="{{ __('All work') }}"
         motif="network"
     >
         @php $logo = $caseStudy->getFirstMediaUrl('logo', 'thumb') ?: $caseStudy->getFirstMediaUrl('logo'); @endphp
@@ -34,10 +38,16 @@
         @endif
     </x-ui.page-header>
 
-    @if ($cover = $caseStudy->getFirstMediaUrl('cover'))
+    @php $coverMedia = $caseStudy->getFirstMedia('cover'); @endphp
+
+    @if ($coverMedia)
         <div class="mx-auto max-w-6xl px-4 sm:px-6">
             <x-ui.reveal from="scale" class="-mt-10 overflow-hidden rounded-2xl border border-ink/10 shadow-xl shadow-ink/5">
-                <img src="{{ $cover }}" alt="{{ $caseStudy->institution }}" class="w-full object-cover">
+                <img src="{{ $coverMedia->getUrl('wide') ?: $coverMedia->getUrl() }}"
+                     srcset="{{ $coverMedia->getSrcset('wide') }}"
+                     sizes="(min-width: 72rem) 72rem, 100vw"
+                     alt="{{ $caseStudy->institution }}" width="1600" height="900"
+                     fetchpriority="high" decoding="async" class="w-full object-cover">
             </x-ui.reveal>
         </div>
     @endif
@@ -88,7 +98,7 @@
                 @foreach ($gallery as $index => $image)
                     <x-ui.reveal :delay="$index * 90" from="scale" class="overflow-hidden rounded-xl border border-ink/10">
                         <img src="{{ $image->getUrl('thumb') ?: $image->getUrl() }}"
-                             alt="{{ $caseStudy->institution }}" loading="lazy" class="w-full object-cover">
+                             alt="{{ $caseStudy->institution }}" width="600" height="400" loading="lazy" decoding="async" class="w-full object-cover">
                     </x-ui.reveal>
                 @endforeach
             </div>
@@ -98,7 +108,7 @@
     @if ($more->isNotEmpty())
         <section class="border-t border-ink/10 bg-paper-dim py-(--spacing-band)">
             <div class="mx-auto max-w-6xl px-4 sm:px-6">
-                <x-ui.section-header eyebrow="More work" title="Other deployments" />
+                <x-ui.section-header eyebrow="{{ __('More work') }}" title="{{ __('Other deployments') }}" />
 
                 <div class="mt-14 grid gap-6 sm:grid-cols-2">
                     @foreach ($more as $index => $other)

@@ -1,13 +1,19 @@
 @extends('layouts.app')
 
-@section('title', 'About | I-NNOVA')
-@section('description', 'A technology company in Bamenda building software that solves real world problems, and training the engineers who build it.')
+@push('schema')
+    <x-seo.people :people="$departments->flatten()" />
+@endpush
+
+@php
+    $seoTitle = __('About') . ' | I-NNOVA';
+    $seoDescription = __('A technology company in Bamenda building software that solves real world problems, and training the engineers who build it.');
+@endphp
 
 @section('content')
     <x-ui.page-header
-        eyebrow="About"
+        eyebrow="{{ __('About') }}"
         :title="$settings->about_heading ?: 'We do not just build software. We build the builders.'"
-        lead="Transforming communities, empowering innovators."
+        lead="{{ __('Transforming communities, empowering innovators.') }}"
         motif="code"
     />
 
@@ -36,7 +42,7 @@
     @if ($values->isNotEmpty())
         <section class="bg-paper py-(--spacing-band)">
             <div class="mx-auto max-w-6xl px-4 sm:px-6">
-                <x-ui.section-header eyebrow="What we stand for" title="Values" />
+                <x-ui.section-header eyebrow="{{ __('What we stand for') }}" title="{{ __('Values') }}" />
 
                 <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                     @foreach ($values as $index => $value)
@@ -58,7 +64,7 @@
             <x-tech.code class="pointer-events-none absolute -right-16 top-1/2 hidden w-[26rem] -translate-y-1/2 text-white/[0.09] lg:block" />
 
             <div class="relative mx-auto max-w-6xl px-4 sm:px-6">
-                <x-ui.section-header eyebrow="How we work" title="The way a project actually runs" tone="dark" />
+                <x-ui.section-header eyebrow="{{ __('How we work') }}" title="{{ __('The way a project actually runs') }}" tone="dark" />
 
                 <ol class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach ($steps as $index => $step)
@@ -78,9 +84,9 @@
         <section id="team" class="scroll-mt-24 bg-paper py-(--spacing-band)">
             <div class="mx-auto max-w-6xl px-4 sm:px-6">
                 <x-ui.section-header
-                    eyebrow="The people"
-                    title="The team"
-                    lead="Values and people carry the same weight here as the products do."
+                    eyebrow="{{ __('The people') }}"
+                    title="{{ __('The team') }}"
+                    lead="{{ __('Values and people carry the same weight here as the products do.') }}"
                 />
 
                 <div class="mt-16 space-y-16">
@@ -93,7 +99,7 @@
                                     <x-ui.reveal :delay="$index * 80" from="scale" class="group text-center">
                                         <div class="relative mx-auto aspect-square w-36 overflow-hidden rounded-full bg-paper-dim">
                                             @if ($photo = $member->getFirstMediaUrl('photo', 'thumb'))
-                                                <img src="{{ $photo }}" alt="{{ $member->name }}" loading="lazy"
+                                                <img src="{{ $photo }}" alt="{{ $member->name }}" width="144" height="144" loading="lazy" decoding="async"
                                                      class="h-full w-full object-cover transition-transform duration-700 ease-[var(--ease-brand)] group-hover:scale-105">
                                             @endif
 

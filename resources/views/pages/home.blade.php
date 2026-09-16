@@ -5,8 +5,10 @@
     value as the start of a block section and calls ob_start(), so a null here
     leaks an output buffer on every render.
 --}}
-@section('title', $settings->seo_title ?: 'I-NNOVA | Software for institutions, built in Bamenda')
-@section('description', $settings->seo_description ?? '')
+@php
+    $seoTitle = $settings->seo_title ?: 'I-NNOVA | Software for institutions, built in Bamenda';
+    $seoDescription = $settings->seo_description ?? '';
+@endphp
 
 @section('content')
     @include('sections.hero', ['settings' => $settings, 'stats' => $stats])

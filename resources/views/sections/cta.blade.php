@@ -8,18 +8,18 @@
 
             <div class="relative mx-auto max-w-2xl">
                 <h2 class="font-display text-h1">
-                    Tell us what your institution is wrestling with.
+                    {{ __('Tell us what your institution is wrestling with.') }}
                 </h2>
 
                 <div class="rule-draw mx-auto mt-7 h-0.5 w-16 bg-accent" aria-hidden="true"></div>
 
                 <p class="text-lead mt-7 text-white/70">
-                    A short conversation is usually enough to tell whether we are the right fit.
+                    {{ __('A short conversation is usually enough to tell whether we are the right fit.') }}
                 </p>
 
                 <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
-                    <x-ui.button :href="url('/contact')" size="lg">
-                        Start a conversation
+                    <x-ui.button :href="route('contact')" size="lg">
+                        {{ __('Start a conversation') }}
                     </x-ui.button>
 
                     @if ($settings->contact_phone)

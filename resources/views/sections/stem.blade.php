@@ -11,7 +11,7 @@
         <div class="grid gap-16 lg:grid-cols-2 lg:items-center">
             <div>
                 <x-ui.reveal from="left">
-                    <p class="text-eyebrow font-semibold uppercase text-accent">Driven by STEM</p>
+                    <p class="text-eyebrow font-semibold uppercase text-accent">{{ __('Driven by STEM') }}</p>
 
                     <h2 class="mt-5 font-display text-h1">
                         Science, technology, engineering and maths, pointed at
@@ -28,8 +28,8 @@
                 </x-ui.reveal>
 
                 <x-ui.reveal from="left" :delay="160" class="mt-10">
-                    <x-ui.button :href="url('/kickstarter')" size="lg">
-                        Explore Kickstarter
+                    <x-ui.button :href="route('kickstarter')" size="lg">
+                        {{ __('Explore Kickstarter') }}
                     </x-ui.button>
                 </x-ui.reveal>
             </div>

@@ -1,5 +1,15 @@
 @props(['settings', 'stats'])
 
+@php
+    // A stored internal path such as /work has no locale in it, so it is
+    // prefixed here. An absolute URL is left alone: it points off site.
+    $heroCta = match (true) {
+        blank($settings->hero_cta_url) => route('work.index'),
+        str_starts_with($settings->hero_cta_url, '/') => url(app()->getLocale() . $settings->hero_cta_url),
+        default => $settings->hero_cta_url,
+    };
+@endphp
+
 <section class="relative overflow-hidden bg-paper">
     {{-- A soft blue wash behind the hero, so white does not read as empty. --}}
     <div class="pointer-events-none absolute inset-x-0 -top-40 h-[32rem] bg-gradient-to-b from-primary-soft to-transparent"
@@ -23,7 +33,7 @@
         <x-ui.reveal :delay="160" class="mt-8 flex items-center gap-4">
             <span class="h-px w-10 bg-accent" aria-hidden="true"></span>
             <p class="font-display text-h3 text-primary">
-                Driven by <span class="text-accent-text">STEM</span> to solve real world problems
+                {!! __('Driven by :stem to solve real world problems', ['stem' => '<span class="text-accent-text">STEM</span>']) !!}
             </p>
         </x-ui.reveal>
 
@@ -34,12 +44,12 @@
         </x-ui.reveal>
 
         <x-ui.reveal :delay="320" class="mt-10 flex flex-wrap items-center gap-4">
-            <x-ui.button :href="url($settings->hero_cta_url ?: '/work')" size="lg">
+            <x-ui.button :href="$heroCta" size="lg">
                 {{ $settings->hero_cta_label ?: 'See our work' }}
             </x-ui.button>
 
-            <x-ui.button :href="url('/products')" variant="outline" size="lg">
-                Explore products
+            <x-ui.button :href="route('products.index')" variant="outline" size="lg">
+                {{ __('Explore products') }}
             </x-ui.button>
         </x-ui.reveal>
 

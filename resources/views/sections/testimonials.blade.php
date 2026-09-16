@@ -4,8 +4,8 @@
     <section class="border-t border-ink/10 bg-paper-dim py-(--spacing-band)">
         <div class="mx-auto max-w-6xl px-4 sm:px-6">
             <x-ui.section-header
-                eyebrow="In their words"
-                title="What the institutions say"
+                eyebrow="{{ __('In their words') }}"
+                title="{{ __('What the institutions say') }}"
             />
 
             <div class="mt-16 grid gap-6 md:grid-cols-2">

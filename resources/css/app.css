@@ -374,3 +374,32 @@
         transition: none;
     }
 }
+
+/* -------------------------------------------------------------------
+   Focus
+   -------------------------------------------------------------------
+   Every focusable element gets a visible ring by default. Written with
+   :where() so it carries zero specificity: a component can restyle its
+   own focus, but nothing removes it by accident.
+
+   It is a double ring: orange between 2px and 4px from the element,
+   with a white halo either side of it. A single orange ring measures
+   only 1.96:1 against the blue band, which fails the 3:1 that WCAG
+   asks of a non-text indicator. With the halo, whichever ground the
+   element sits on, one of the two rings clears 3:1.
+   ------------------------------------------------------------------- */
+
+@layer base {
+    :where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+        outline: 2px solid var(--color-accent);
+        outline-offset: 2px;
+        box-shadow: 0 0 0 6px var(--color-paper);
+        border-radius: 0.25rem;
+    }
+
+    /* Anything that scrolls to an anchor should not land under the sticky
+       header. */
+    :where([id]) {
+        scroll-margin-top: 6rem;
+    }
+}

@@ -4,13 +4,13 @@
             <span class="font-display text-2xl text-white">I-NNOVA</span>
 
             <p class="mt-4 max-w-sm leading-relaxed">
-                Software for institutions, built in Bamenda, plus a programme building the people who write it.
+                {{ __('Software for institutions, built in Bamenda, plus a programme building the people who write it.') }}
             </p>
 
             <p class="mt-6 font-display text-xl text-accent">Build Your Creativity</p>
 
             <p class="mt-2 text-eyebrow font-semibold uppercase text-white/45">
-                Transforming communities, empowering innovators
+                {{ __('Transforming communities, empowering innovators') }}
             </p>
         </div>
 
@@ -19,14 +19,14 @@
 
             <ul class="mt-5 space-y-3">
                 @foreach ([
-                    'Products'    => '/products',
-                    'Work'        => '/work',
-                    'Kickstarter' => '/kickstarter',
-                    'About'       => '/about',
-                    'Contact'     => '/contact',
+                    __('Products') => route('products.index'),
+                    __('Work') => route('work.index'),
+                    __('Kickstarter') => route('kickstarter'),
+                    __('About') => route('about'),
+                    __('Contact') => route('contact'),
                 ] as $label => $href)
                     <li>
-                        <a href="{{ url($href) }}" class="link-underline hover:text-white">{{ $label }}</a>
+                        <a href="{{ $href }}" class="link-underline hover:text-white">{{ $label }}</a>
                     </li>
                 @endforeach
             </ul>

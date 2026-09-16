@@ -4,9 +4,9 @@
     <section class="border-y border-ink/10 bg-paper-dim py-(--spacing-band)">
         <div class="mx-auto max-w-6xl px-4 sm:px-6">
             <x-ui.section-header
-                eyebrow="What we stand for"
-                title="We do not just build software. We build the builders."
-                lead="Transforming communities, empowering innovators."
+                eyebrow="{{ __('What we stand for') }}"
+                title="{{ __('We do not just build software. We build the builders.') }}"
+                lead="{{ __('Transforming communities, empowering innovators.') }}"
             />
 
             <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">

@@ -1,13 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'Contact | I-NNOVA')
-@section('description', 'Tell us what your institution is wrestling with.')
+@php
+    $seoTitle = __('Contact') . ' | I-NNOVA';
+    $seoDescription = __('Tell us what your institution is wrestling with.');
+@endphp
 
 @section('content')
     <x-ui.page-header
-        eyebrow="Contact"
-        title="Tell us what your institution is wrestling with."
-        lead="A short conversation is usually enough to tell whether we are the right fit."
+        eyebrow="{{ __('Contact') }}"
+        title="{{ __('Tell us what your institution is wrestling with.') }}"
+        lead="{{ __('A short conversation is usually enough to tell whether we are the right fit.') }}"
         motif="waveform"
     />
 
@@ -39,23 +41,23 @@
                     <x-form.honeypot />
 
                     <div class="grid gap-6 sm:grid-cols-2">
-                        <x-form.field name="name" label="Your name" :required="true" />
-                        <x-form.field name="email" label="Email" type="email" :required="true" />
-                        <x-form.field name="phone" label="Phone" type="tel" />
-                        <x-form.field name="organisation" label="Organisation" />
+                        <x-form.field name="name" label="{{ __('Your name') }}" :required="true" />
+                        <x-form.field name="email" label="{{ __('Email') }}" type="email" :required="true" />
+                        <x-form.field name="phone" label="{{ __('Phone') }}" type="tel" />
+                        <x-form.field name="organisation" label="{{ __('Organisation') }}" />
                     </div>
 
-                    <x-form.field name="subject" label="Subject" />
+                    <x-form.field name="subject" label="{{ __('Subject') }}" />
 
                     <x-form.field
                         name="message"
-                        label="Message"
+                        label="{{ __('Message') }}"
                         :rows="7"
                         :required="true"
                         hint="What are you trying to solve, and roughly how many people does it affect?"
                     />
 
-                    <x-ui.button type="submit" size="lg">Send message</x-ui.button>
+                    <x-ui.button type="submit" size="lg">{{ __('Send message') }}</x-ui.button>
                 </form>
             </div>
 

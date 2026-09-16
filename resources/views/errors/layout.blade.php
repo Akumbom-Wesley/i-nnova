@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
-@section('title', $title . ' | I-NNOVA')
-@section('description', '')
+@php
+    $seoTitle = $title . ' | I-NNOVA';
+    $seoDescription = $body;
+@endphp
 
 @section('content')
     <section class="relative overflow-hidden bg-paper py-(--spacing-band-lg)">
@@ -20,8 +22,8 @@
             <p class="text-lead mt-7 max-w-xl text-muted">{{ $body }}</p>
 
             <div class="mt-10 flex flex-wrap gap-4">
-                <x-ui.button :href="url('/')" size="lg">Back to the home page</x-ui.button>
-                <x-ui.button :href="url('/contact')" variant="outline" size="lg">Tell us what broke</x-ui.button>
+                <x-ui.button :href="route('home')" size="lg">Back to the home page</x-ui.button>
+                <x-ui.button :href="route('contact')" variant="outline" size="lg">Tell us what broke</x-ui.button>
             </div>
 
             <div class="mt-16 border-t border-ink/10 pt-10">
@@ -29,13 +31,13 @@
 
                 <ul class="mt-5 flex flex-wrap gap-x-8 gap-y-3">
                     @foreach ([
-                        'Products' => '/products',
-                        'Work' => '/work',
-                        'Kickstarter' => '/kickstarter',
-                        'About' => '/about',
+                        __('Products') => route('products.index'),
+                        __('Work') => route('work.index'),
+                        __('Kickstarter') => route('kickstarter'),
+                        __('About') => route('about'),
                     ] as $label => $href)
                         <li>
-                            <a href="{{ url($href) }}" class="link-underline font-semibold text-primary">{{ $label }}</a>
+                            <a href="{{ $href }}" class="link-underline font-semibold text-primary">{{ $label }}</a>
                         </li>
                     @endforeach
                 </ul>

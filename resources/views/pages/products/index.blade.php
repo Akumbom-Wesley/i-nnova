@@ -1,19 +1,26 @@
 @extends('layouts.app')
 
-@section('title', 'Products | I-NNOVA')
-@section('description', 'Software in service across education, health, hospitality and retail in Cameroon.')
+@php
+    $seoTitle = __('Products') . ' | I-NNOVA';
+    $seoDescription = __('Software in service across education, health, hospitality and retail in Cameroon.');
+@endphp
 
 @section('content')
     <x-ui.page-header
-        eyebrow="Our solutions"
-        title="Software that runs the working day"
+        eyebrow="{{ __('Our solutions') }}"
+        title="{{ __('Software that runs the working day') }}"
         lead="Built for institutions where a system going down is not an inconvenience but a stopped day."
         motif="circuit"
     />
 
     @if ($live->isNotEmpty())
-        <section class="bg-paper py-(--spacing-band)">
+        <section class="bg-paper py-(--spacing-band)" aria-labelledby="live-products">
             <div class="mx-auto max-w-6xl px-4 sm:px-6">
+                {{-- The page header already carries the visible title, but the card
+                     headings are h3, so the grid needs an h2 above them or the
+                     outline jumps a level for anyone navigating by headings. --}}
+                <h2 id="live-products" class="sr-only">{{ __('Live') }}</h2>
+
                 <div class="grid gap-6 sm:grid-cols-2">
                     @foreach ($live as $index => $product)
                         <x-ui.reveal :delay="$index * 90" class="h-full">
@@ -24,7 +31,7 @@
                                 :eyebrow="$product->sector?->name"
                                 :title="$product->name"
                                 :body="$product->tagline"
-                                badge="Live"
+                                badge="{{ __('Live') }}"
                                 badge-tone="primary"
                             />
                         </x-ui.reveal>
@@ -40,9 +47,9 @@
 
             <div class="relative mx-auto max-w-6xl px-4 sm:px-6">
                 <x-ui.section-header
-                    eyebrow="In development"
-                    title="Not shipped yet"
-                    lead="Listed so you know they are coming, and marked so nobody mistakes them for something you can buy today."
+                    eyebrow="{{ __('In development') }}"
+                    title="{{ __('Not shipped yet') }}"
+                    lead="{{ __('Listed so you know they are coming, and marked so nobody mistakes them for something you can buy today.') }}"
                 />
 
                 <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

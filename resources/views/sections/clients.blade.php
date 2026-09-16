@@ -5,7 +5,7 @@
         <div class="mx-auto max-w-6xl px-4 sm:px-6">
             <x-ui.reveal from="none">
                 <p class="text-eyebrow text-center font-semibold uppercase text-muted">
-                    Trusted by
+                    {{ __('Trusted by') }}
                 </p>
             </x-ui.reveal>
 

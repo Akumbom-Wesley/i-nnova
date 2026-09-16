@@ -1,13 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'Work | I-NNOVA')
-@section('description', 'Institutions running I-NNOVA software every day.')
+@php
+    $seoTitle = __('Work') . ' | I-NNOVA';
+    $seoDescription = __('Institutions running I-NNOVA software every day.');
+@endphp
 
 @section('content')
     <x-ui.page-header
-        eyebrow="Deployments"
-        title="Running in real institutions"
-        lead="Not pilots and not demos. Systems in daily service, and the institutions behind them are named."
+        eyebrow="{{ __('Deployments') }}"
+        title="{{ __('Running in real institutions') }}"
+        lead="{{ __('Not pilots and not demos. Systems in daily service, and the institutions behind them are named.') }}"
         motif="network"
     />
 
@@ -21,7 +23,7 @@
                            'bg-ink text-white' => $activeSector === '',
                            'border border-ink/20 text-ink hover:border-ink/40' => $activeSector !== '',
                        ])>
-                        All sectors
+                        {{ __('All sectors') }}
                     </a>
 
                     @foreach ($sectors as $sector)
@@ -42,7 +44,7 @@
                     <p class="text-lead text-muted">Nothing published in this sector yet.</p>
 
                     <x-ui.button :href="route('work.index')" variant="outline" class="mt-8">
-                        See all work
+                        {{ __('See all work') }}
                     </x-ui.button>
                 </x-ui.reveal>
             @else
@@ -75,7 +77,7 @@
                                 <p class="mt-6 flex-1 leading-relaxed text-muted">{{ $caseStudy->summary }}</p>
 
                                 <span class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary" aria-hidden="true">
-                                    Read the case study
+                                    {{ __('Read the case study') }}
                                     <svg class="h-4 w-4 transition-transform duration-300 ease-[var(--ease-brand)] group-hover:translate-x-1"
                                          fill="none" stroke="currentColor" stroke-width="2.25" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6"/>

@@ -20,7 +20,7 @@
     <label for="{{ $id }}" class="text-sm font-semibold text-ink">
         {{ $label }}
         @unless ($required)
-            <span class="ml-1 font-normal text-muted">(optional)</span>
+            <span class="ml-1 font-normal text-muted">{{ __('(optional)') }}</span>
         @endunless
     </label>
 

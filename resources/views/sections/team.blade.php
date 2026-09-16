@@ -5,13 +5,13 @@
         <div class="mx-auto max-w-6xl px-4 sm:px-6">
             <div class="flex flex-wrap items-end justify-between gap-8">
                 <x-ui.section-header
-                    eyebrow="The people"
-                    title="Built by a team you can name"
+                    eyebrow="{{ __('The people') }}"
+                    title="{{ __('Built by a team you can name') }}"
                 />
 
                 <x-ui.reveal from="right">
-                    <x-ui.button :href="url('/about#team')" variant="outline">
-                        Meet the full team
+                    <x-ui.button :href="route('about') . '#team'" variant="outline">
+                        {{ __('Meet the full team') }}
                     </x-ui.button>
                 </x-ui.reveal>
             </div>
@@ -21,7 +21,7 @@
                     <x-ui.reveal :delay="$index * 90" from="scale" class="group text-center">
                         <div class="relative mx-auto aspect-square w-40 overflow-hidden rounded-full bg-paper-dim">
                             @if ($photo = $member->getFirstMediaUrl('photo', 'thumb'))
-                                <img src="{{ $photo }}" alt="{{ $member->name }}" loading="lazy"
+                                <img src="{{ $photo }}" alt="{{ $member->name }}" width="160" height="160" loading="lazy" decoding="async"
                                      class="h-full w-full object-cover transition-transform duration-700 ease-[var(--ease-brand)] group-hover:scale-105">
                             @endif
 

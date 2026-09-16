@@ -47,6 +47,14 @@ class Product extends Model implements HasMedia
         $this->addMediaConversion('thumb')
             ->fit(Fit::Contain, 400, 400)
             ->nonQueued();
+
+        // Covers and screenshots are the images that grow once real
+        // photography replaces the placeholders, so they carry a srcset.
+        $this->addMediaConversion('wide')
+            ->fit(Fit::Max, 1600, 900)
+            ->performOnCollections('cover', 'screenshots')
+            ->withResponsiveImages()
+            ->nonQueued();
     }
 
     public function scopeLive(Builder $query): Builder
