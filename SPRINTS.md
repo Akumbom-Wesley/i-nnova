@@ -1,5 +1,4 @@
-| Company name | **I-NNOVA** — no longer "I-NNOVA CM" / "I-NNOVAcmr" |
-# I-NNOVA CM — Website Rebuild
+# I-NNOVA — Website Rebuild
 
 Working plan and sprint checklist. Tick items as they land. One branch per sprint, merged to `main` when the sprint's checklist is complete.
 
@@ -116,7 +115,7 @@ variants. Official SVG / high-resolution assets are wanted before launch.
 - [x] Design tokens in `resources/css/app.css` (`@theme`), fonts self-hosted via Bunny
 - [x] Base layout — header, nav, mobile nav, footer, language switcher shell
 - [x] Verified: `/` and `/admin/login` both return HTTP 200
-- [ ] Brand the Filament panel (logo, colours)
+- [x] Brand the Filament panel — logo, favicon, blue palette, Figtree, dark mode off
 - [ ] Choose hosting target and PHP version parity
 
 **Local dev credentials** — `admin@i-nnovacmr.com` / `innova-dev-2026`.
