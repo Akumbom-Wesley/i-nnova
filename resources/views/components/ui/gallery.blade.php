@@ -29,6 +29,9 @@
                 ])>
                     <x-ui.photo
                         :image="$image"
+                        {{-- The featured tile renders roughly twice as wide as the
+                             rest, so it takes the larger conversion. --}}
+                        :conversion="$index === 0 ? 'wide' : 'thumb'"
                         :width="$index === 0 ? 1200 : 800"
                         :height="$index === 0 ? 900 : 600"
                         class="transition-transform duration-700 ease-[var(--ease-brand)] group-hover:scale-[1.04]"

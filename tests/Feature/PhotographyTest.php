@@ -219,4 +219,47 @@ class PhotographyTest extends TestCase
         $this->assertStringContainsString('aria-label="Choose a photograph"', $html);
         $this->assertStringContainsString('<span class="sr-only">Two engineers at a desk</span>', $html);
     }
+
+    public function test_the_hero_serves_the_untouched_upload(): void
+    {
+        $photo = $this->photo(GalleryPlacement::Hero, ['external_url' => null]);
+
+        $photo->addMediaFromString(PlaceholderImage::png('Hero', 1280, 960))
+            ->usingFileName('hero-original.png')
+            ->toMediaCollection('image');
+
+        $html = preg_replace('/\s+/', ' ', $this->get('/en')->getContent());
+
+        preg_match('/<img [^>]*hero-original[^>]*>/', $html, $matches);
+
+        $this->assertNotEmpty($matches, 'The hero did not render the upload.');
+
+        // The src must be the original file, not a re-encoded conversion, so
+        // nothing stands between the photograph and the reader.
+        $this->assertMatchesRegularExpression(
+            '#src="[^"]*/hero-original\.png"#',
+            $matches[0],
+            'The hero should serve the original, not a conversion.',
+        );
+        $this->assertStringNotContainsString('conversions/', $matches[0]);
+    }
+
+    public function test_gallery_tiles_use_a_conversion_rather_than_the_full_original(): void
+    {
+        // Tiles render small, so serving the full file to each would be waste
+        // rather than quality.
+        foreach (range(1, 3) as $number) {
+            $photo = $this->photo(GalleryPlacement::About, ['external_url' => null, 'sort_order' => $number]);
+
+            $photo->addMediaFromString(PlaceholderImage::png("Tile {$number}", 1280, 960))
+                ->usingFileName("tile-{$number}.png")
+                ->toMediaCollection('image');
+        }
+
+        $html = preg_replace('/\s+/', ' ', $this->get('/en/about')->getContent());
+
+        // The featured tile takes the larger conversion, the rest take thumb.
+        $this->assertStringContainsString('tile-1-wide', $html);
+        $this->assertStringContainsString('tile-2-thumb', $html);
+    }
 }

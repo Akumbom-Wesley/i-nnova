@@ -305,14 +305,16 @@ being republished.
 ## Sprint 5: Content load & launch
 
 - [ ] Load real images via CMS: team, products, institutions, internships
-- [ ] **Replace the 20 stand-in photographs.** The galleries and the hero
-      slideshow are built and running against real photographs from Unsplash:
-      African engineers at work, training in progress, teams collaborating and
-      Cameroonian streets. Every address was checked and returns a real image.
-      They are still stand-ins, and hotlinking a third party CDN should not
-      survive to launch. Upload the company's own photograph to a record in
-      the admin and it takes over automatically; the Photography list shows a
-      "Stand-in" badge per row and a count in the sidebar.
+- [x] **Real photography loaded.** Twelve of the company's own photographs are
+      in, attached as uploads rather than remote stand-ins, so the Photography
+      list now shows zero outstanding. Four carry the hero, two the home strip,
+      three About and three Kickstarter. The hero serves the untouched
+      original, byte for byte; tiles take a conversion at quality 90 to 95
+      with a responsive srcset, so phones get lighter files and desktops get
+      the full thing.
+- [ ] More photography as it is taken: product screenshots, institution
+      logos, and individual portraits for the three team members, which are
+      still generated placeholders.
 - [ ] Real case studies (PAXHI, SAHIK)
 - [ ] Real testimonials with photos
 - [ ] **Correct contact details**: no placeholder phone, email domain matching the site

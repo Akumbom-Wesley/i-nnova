@@ -28,7 +28,7 @@
                      @if ($index === 0) data-active @endif>
                     <x-ui.photo
                         :image="$slide"
-                        conversion="wide"
+                        conversion="original"
                         :width="1920"
                         :height="1080"
                         sizes="100vw"

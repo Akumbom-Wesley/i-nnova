@@ -8,7 +8,13 @@
 ])
 
 @php
-    $src = $image->displayUrl($conversion);
+    // "original" serves the untouched upload. The hero uses it because the
+    // photograph is the subject there, not a tile, and these sources are
+    // already modest in size.
+    $src = $conversion === 'original'
+        ? $image->originalUrl()
+        : $image->displayUrl($conversion);
+
     $srcset = $image->srcset();
 @endphp
 

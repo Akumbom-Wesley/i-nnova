@@ -69,6 +69,16 @@ class KickstarterSeeder extends Seeder
                 ],
             ],
             [
+                // Legible on the physical roll-up in the team photograph, but
+                // not in the roll-up file, so it was missed first time round.
+                'slug' => 'cloud-engineering',
+                'name' => ['en' => 'Cloud Engineering', 'fr' => 'Ingenierie Cloud'],
+                'summary' => [
+                    'en' => 'Design, build and manage scalable cloud infrastructure.',
+                    'fr' => 'Concevoir, construire et gerer une infrastructure cloud evolutive.',
+                ],
+            ],
+            [
                 'slug' => 'cybersecurity',
                 'name' => ['en' => 'Cybersecurity', 'fr' => 'Cybersecurite'],
                 'summary' => [
@@ -152,7 +162,7 @@ class KickstarterSeeder extends Seeder
             [Stat::CONTEXT_SITE, '3+', ['en' => 'Years building', 'fr' => 'Annees de construction']],
             [Stat::CONTEXT_KICKSTARTER, '500+', ['en' => 'Students reached', 'fr' => 'Etudiants touches']],
             [Stat::CONTEXT_KICKSTARTER, '90%+', ['en' => 'Employed within 3 months', 'fr' => 'Employes en moins de 3 mois']],
-            [Stat::CONTEXT_KICKSTARTER, '5', ['en' => 'Accelerator tracks', 'fr' => 'Parcours accelerateur']],
+            [Stat::CONTEXT_KICKSTARTER, '6', ['en' => 'Accelerator tracks', 'fr' => 'Parcours accelerateur']],
         ];
 
         foreach ($rows as $order => [$context, $value, $label]) {

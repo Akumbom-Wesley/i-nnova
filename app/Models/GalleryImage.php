@@ -45,16 +45,36 @@ class GalleryImage extends Model implements HasMedia
         $this->addMediaCollection('image')->singleFile();
     }
 
+    /**
+     * Quality is set explicitly rather than left to the default, because these
+     * are the company's own photographs and re-encoding them softly would be a
+     * visible loss. Fit::Max never enlarges, so a photograph already smaller
+     * than the cap keeps its own dimensions and is only re-encoded, at 95,
+     * which is indistinguishable from the source at these sizes.
+     */
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumb')
-            ->fit(Fit::Crop, 800, 600)
+            ->fit(Fit::Crop, 1000, 750)
+            ->quality(90)
             ->nonQueued();
 
         $this->addMediaConversion('wide')
-            ->fit(Fit::Max, 1600, 1200)
+            ->fit(Fit::Max, 2000, 1500)
+            ->quality(95)
             ->withResponsiveImages()
             ->nonQueued();
+    }
+
+    /**
+     * The untouched upload. Used where the photograph is the subject rather
+     * than a tile, so nothing stands between the file and the reader.
+     */
+    public function originalUrl(): ?string
+    {
+        return $this->hasMedia('image')
+            ? $this->getFirstMediaUrl('image')
+            : $this->external_url;
     }
 
     public function scopePlacedOn(Builder $query, GalleryPlacement $placement): Builder
