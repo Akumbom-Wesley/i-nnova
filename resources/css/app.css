@@ -5,26 +5,40 @@
 @source '../views/**/*.blade.php';
 
 @theme {
-    /* Brand — derived from the I-NNOVA logo (blue → orange) */
-    --color-ink: #0A1A2F;
-    --color-ink-soft: #14263D;
-    --color-ink-line: #1F3550;
+    /* ---------------------------------------------------------------
+       Brand palette — from brand-guide.pdf, Section 3 "Core Colors".
+       Primary: red #EA2A34, blue #39419A, white #FFFFFF, black #000000.
+       Shades below are "secondary colours derived from the primary",
+       which the guide explicitly permits.
+       --------------------------------------------------------------- */
 
-    --color-bone: #F7F5F2;
-    --color-bone-dim: #EDEAE4;
+    --color-ink: #000000;
+    --color-ink-soft: #14161F;
+    --color-ink-line: #262935;
 
-    --color-primary: #0B5FB0;
-    --color-primary-dark: #084A8C;
-    --color-primary-soft: #E6F0FA;
+    --color-paper: #FFFFFF;
+    --color-paper-dim: #F4F5F8;
 
-    /* Accent is rationed — CTAs and active states only, never decoration */
-    --color-accent: #F26A1B;
-    --color-accent-dark: #D4550E;
+    --color-primary: #39419A;
+    --color-primary-dark: #2C3379;
+    --color-primary-soft: #EDEEF6;
 
-    --color-muted: #5B6B7F;
+    /* Rationed — CTAs and active states only, never decoration */
+    --color-accent: #EA2A34;
+    --color-accent-dark: #C8202A;
 
-    --font-display: 'Instrument Serif', ui-serif, Georgia, serif;
-    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --color-muted: #6A7085;
+
+    /* ---------------------------------------------------------------
+       Typography — the guide specifies Kinektic Bold (primary),
+       Larsseit (secondary) and Arial (support). Kinektic and Larsseit
+       are commercial licences we do not hold web fonts for yet, so
+       these are visually-close STAND-INS. Swap once licensed files
+       arrive; only these two lines need to change.
+       --------------------------------------------------------------- */
+
+    --font-display: 'Archivo', 'Kinektic', Arial, sans-serif;
+    --font-sans: 'Figtree', 'Larsseit', Arial, sans-serif;
 }
 
 [x-cloak] {

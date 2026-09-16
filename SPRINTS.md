@@ -1,3 +1,4 @@
+| Company name | **I-NNOVA** — no longer "I-NNOVA CM" / "I-NNOVAcmr" |
 # I-NNOVA CM — Website Rebuild
 
 Working plan and sprint checklist. Tick items as they land. One branch per sprint, merged to `main` when the sprint's checklist is complete.
@@ -8,13 +9,14 @@ Working plan and sprint checklist. Tick items as they land. One branch per sprin
 
 | Decision | Choice |
 |---|---|
+| Company name | **I-NNOVA** — no longer "I-NNOVA CM" / "I-NNOVAcmr" |
 | Stack | Laravel 13 + Blade + Tailwind 4 + Alpine.js |
 | Admin / CMS | Filament v5 (self-hosted, no custom CMS build) |
 | Rendering | Server-rendered HTML — no SPA |
 | Direction | Institutional / editorial (veridyl-style restraint) |
 | Languages | Bilingual EN / FR |
 | Blog | **None** |
-| Tagline | **"Make It Happen"** |
+| Tagline | **"Build Your Creativity"** — per brand guide |
 | Positioning | Institutional & education software, led by real deployments (PAXHI, SAHIK) |
 | Kickstarter | Main site sells, hands off to `innovakickstarter.com` |
 | Partner logos | **Removed** — not real relationships |
@@ -29,17 +31,56 @@ Values and people carry equal weight with products. Three CMS-driven sections do
 
 ## Design system
 
-| Token | Value | Use |
-|---|---|---|
-| `ink` | `#0A1A2F` | Dark ground sections |
-| `bone` | `#F7F5F2` | Light ground (warm, never pure white) |
-| `primary` | `#0B5FB0` | Logo blue — links, headings on light |
-| `accent` | `#F26A1B` | Logo orange — CTAs and active states only, ≈5% of any screen |
-| Display font | Instrument Serif / Fraunces | Headlines — this is what buys "classy" |
-| Body font | Inter | Everything else |
-| Motion | Restrained scroll reveals only | No parallax, no gradient meshes |
+Source of truth: **`brand-guide.pdf`** (in the parent `I-NNOVA` folder). Not derived, not invented.
 
----
+### Core colours — brand guide, Section 3
+
+| Token | Hex | Guide role | Use on site |
+|---|---|---|---|
+| `accent` | `#EA2A34` | Primary red | CTAs, active states — rationed, never decoration |
+| `primary` | `#39419A` | Primary blue | Institutional ground, links, headings |
+| `paper` | `#FFFFFF` | White | Light ground |
+| `ink` | `#000000` | Black | Dark ground |
+
+Shades (`-dark`, `-soft`, `-dim`, `ink-line`) are secondary colours derived from the four
+primaries, which the guide explicitly permits.
+
+### Typography — brand guide, Section 4
+
+| Guide font | Role | Status |
+|---|---|---|
+| **Kinektic Bold** | Primary / display | ⚠️ Commercial — no web licence held. Stand-in: **Archivo** |
+| **Larsseit** | Secondary / body | ⚠️ Commercial — no web licence held. Stand-in: **Figtree** |
+| **Arial** | Support (documents) | In the fallback stack |
+
+Swapping in the real fonts means changing two lines in `resources/css/app.css` and two in `vite.config.js`.
+
+### Logo rules — brand guide, Section 3
+
+Do not crop · do not change transparency · do not invert · do not change colours · do not rotate.
+
+Variants: main horizontal lockup (posters, flyers, socials), stand-alone mark (merch),
+cubed logo (documents, files).
+
+### Brand voice — brand guide, Section 2
+
+Persona: collaborative and approachable · open, team-driven, inclusive · encourages shared
+thinking and open dialogue · organised and proactive · driven and accountable · confident but grounded.
+
+Tone: confident · collaborative · structured · proactive · professional · clear, concise, intentional.
+
+This is the raw material for the Values section — it does not need inventing.
+
+### Open brand questions
+
+1. **Tagline conflict** — the guide's logo lockup reads **"Build Your Creativity"**; the logo PNG
+   supplied earlier reads **"Make It Happen"**. Guide currently wins. Needs confirming.
+2. **Logo files** — the PNGs in `public/images` are a blue→orange gradient mark, which contradicts
+   the guide's monochrome mark on red/black/white. They are off-brand and must be replaced with
+   official SVG/high-res assets.
+3. **Visual direction** — the guide's mockups are bold red/black/white with grid motifs and heavy
+   condensed display type. The agreed site direction was restrained institutional editorial.
+   These need reconciling. See below.
 
 ## Site structure
 

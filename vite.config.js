@@ -8,9 +8,10 @@ export default defineConfig({
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js'],
             refresh: true,
+            // Stand-ins for Kinektic Bold / Larsseit — see resources/css/app.css
             fonts: [
-                bunny('Instrument Serif', { weights: [400], styles: ['normal', 'italic'] }),
-                bunny('Inter', { weights: [400, 500, 600, 700] }),
+                bunny('Archivo', { weights: [600, 700] }),
+                bunny('Figtree', { weights: [400, 500, 600, 700] }),
             ],
         }),
         tailwindcss(),

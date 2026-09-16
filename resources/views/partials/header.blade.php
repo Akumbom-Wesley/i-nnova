@@ -1,8 +1,8 @@
-<header x-data="{ open: false }" class="sticky top-0 z-40 border-b border-ink/10 bg-bone/90 backdrop-blur">
+<header x-data="{ open: false }" class="sticky top-0 z-40 border-b border-ink/10 bg-paper/90 backdrop-blur">
     <div class="mx-auto flex max-w-6xl items-center justify-between gap-6 px-4 py-4 sm:px-6">
         <a href="{{ url('/') }}" class="flex items-center gap-3">
             <img src="{{ asset('images/logo-mark.png') }}" alt="" class="h-9 w-9 object-contain" aria-hidden="true">
-            <span class="font-display text-xl leading-none tracking-tight">I-NNOVA<span class="text-muted"> CM</span></span>
+            <span class="font-display text-xl leading-none tracking-tight">I-NNOVA</span>
         </a>
 
         <nav class="hidden items-center gap-8 md:flex" aria-label="Primary">
@@ -39,7 +39,7 @@
         </button>
     </div>
 
-    <div id="mobile-nav" x-show="open" x-cloak x-transition.opacity class="border-t border-ink/10 bg-bone md:hidden">
+    <div id="mobile-nav" x-show="open" x-cloak x-transition.opacity class="border-t border-ink/10 bg-paper md:hidden">
         <nav class="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-4 sm:px-6" aria-label="Mobile">
             @foreach ([
                 'Products'    => '/products',
@@ -48,7 +48,7 @@
                 'About'       => '/about',
                 'Contact'     => '/contact',
             ] as $label => $href)
-                <a href="{{ url($href) }}" class="rounded px-2 py-3 text-base font-medium hover:bg-bone-dim">{{ $label }}</a>
+                <a href="{{ url($href) }}" class="rounded px-2 py-3 text-base font-medium hover:bg-paper-dim">{{ $label }}</a>
             @endforeach
         </nav>
     </div>
