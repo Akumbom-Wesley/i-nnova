@@ -125,17 +125,39 @@ Dev only. Must be changed before anything is deployed.
 
 Everything below editable in Filament with zero code changes.
 
-- [ ] **Products**: name, slug, tagline, description, sector, features, screenshots, logo, order, featured, `status: live | coming_soon`, `launch_date` (nullable)
-- [ ] **Case Studies**: institution, logo, sector, challenge, solution, results, images, linked product, quote
-- [ ] **Team Members**: photo, name, role, credentials, bio, socials, department, order
-- [ ] **Values**: title, body, image
-- [ ] **Testimonials**: quote, person, role, organisation, **photo**, linked product
-- [ ] **Kickstarter**: mentors (photo, name, title, credentials), tracks, alumni outcomes, program stats
-- [ ] **Clients**: logos (real only)
-- [ ] **Site Settings**: hero copy, stats, contact details, socials, SEO defaults
-- [ ] **Leads**: contact submissions land in admin inbox
-- [ ] Translatable fields wired on every content model
-- [ ] Seeders with placeholder content so layouts can be built before real assets arrive
+- [x] **Products**: name, slug, tagline, description, sector, features, screenshots, logo, order, featured, `status: live | coming_soon`, `launch_date` (nullable)
+- [x] **Case Studies**: institution, logo, sector, challenge, solution, results, images, linked product, quote
+- [x] **Team Members**: photo, name, role, credentials, bio, socials, department, order
+- [x] **Values**: title, body, image
+- [x] **Testimonials**: quote, person, role, organisation, **photo**, linked product
+- [x] **Kickstarter**: mentors (photo, name, title, credentials), tracks, alumni outcomes, program stats
+- [x] **Clients**: logos (real only)
+- [x] **Site Settings**: hero copy, stats, contact details, socials, SEO defaults
+- [x] **Leads**: contact submissions land in admin inbox
+- [x] Translatable fields wired on every content model
+- [x] Seeders with placeholder content so layouts can be built before real assets arrive
+
+**Decisions taken while building this, and why:**
+
+- **Sectors** are their own table rather than free text repeated on products and
+  case studies, so "Education" cannot drift into "education" across two models
+  and the Work index can filter on something stable.
+- **Stats** is a single table serving both the site stat blocks and the
+  Kickstarter programme stats, kept apart by a `context` column.
+- **Translations** bind straight to Spatie's translation array through
+  `App\Filament\Support\LocaleTabs`. The official Filament translatable plugin
+  is abandoned, so nothing depends on it. Adding a third language means editing
+  `config/site.php` and nothing else.
+- **`User` now implements `FilamentUser`.** Without it Filament rejects every
+  user as soon as `APP_ENV` stops being `local`, which would have locked
+  everyone out of the deployed admin.
+- **Placeholder images are generated, not skipped.** The seeder writes real PNGs
+  through Media Library, so Sprint 2 builds against filled image slots and a
+  working conversion pipeline rather than meeting both at Sprint 5.
+- Placeholder seeding refuses to run in production, and seeded clients are
+  unverified, so neither can reach a live page.
+- `php artisan storage:link` is now part of `composer setup`; without it no
+  uploaded image resolves.
 
 ## Sprint 2: Design system & homepage
 
