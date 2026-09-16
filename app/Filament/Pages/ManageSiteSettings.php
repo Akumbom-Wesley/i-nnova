@@ -152,6 +152,8 @@ class ManageSiteSettings extends Page implements HasSchemas
 
         $this->form->model($settings)->saveRelationships();
 
+        SiteSetting::forgetInstance();
+
         Notification::make()
             ->success()
             ->title('Site settings saved')

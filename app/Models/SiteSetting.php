@@ -16,6 +16,8 @@ class SiteSetting extends Model implements HasMedia
     use HasTranslations;
     use InteractsWithMedia;
 
+    protected static ?self $resolved = null;
+
     public array $translatable = [
         'hero_heading',
         'hero_subheading',
@@ -36,12 +38,24 @@ class SiteSetting extends Model implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        // Sprint 4 needs an OG image that actually resolves; the old site's 404d.
         $this->addMediaCollection('og_image')->singleFile();
     }
 
+    /**
+     * Resolved once per request. The header, the footer and the page body all
+     * ask for it, and firstOrCreate would otherwise run a write on the first
+     * call of every request.
+     */
     public static function instance(): self
     {
-        return static::firstOrCreate([]);
+        return static::$resolved ??= static::firstOrCreate([]);
+    }
+
+    /**
+     * Tests and the settings page need to drop the memo after a save.
+     */
+    public static function forgetInstance(): void
+    {
+        static::$resolved = null;
     }
 }

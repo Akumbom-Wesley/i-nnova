@@ -161,17 +161,50 @@ Everything below editable in Filament with zero code changes.
 
 ## Sprint 2: Design system & homepage
 
-- [ ] Typography scale and spacing rhythm
-- [ ] Component library: buttons, cards, section headers, stat blocks, quote blocks
-- [ ] Hero
-- [ ] Live products section
-- [ ] Deployments / proof section
-- [ ] Values section
-- [ ] Team teaser row
-- [ ] Kickstarter teaser
-- [ ] Testimonials
-- [ ] Closing CTA
-- [ ] Responsive pass: phone first, real mobile-data budget
+- [x] Typography scale and spacing rhythm
+- [x] Component library: buttons, badges, cards, section headers, stat blocks, quote blocks, feature lists, score rings, logo walls
+- [x] Hero
+- [x] Live products section
+- [x] Deployments / proof section
+- [x] Values section
+- [x] Team teaser row
+- [x] Kickstarter teaser
+- [x] Testimonials
+- [x] Closing CTA
+- [x] Responsive pass: phone first, real mobile-data budget
+
+**Added a STEM band.** STEM is core positioning, so it gets its own full-width
+section rather than a mention. The hero names it directly under the headline
+and the band carries the four accelerator tracks.
+
+**The motion system.** Nothing animates until the reader scrolls to it, via one
+IntersectionObserver in `app.js` that sets `[data-revealed]`. That single hook
+also starts the drawn rules and the board traces nested inside. Every animation
+collapses to its finished state under `prefers-reduced-motion`, so the page is
+complete without motion. STEM is the positioning, but the motion vocabulary is
+the one the work actually lives in: board traces that draw themselves, packets
+running down those traces, solder pads waking up, a processor die lighting as
+it works, a signal readout and a terminal cursor. No laboratory imagery.
+Each band gets the drawing that belongs to it rather than one motif repeated:
+a board in the hero, a dot mesh with a sweeping scan behind the products, a
+terminal typing itself out in the STEM band, a node graph on the Kickstarter
+teaser and a signal trace closing the page.
+
+**Corrected from the roll-up artwork.** PAXHI and SAHIK are client institutions,
+not products, and are now case studies carrying their real crests. The product
+line is the real one: EduTrust Schools, I-NNOVA Integrated Hospital Software,
+Hotel Booking System and I-NNOVA POS. Accelerator tracks, the four value
+pillars and the contact details are likewise the real ones.
+
+**A Blade bug worth remembering.** `@section('name', $value)` calls `ob_start()`
+when `$value` is null, treating it as a block section and leaking an output
+buffer on every render. Site settings start empty, so the SEO description hit
+this. Pages must pass a string, never a nullable attribute. There is a
+regression test for it.
+
+**Page weight:** 65 KB HTML, 94 KB images, 39 KB CSS, 53 KB JS. CSS and JS
+gzip to roughly 8 KB and 19 KB. Institution crests always render through a
+Media Library conversion; the SAHIK original is 1.4 MB and the thumb is 39 KB.
 
 ## Sprint 3: Inner pages
 
