@@ -24,6 +24,8 @@ class SiteSetting extends Model implements HasMedia
         'hero_cta_label',
         'about_heading',
         'about_story',
+        'mission',
+        'vision',
         'address',
         'seo_title',
         'seo_description',

@@ -27,6 +27,8 @@
         </section>
     @endif
 
+    @include('sections.mission', ['settings' => $settings])
+
     @if ($stats->isNotEmpty())
         <section class="border-y border-ink/10 bg-paper-dim py-(--spacing-band)">
             <div class="mx-auto grid max-w-6xl gap-10 px-4 sm:grid-cols-3 sm:px-6">
@@ -44,7 +46,7 @@
             <div class="mx-auto max-w-6xl px-4 sm:px-6">
                 <x-ui.section-header eyebrow="{{ __('What we stand for') }}" title="{{ __('Values') }}" />
 
-                <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach ($values as $index => $value)
                         <x-ui.reveal :delay="$index * 90"
                                      class="card-lift h-full rounded-2xl border border-ink/10 bg-paper p-7 hover:border-accent/40 hover:shadow-lg hover:shadow-ink/5">
@@ -135,6 +137,8 @@
             </div>
         </section>
     @endif
+
+    @include('sections.timeline', ['milestones' => $milestones])
 
     @include('sections.gallery', [
         'images' => $photos,

@@ -101,10 +101,10 @@
                             :columns="2"
                             :items="[
                                 __('Technical skills'),
-                                __('Interview performance'),
-                                __('Portfolio'),
-                                __('Collaboration'),
-                                __('Learning'),
+                                __('Project portfolio'),
+                                __('Freelance experience'),
+                                __('Soft skills'),
+                                __('Professional readiness'),
                             ]"
                         />
                     </x-ui.reveal>
@@ -120,6 +120,7 @@
 
                 <x-ui.reveal :delay="120" class="mt-10">
                     <x-ui.feature-list :items="[
+                        __('No prior programming experience required'),
                         __('Real projects that build your portfolio'),
                         __('Industry standard tools and workflows'),
                         __('Mentorship from working engineers'),

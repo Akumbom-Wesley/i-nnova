@@ -34,9 +34,19 @@ class SettingsSeeder extends Seeder
                 'en' => 'We do not just build software. We build the builders.',
                 'fr' => 'Nous ne construisons pas que des logiciels. Nous formons ceux qui les construisent.',
             ],
+            // Mission and vision, in the company's own words.
+            'mission' => [
+                'en' => 'To develop innovative, affordable and scalable technology tailored for Cameroon, while building a world-class tech talent pipeline through hands-on education and mentorship.',
+                'fr' => 'Developper des technologies innovantes, abordables et evolutives adaptees au Cameroun, tout en formant une filiere de talents tech de niveau mondial par la pratique et le mentorat.',
+            ],
+            'vision' => [
+                'en' => 'To become Africa\'s leading dual-mission tech company, recognised both for the quality of our software and the calibre of the developers we cultivate, from Bamenda to the world.',
+                'fr' => 'Devenir l entreprise tech africaine de reference a double mission, reconnue pour la qualite de nos logiciels comme pour le calibre des developpeurs que nous formons, de Bamenda au monde.',
+            ],
+
             'about_story' => [
-                'en' => '<p>I-NNOVA is a technology company committed to building smart, innovative solutions that solve real world problems and transform communities.</p><p>We work from Bamenda, in the North West Region of Cameroon, with institutions that cannot afford a system to go down: schools, hospitals, hotels and retailers. Placeholder copy beyond this point, replaced in Sprint 5.</p>',
-                'fr' => '<p>I-NNOVA est une entreprise technologique engagee a creer des solutions innovantes qui resolvent de vrais problemes et transforment les communautes.</p><p>Nous travaillons depuis Bamenda, dans la Region du Nord-Ouest du Cameroun, avec des institutions qui ne peuvent pas se permettre une panne. Texte provisoire au-dela de ce point.</p>',
+                'en' => '<p>I-NNOVA was founded in Bamenda in 2022, from a simple but powerful idea: Cameroon needs homegrown technology, and the talent to build it.</p><p>We work with institutions that cannot afford a system to go down, and we run an accelerator that turns people with no prior programming experience into working engineers. Both halves feed each other: the products give the programme real work, and the programme gives the products the people who build them.</p>',
+                'fr' => '<p>I-NNOVA a ete fondee a Bamenda en 2022, a partir d une idee simple et puissante: le Cameroun a besoin de technologies locales, et des talents pour les construire.</p><p>Nous travaillons avec des institutions qui ne peuvent pas se permettre une panne, et nous animons un accelerateur qui transforme des debutants en ingenieurs. Les deux moities se nourrissent: les produits donnent au programme du vrai travail, et le programme donne aux produits ceux qui les construisent.</p>',
             ],
 
             'contact_email' => 'contact@i-nnovacmr.com',

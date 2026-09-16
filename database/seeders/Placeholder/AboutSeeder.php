@@ -3,6 +3,7 @@
 namespace Database\Seeders\Placeholder;
 
 use App\Models\CompanyValue;
+use App\Models\Milestone;
 use App\Models\ProcessStep;
 use App\Models\TeamMember;
 use Database\Seeders\Concerns\AttachesPlaceholderImages;
@@ -21,34 +22,53 @@ class AboutSeeder extends Seeder
         $this->values();
         $this->team();
         $this->process();
+        $this->milestones();
     }
 
+    /**
+     * Six values: the five the company states on its own site, plus
+     * "empowering innovators" from the roll-up, which the others do not say.
+     */
     private function values(): void
     {
         $rows = [
             [
-                'title' => ['en' => 'Innovative Solutions', 'fr' => 'Solutions Innovantes'],
+                'title' => ['en' => 'Innovation First', 'fr' => 'L innovation d abord'],
                 'body' => [
-                    'en' => '<p>We build smart solutions that solve real world problems rather than demonstrate technology.</p>',
-                    'fr' => '<p>Nous creons des solutions intelligentes qui resolvent de vrais problemes.</p>',
+                    'en' => '<p>Smart solutions that solve real world problems rather than demonstrate technology.</p>',
+                    'fr' => '<p>Des solutions intelligentes qui resolvent de vrais problemes plutot que de demontrer la technologie.</p>',
                 ],
             ],
             [
-                'title' => ['en' => 'Community Impact', 'fr' => 'Impact Communautaire'],
+                'title' => ['en' => 'Community Impact', 'fr' => 'Impact communautaire'],
                 'body' => [
                     'en' => '<p>Transforming communities, empowering innovators. The work is measured by what it changes locally.</p>',
-                    'fr' => '<p>Transformer les communautes, autonomiser les innovateurs.</p>',
+                    'fr' => '<p>Transformer les communautes, autonomiser les innovateurs. Le travail se mesure a ce qu il change localement.</p>',
                 ],
             ],
             [
-                'title' => ['en' => 'Tech Excellence', 'fr' => 'Excellence Technique'],
+                'title' => ['en' => 'Excellence and Quality', 'fr' => 'Excellence et qualite'],
                 'body' => [
                     'en' => '<p>Driven by STEM. Industry standard tools and workflows, applied with discipline.</p>',
                     'fr' => '<p>Portes par les STEM. Outils et methodes standards, appliques avec rigueur.</p>',
                 ],
             ],
             [
-                'title' => ['en' => 'Empowering Innovators', 'fr' => 'Autonomiser les Innovateurs'],
+                'title' => ['en' => 'Integrity and Transparency', 'fr' => 'Integrite et transparence'],
+                'body' => [
+                    'en' => '<p>We say what we have shipped and what we have not. Nothing unlaunched is presented as running.</p>',
+                    'fr' => '<p>Nous disons ce que nous avons livre et ce que nous n avons pas livre. Rien d inacheve n est presente comme operationnel.</p>',
+                ],
+            ],
+            [
+                'title' => ['en' => 'Collaboration and Growth', 'fr' => 'Collaboration et croissance'],
+                'body' => [
+                    'en' => '<p>Open, team driven and inclusive. We encourage shared thinking and open dialogue.</p>',
+                    'fr' => '<p>Ouvert, porte par l equipe et inclusif. Nous encourageons la reflexion partagee et le dialogue ouvert.</p>',
+                ],
+            ],
+            [
+                'title' => ['en' => 'Empowering Innovators', 'fr' => 'Autonomiser les innovateurs'],
                 'body' => [
                     'en' => '<p>We do not just build software. We build the builders.</p>',
                     'fr' => '<p>Nous ne construisons pas que des logiciels. Nous formons ceux qui les construisent.</p>',
@@ -65,14 +85,55 @@ class AboutSeeder extends Seeder
             $this->attachImage($value, 'image', $row['title']['en'], 1200, 800);
         }
     }
-
+    /**
+     * The real leadership team, taken from the company's own site. Anyone
+     * beyond these three is added in the admin.
+     */
     private function team(): void
     {
         $rows = [
-            ['name' => 'Placeholder Lead', 'role' => ['en' => 'Founder', 'fr' => 'Fondateur'], 'department' => ['en' => 'Leadership', 'fr' => 'Direction'], 'featured' => true],
-            ['name' => 'Placeholder Engineer', 'role' => ['en' => 'Engineer', 'fr' => 'Ingenieur'], 'department' => ['en' => 'Engineering', 'fr' => 'Ingenierie'], 'featured' => true],
-            ['name' => 'Placeholder Designer', 'role' => ['en' => 'Designer', 'fr' => 'Designer'], 'department' => ['en' => 'Design', 'fr' => 'Design'], 'featured' => true],
-            ['name' => 'Placeholder Analyst', 'role' => ['en' => 'Analyst', 'fr' => 'Analyste'], 'department' => ['en' => 'Engineering', 'fr' => 'Ingenierie'], 'featured' => false],
+            [
+                'name' => 'Obed Destine Atangabua',
+                'role' => ['en' => 'Founder and CEO', 'fr' => 'Fondateur et Directeur General'],
+                'department' => ['en' => 'Leadership', 'fr' => 'Direction'],
+                'credentials' => [
+                    'en' => 'Software engineer, 8+ years',
+                    'fr' => 'Ingenieur logiciel, plus de 8 ans',
+                ],
+                'bio' => [
+                    'en' => '<p>Visionary leader and software engineer with over eight years building digital solutions for African businesses.</p>',
+                    'fr' => '<p>Dirigeant visionnaire et ingenieur logiciel, plus de huit ans a construire des solutions numeriques pour les entreprises africaines.</p>',
+                ],
+                'featured' => true,
+            ],
+            [
+                'name' => 'Akumbom Wesley',
+                'role' => ['en' => 'CTO and Lead Developer', 'fr' => 'Directeur Technique et Developpeur Principal'],
+                'department' => ['en' => 'Engineering', 'fr' => 'Ingenierie'],
+                'credentials' => [
+                    'en' => 'Laravel, Vue.js, cloud infrastructure',
+                    'fr' => 'Laravel, Vue.js, infrastructure cloud',
+                ],
+                'bio' => [
+                    'en' => '<p>Full-stack developer and architect specialising in Laravel, Vue.js and cloud infrastructure.</p>',
+                    'fr' => '<p>Developpeur full-stack et architecte, specialise en Laravel, Vue.js et infrastructure cloud.</p>',
+                ],
+                'featured' => true,
+            ],
+            [
+                'name' => 'Feteh Ndimbe Diran',
+                'role' => ['en' => 'Head of IKS Programme', 'fr' => 'Responsable du Programme IKS'],
+                'department' => ['en' => 'Kickstarter', 'fr' => 'Kickstarter'],
+                'credentials' => [
+                    'en' => 'Educator and developer',
+                    'fr' => 'Educateur et developpeur',
+                ],
+                'bio' => [
+                    'en' => '<p>Educator and developer, set on nurturing the next generation of African tech talent.</p>',
+                    'fr' => '<p>Educateur et developpeur, engage a former la prochaine generation de talents tech africains.</p>',
+                ],
+                'featured' => true,
+            ],
         ];
 
         foreach ($rows as $order => $row) {
@@ -82,18 +143,18 @@ class AboutSeeder extends Seeder
                     'name' => $row['name'],
                     'role' => $row['role'],
                     'department' => $row['department'],
-                    'credentials' => ['en' => 'Placeholder credentials', 'fr' => 'References provisoires'],
-                    'bio' => ['en' => '<p>Placeholder bio.</p>', 'fr' => '<p>Biographie provisoire.</p>'],
-                    'socials' => ['linkedin' => 'https://www.linkedin.com/'],
+                    'credentials' => $row['credentials'],
+                    'bio' => $row['bio'],
                     'sort_order' => $order,
                     'is_featured' => $row['featured'],
                 ],
             );
 
+            // Portraits are still outstanding; the placeholder keeps the row
+            // from rendering as an empty circle until a real one arrives.
             $this->attachImage($member, 'photo', $row['name'], 800, 800, 'ink');
         }
     }
-
     private function process(): void
     {
         $rows = [
@@ -127,6 +188,54 @@ class AboutSeeder extends Seeder
                     'body' => ['en' => '<p>Placeholder detail.</p>', 'fr' => '<p>Detail provisoire.</p>'],
                     'sort_order' => $order,
                 ],
+            );
+        }
+    }
+
+    /**
+     * The timeline from the company's own site: founded 2022 in Bamenda.
+     */
+    private function milestones(): void
+    {
+        $rows = [
+            [
+                'year' => '2022',
+                'title' => ['en' => 'The spark', 'fr' => 'L etincelle'],
+                'body' => [
+                    'en' => 'I-NNOVA was born from a simple but powerful idea: Cameroon needs homegrown tech solutions, and the talent to build them.',
+                    'fr' => 'I-NNOVA est nee d une idee simple et puissante: le Cameroun a besoin de solutions technologiques locales, et des talents pour les construire.',
+                ],
+            ],
+            [
+                'year' => '2023',
+                'title' => ['en' => 'Foundations', 'fr' => 'Les fondations'],
+                'body' => [
+                    'en' => 'The first products took shape and the Kickstarter programme was created.',
+                    'fr' => 'Les premiers produits prennent forme et le programme Kickstarter est cree.',
+                ],
+            ],
+            [
+                'year' => '2024',
+                'title' => ['en' => 'The portfolio widens', 'fr' => 'Le portefeuille s elargit'],
+                'body' => [
+                    'en' => 'Ride sharing, hotel management and school management joined the line.',
+                    'fr' => 'Covoiturage, gestion hoteliere et gestion scolaire rejoignent la gamme.',
+                ],
+            ],
+            [
+                'year' => '2025',
+                'title' => ['en' => 'Scale', 'fr' => 'Le passage a l echelle'],
+                'body' => [
+                    'en' => 'Over 500 students reached through Kickstarter, and more than 100 businesses served.',
+                    'fr' => 'Plus de 500 etudiants touches par Kickstarter, et plus de 100 entreprises servies.',
+                ],
+            ],
+        ];
+
+        foreach ($rows as $order => $row) {
+            Milestone::updateOrCreate(
+                ['year' => $row['year']],
+                $row + ['sort_order' => $order],
             );
         }
     }

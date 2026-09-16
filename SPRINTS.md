@@ -277,6 +277,31 @@ indicator, so the ring is now orange with a white halo either side and clears
 rule at zero specificity, so a component can restyle its focus but cannot
 silently remove it.
 
+## Taken from the live site at i-nnovacmr.com
+
+The previous site is still up and carries real material the rebuild was
+missing. Pulled across: the founding year and the 2022 to 2025 timeline, the
+mission and vision in the company's own words, the real leadership team, and
+the real numbers (500+ students reached, 100+ businesses served, 90%+ employed
+within three months, 3+ years, 6 products).
+
+**Where the live site and the roll-up disagree, both were kept rather than one
+picked.** The product line is the union of the two, with the hospital software
+marked in development because only the roll-up claims it. The accelerator runs
+five tracks: the four the site lists plus cybersecurity from the roll-up, with
+"software development" dropped only because web and mobile already cover it.
+Values are six: the site's five plus "empowering innovators" from the roll-up.
+Career Capital uses the site's five dimensions, because those are the ones it
+actually shows scores against.
+
+**Deliberately not taken:** the contact details, `info@innovacm.com` and
+`+237 670 000 000`, which are the exact placeholder phone and mismatched
+domain on the do-not-repeat list. The roll-up's are the real ones and a test
+now fails if either of the old ones ever reappears. The blog is not taken
+either, since it is locked as none. The testimonials are not taken: they make
+specific claims such as a 150% revenue increase, which want verifying before
+being republished.
+
 ## Sprint 5: Content load & launch
 
 - [ ] Load real images via CMS: team, products, institutions, internships
