@@ -64,8 +64,11 @@
         <p>&copy; {{ date('Y') }} I-NNOVA. All rights reserved.</p>
 
         <div class="flex gap-6">
-            <a href="{{ url('/privacy') }}" class="link-underline hover:text-white">Privacy</a>
-            <a href="{{ url('/terms') }}" class="link-underline hover:text-white">Terms</a>
+            {{--
+                Privacy and Terms are deliberately not linked yet. Sprint 5
+                writes the real policies and adds the routes; until then a
+                footer link on every page would only lead to a 404.
+            --}}
         </div>
     </div>
 </footer>

@@ -30,6 +30,15 @@ class SettingsSeeder extends Seeder
             'hero_cta_label' => ['en' => 'See our work', 'fr' => 'Voir nos realisations'],
             'hero_cta_url' => '/work',
 
+            'about_heading' => [
+                'en' => 'We do not just build software. We build the builders.',
+                'fr' => 'Nous ne construisons pas que des logiciels. Nous formons ceux qui les construisent.',
+            ],
+            'about_story' => [
+                'en' => '<p>I-NNOVA is a technology company committed to building smart, innovative solutions that solve real world problems and transform communities.</p><p>We work from Bamenda, in the North West Region of Cameroon, with institutions that cannot afford a system to go down: schools, hospitals, hotels and retailers. Placeholder copy beyond this point, replaced in Sprint 5.</p>',
+                'fr' => '<p>I-NNOVA est une entreprise technologique engagee a creer des solutions innovantes qui resolvent de vrais problemes et transforment les communautes.</p><p>Nous travaillons depuis Bamenda, dans la Region du Nord-Ouest du Cameroun, avec des institutions qui ne peuvent pas se permettre une panne. Texte provisoire au-dela de ce point.</p>',
+            ],
+
             'contact_email' => 'contact@i-nnovacmr.com',
             'contact_phone' => '+237 671 008 494',
             'whatsapp_number' => '+237671008494',

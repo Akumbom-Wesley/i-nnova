@@ -3,6 +3,7 @@
 namespace Database\Seeders\Placeholder;
 
 use App\Models\CompanyValue;
+use App\Models\ProcessStep;
 use App\Models\TeamMember;
 use Database\Seeders\Concerns\AttachesPlaceholderImages;
 use Illuminate\Database\Seeder;
@@ -19,6 +20,7 @@ class AboutSeeder extends Seeder
     {
         $this->values();
         $this->team();
+        $this->process();
     }
 
     private function values(): void
@@ -89,6 +91,43 @@ class AboutSeeder extends Seeder
             );
 
             $this->attachImage($member, 'photo', $row['name'], 800, 800, 'ink');
+        }
+    }
+
+    private function process(): void
+    {
+        $rows = [
+            [
+                'title' => ['en' => 'Understand the day', 'fr' => 'Comprendre la journee'],
+                'summary' => [
+                    'en' => 'We sit with the people who will use it before we design anything.',
+                    'fr' => 'Nous passons du temps avec les utilisateurs avant toute conception.',
+                ],
+            ],
+            [
+                'title' => ['en' => 'Build in the open', 'fr' => 'Construire a decouvert'],
+                'summary' => [
+                    'en' => 'Short cycles, working software you can see, no long silences.',
+                    'fr' => 'Cycles courts, logiciel visible, pas de longs silences.',
+                ],
+            ],
+            [
+                'title' => ['en' => 'Deploy and stay', 'fr' => 'Deployer et rester'],
+                'summary' => [
+                    'en' => 'We run what we build, so a problem at 7am is our problem too.',
+                    'fr' => 'Nous exploitons ce que nous construisons, les incidents sont aussi les notres.',
+                ],
+            ],
+        ];
+
+        foreach ($rows as $order => $row) {
+            ProcessStep::updateOrCreate(
+                ['id' => $order + 1],
+                $row + [
+                    'body' => ['en' => '<p>Placeholder detail.</p>', 'fr' => '<p>Detail provisoire.</p>'],
+                    'sort_order' => $order,
+                ],
+            );
         }
     }
 }

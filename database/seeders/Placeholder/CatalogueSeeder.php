@@ -122,6 +122,21 @@ class CatalogueSeeder extends Seeder
                 'status' => ProductStatus::Live,
                 'is_featured' => true,
             ],
+            [
+                // A placeholder so the coming-soon treatment on the products
+                // pages is visible while they are built. Not a roadmap promise,
+                // and it goes when real content lands in Sprint 5.
+                'slug' => 'placeholder-coming-soon',
+                'sector' => 'retail',
+                'name' => ['en' => 'Placeholder Coming Soon', 'fr' => 'Placeholder A Venir'],
+                'tagline' => [
+                    'en' => 'A product still in development',
+                    'fr' => 'Un produit encore en developpement',
+                ],
+                'features' => ['en' => [], 'fr' => []],
+                'status' => ProductStatus::ComingSoon,
+                'is_featured' => false,
+            ],
         ];
 
         $products = [];

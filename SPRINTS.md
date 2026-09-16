@@ -208,16 +208,36 @@ Media Library conversion; the SAHIK original is 1.4 MB and the thumb is 39 KB.
 
 ## Sprint 3: Inner pages
 
-- [ ] Products index (live vs coming-soon treatment)
-- [ ] Product detail
-- [ ] Coming-soon detail state: limited info, image, optional launch date
-- [ ] Work index
-- [ ] Case study detail
-- [ ] About: story, values, how we work
-- [ ] Team section, full
-- [ ] Kickstarter page + handoff to platform
-- [ ] Contact: form, validation, WhatsApp, leads to admin
-- [ ] 404 and error pages
+- [x] Products index (live vs coming-soon treatment)
+- [x] Product detail
+- [x] Coming-soon detail state: limited info, image, optional launch date
+- [x] Work index
+- [x] Case study detail
+- [x] About: story, values, how we work
+- [x] Team section, full
+- [x] Kickstarter page + handoff to platform
+- [x] Contact: form, validation, WhatsApp, leads to admin
+- [x] 404 and error pages
+
+**Two content gaps filled.** "How we work" now has its own table and admin
+list, because the locked narrative gives it equal weight with Values and Team
+and it has to be editable without a developer. The About story lives on Site
+Settings as heading plus rich text.
+
+**The coming-soon treatment is a refusal, not a teaser.** An unlaunched product
+shows its name, its sector and an expected month if there is one, and nothing
+else. Its description is deliberately not rendered, and a test asserts that.
+
+**Contact.** Validation with the typed values kept on failure, a honeypot that
+refuses automated submissions outright rather than silently dropping them,
+throttling at six posts a minute, and the submission landing in the admin inbox
+where opening it marks it read. The WhatsApp link strips to digits, which wa.me
+requires.
+
+**Privacy and Terms are not linked.** The routes do not exist yet, so a footer
+link on every page would only have led to a 404. Sprint 5 writes the real
+policies and puts the links back.
+
 
 ## Sprint 4: Bilingual, SEO & performance
 
