@@ -5,6 +5,7 @@ namespace App\Filament\Pages;
 use App\Filament\Support\LocaleTabs;
 use App\Models\SiteSetting;
 use BackedEnum;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -73,6 +74,21 @@ class ManageSiteSettings extends Page implements HasSchemas
                         TextInput::make('hero_cta_url')
                             ->label('Button link')
                             ->maxLength(255),
+                    ]),
+
+                Section::make('About')
+                    ->description('The story on the About page. Values and how we work are edited as their own lists.')
+                    ->schema([
+                        LocaleTabs::make(fn (string $locale) => [
+                            TextInput::make("about_heading.{$locale}")
+                                ->label('Heading')
+                                ->maxLength(160)
+                                ->columnSpanFull(),
+
+                            RichEditor::make("about_story.{$locale}")
+                                ->label('Story')
+                                ->columnSpanFull(),
+                        ]),
                     ]),
 
                 Section::make('Contact')
