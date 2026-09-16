@@ -8,7 +8,8 @@ export default defineConfig({
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js'],
             refresh: true,
-            // Stand-ins for Kinektic Bold / Larsseit — see resources/css/app.css
+            // Free equivalents for the guide's Kinektic Bold / Larsseit —
+            // see the typography note in resources/css/app.css
             fonts: [
                 bunny('Archivo', { weights: [600, 700] }),
                 bunny('Figtree', { weights: [400, 500, 600, 700] }),

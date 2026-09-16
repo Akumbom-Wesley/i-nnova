@@ -13,10 +13,10 @@ Working plan and sprint checklist. Tick items as they land. One branch per sprin
 | Stack | Laravel 13 + Blade + Tailwind 4 + Alpine.js |
 | Admin / CMS | Filament v5 (self-hosted, no custom CMS build) |
 | Rendering | Server-rendered HTML — no SPA |
-| Direction | Institutional / editorial (veridyl-style restraint) |
+| Direction | Institutional restraint, in brand colours — blue ground, red rationed to CTAs |
 | Languages | Bilingual EN / FR |
 | Blog | **None** |
-| Tagline | **"Build Your Creativity"** — per brand guide |
+| Tagline | **"Build Your Creativity"** — confirmed |
 | Positioning | Institutional & education software, led by real deployments (PAXHI, SAHIK) |
 | Kickstarter | Main site sells, hands off to `innovakickstarter.com` |
 | Partner logos | **Removed** — not real relationships |
@@ -45,15 +45,32 @@ Source of truth: **`brand-guide.pdf`** (in the parent `I-NNOVA` folder). Not der
 Shades (`-dark`, `-soft`, `-dim`, `ink-line`) are secondary colours derived from the four
 primaries, which the guide explicitly permits.
 
-### Typography — brand guide, Section 4
+### Typography — decided
 
-| Guide font | Role | Status |
+The guide specifies **Kinektic Bold** (primary), **Larsseit** (secondary) and **Arial** (support).
+Kinektic and Larsseit are commercial and we hold no web licence. **Decision: ship free stand-ins
+permanently** — no licence cost, no renewal, self-hosted, visually close.
+
+| Role | Font | Guide equivalent |
 |---|---|---|
-| **Kinektic Bold** | Primary / display | ⚠️ Commercial — no web licence held. Stand-in: **Archivo** |
-| **Larsseit** | Secondary / body | ⚠️ Commercial — no web licence held. Stand-in: **Figtree** |
-| **Arial** | Support (documents) | In the fallback stack |
+| Display | **Archivo** (600, 700) | Kinektic Bold |
+| Body | **Figtree** (400–700) | Larsseit |
+| Fallback | Arial | Arial (guide's support font) |
 
-Swapping in the real fonts means changing two lines in `resources/css/app.css` and two in `vite.config.js`.
+Self-hosted via Bunny, `@font-face` inlined and woff2 preloaded — zero external font requests,
+which matters for buyers on Cameroonian mobile data.
+
+### Visual direction — decided
+
+**Institutional restraint, painted in brand colours.** veridyl-style whitespace and calm, using the
+guide's real palette — not the guide's bold red/black mockup treatment.
+
+- White fields, generous margins, quiet hierarchy
+- Blue `#39419A` as the institutional ground and band colour
+- Red `#EA2A34` rationed to CTAs and active states — roughly 5% of any screen, never decoration
+- Black `#000000` for type and dark grounds
+
+The guide's bold register stays available for social and print, where it belongs.
 
 ### Logo rules — brand guide, Section 3
 
@@ -71,16 +88,11 @@ Tone: confident · collaborative · structured · proactive · professional · c
 
 This is the raw material for the Values section — it does not need inventing.
 
-### Open brand questions
+### Still outstanding
 
-1. **Tagline conflict** — the guide's logo lockup reads **"Build Your Creativity"**; the logo PNG
-   supplied earlier reads **"Make It Happen"**. Guide currently wins. Needs confirming.
-2. **Logo files** — the PNGs in `public/images` are a blue→orange gradient mark, which contradicts
-   the guide's monochrome mark on red/black/white. They are off-brand and must be replaced with
-   official SVG/high-res assets.
-3. **Visual direction** — the guide's mockups are bold red/black/white with grid motifs and heavy
-   condensed display type. The agreed site direction was restrained institutional editorial.
-   These need reconciling. See below.
+**Official logo files.** The PNGs in `public/images` are a blue→orange gradient mark that
+contradicts the guide's monochrome mark and its own "do not change the colors" rule. They are
+placeholders until official SVG / high-resolution assets arrive.
 
 ## Site structure
 

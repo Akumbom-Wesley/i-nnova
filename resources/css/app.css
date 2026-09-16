@@ -31,14 +31,14 @@
 
     /* ---------------------------------------------------------------
        Typography — the guide specifies Kinektic Bold (primary),
-       Larsseit (secondary) and Arial (support). Kinektic and Larsseit
-       are commercial licences we do not hold web fonts for yet, so
-       these are visually-close STAND-INS. Swap once licensed files
-       arrive; only these two lines need to change.
+       Larsseit (secondary) and Arial (support). Both are commercial;
+       we ship free, visually-close, self-hosted equivalents instead —
+       a settled decision, not a placeholder. Arial stays as the
+       guide's support font in the fallback stack.
        --------------------------------------------------------------- */
 
-    --font-display: 'Archivo', 'Kinektic', Arial, sans-serif;
-    --font-sans: 'Figtree', 'Larsseit', Arial, sans-serif;
+    --font-display: 'Archivo', Arial, sans-serif;
+    --font-sans: 'Figtree', Arial, sans-serif;
 }
 
 [x-cloak] {
