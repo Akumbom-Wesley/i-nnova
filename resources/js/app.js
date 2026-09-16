@@ -1,5 +1,76 @@
 import Alpine from 'alpinejs';
 
+/**
+ * The hero slideshow.
+ *
+ * Advances on a timer, pauses while a pointer or the keyboard is on it, and
+ * does not advance at all for a reader who has asked for reduced motion: they
+ * get the first photograph as a still. The headline carries all the meaning,
+ * so the slides themselves are decorative and hidden from assistive tech; the
+ * controls are the only part exposed, for anyone who wants to look through
+ * them deliberately.
+ */
+Alpine.data('heroSlider', (count = 0, interval = 6000) => ({
+    count,
+    interval,
+    active: 0,
+    timer: null,
+
+    init() {
+        if (this.count < 2) {
+            return;
+        }
+
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        if (reducedMotion.matches) {
+            return;
+        }
+
+        this.start();
+
+        // Someone can turn reduced motion on while the page is open.
+        reducedMotion.addEventListener('change', (event) => {
+            if (event.matches) {
+                this.stop();
+                this.active = 0;
+            } else {
+                this.start();
+            }
+        });
+
+        // A slideshow running in a background tab is wasted work.
+        document.addEventListener('visibilitychange', () => {
+            document.hidden ? this.stop() : this.start();
+        });
+    },
+
+    start() {
+        this.stop();
+        this.timer = setInterval(() => this.next(), this.interval);
+    },
+
+    stop() {
+        if (this.timer) {
+            clearInterval(this.timer);
+            this.timer = null;
+        }
+    },
+
+    next() {
+        this.active = (this.active + 1) % this.count;
+    },
+
+    goTo(index) {
+        this.active = index;
+
+        // Restart the clock so a deliberate choice gets a full turn on screen.
+        if (this.timer) {
+            this.start();
+        }
+    },
+}));
+
 window.Alpine = Alpine;
 
 Alpine.start();

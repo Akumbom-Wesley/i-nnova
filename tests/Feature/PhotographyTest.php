@@ -145,4 +145,78 @@ class PhotographyTest extends TestCase
 
         $this->assertSame('2', \App\Filament\Resources\GalleryImages\GalleryImageResource::getNavigationBadge());
     }
+
+    public function test_the_hero_falls_back_to_the_light_treatment_with_no_slides(): void
+    {
+        // With no photography loaded the hero must not render as a black
+        // rectangle waiting for images that are not there.
+        $response = $this->get('/en');
+
+        $response->assertSuccessful();
+        $response->assertDontSee('heroSlider(', false);
+        $response->assertSee('Practical software for institutions');
+    }
+
+    public function test_the_hero_runs_a_slideshow_once_photographs_are_placed(): void
+    {
+        foreach (range(1, 4) as $number) {
+            $this->photo(GalleryPlacement::Hero, [
+                'external_url' => "https://picsum.photos/seed/hero{$number}/1920/1080",
+                'sort_order' => $number,
+            ]);
+        }
+
+        $response = $this->get('/en');
+
+        $response->assertSee('heroSlider(4)', false);
+        $response->assertSee('hero-scrim', false);
+
+        foreach (range(1, 4) as $number) {
+            $response->assertSee("seed/hero{$number}/", false);
+        }
+    }
+
+    public function test_only_the_first_slide_is_eager_so_the_rest_do_not_fight_the_headline(): void
+    {
+        foreach (range(1, 3) as $number) {
+            $this->photo(GalleryPlacement::Hero, [
+                'external_url' => "https://picsum.photos/seed/hero{$number}/1920/1080",
+                'sort_order' => $number,
+            ]);
+        }
+
+        $html = preg_replace('/\s+/', ' ', $this->get('/en')->getContent());
+
+        preg_match_all('/<img [^>]*seed\/hero[^>]*>/', $html, $matches);
+
+        $this->assertCount(3, $matches[0]);
+        $this->assertSame(1, substr_count(implode(' ', $matches[0]), 'fetchpriority="high"'));
+        $this->assertSame(2, substr_count(implode(' ', $matches[0]), 'loading="lazy"'));
+    }
+
+    public function test_a_single_slide_gets_no_dots_to_click(): void
+    {
+        $this->photo(GalleryPlacement::Hero);
+
+        $this->get('/en')->assertDontSee('hero-dot', false);
+    }
+
+    public function test_the_slides_are_hidden_from_assistive_tech_but_the_controls_are_not(): void
+    {
+        foreach (range(1, 3) as $number) {
+            $this->photo(GalleryPlacement::Hero, [
+                'external_url' => "https://picsum.photos/seed/hero{$number}/1920/1080",
+                'sort_order' => $number,
+            ]);
+        }
+
+        $html = preg_replace('/\s+/', ' ', $this->get('/en')->getContent());
+
+        // The headline carries the meaning, so the photographs are decorative.
+        $this->assertMatchesRegularExpression('/<div class="absolute inset-0" aria-hidden="true">/', $html);
+
+        // The dots are real controls and each one says what it goes to.
+        $this->assertStringContainsString('aria-label="Choose a photograph"', $html);
+        $this->assertStringContainsString('<span class="sr-only">Two engineers at a desk</span>', $html);
+    }
 }

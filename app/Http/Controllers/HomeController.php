@@ -32,6 +32,7 @@ class HomeController extends Controller
             // Verified only. An unconfirmed logo must never reach a page.
             'clients' => Client::query()->verified()->ordered()->get(),
             'photos' => GalleryImage::query()->placedOn(GalleryPlacement::Home)->ordered()->get(),
+            'slides' => GalleryImage::query()->placedOn(GalleryPlacement::Hero)->ordered()->get(),
         ]);
     }
 }

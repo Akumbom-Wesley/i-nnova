@@ -11,6 +11,7 @@ use Filament\Support\Contracts\HasLabel;
  */
 enum GalleryPlacement: string implements HasDescription, HasLabel
 {
+    case Hero = 'hero';
     case Home = 'home';
     case About = 'about';
     case Kickstarter = 'kickstarter';
@@ -18,6 +19,7 @@ enum GalleryPlacement: string implements HasDescription, HasLabel
     public function getLabel(): string
     {
         return match ($this) {
+            self::Hero => 'Home page hero slideshow',
             self::Home => 'Home page strip',
             self::About => 'About: life at I-NNOVA',
             self::Kickstarter => 'Kickstarter: the programme in action',
@@ -27,6 +29,7 @@ enum GalleryPlacement: string implements HasDescription, HasLabel
     public function getDescription(): string
     {
         return match ($this) {
+            self::Hero => 'Slides behind the headline. Three to five reads best.',
             self::Home => 'The photo band on the home page.',
             self::About => 'The office, the location and the team at work.',
             self::Kickstarter => 'Internships and cohorts in progress.',
