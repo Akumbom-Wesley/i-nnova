@@ -27,10 +27,9 @@ class AboutController extends Controller
             'clients' => Client::query()->verified()->ordered()->get(),
             'photos' => GalleryImage::query()->placedOn(GalleryPlacement::About)->ordered()->get(),
             'stats' => Stat::query()->context(Stat::CONTEXT_SITE)->ordered()->get(),
-            // The full team, grouped by department, with anyone unassigned last.
-            'departments' => TeamMember::query()->ordered()->get()->groupBy(
-                fn (TeamMember $member): string => $member->department ?: 'Team',
-            ),
+            // One flat list. Department is still on the model and still
+            // editable, it just no longer splits the page into groups.
+            'team' => TeamMember::query()->ordered()->get(),
         ]);
     }
 }

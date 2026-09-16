@@ -140,22 +140,30 @@ class InnerPagesTest extends TestCase
         $response->assertSee('EduTrust Schools');
     }
 
-    public function test_about_groups_the_full_team_by_department(): void
+    public function test_about_lists_the_whole_team_in_one_grid(): void
     {
         CompanyValue::create(['title' => ['en' => 'Tech Excellence']]);
         ProcessStep::create(['title' => ['en' => 'Understand the day'], 'summary' => ['en' => 'We sit with the users first.']]);
 
-        TeamMember::create(['name' => 'Ada Example', 'slug' => 'ada', 'role' => ['en' => 'Engineer'], 'department' => ['en' => 'Engineering']]);
-        TeamMember::create(['name' => 'Grace Example', 'slug' => 'grace', 'role' => ['en' => 'Founder'], 'department' => ['en' => 'Leadership']]);
+        TeamMember::create(['name' => 'Ada Example', 'slug' => 'ada', 'role' => ['en' => 'Engineer'], 'department' => ['en' => 'Engineering'], 'sort_order' => 0]);
+        TeamMember::create(['name' => 'Grace Example', 'slug' => 'grace', 'role' => ['en' => 'Founder'], 'department' => ['en' => 'Leadership'], 'sort_order' => 1]);
 
         $response = $this->get('/en/about');
 
         $response->assertSee('Tech Excellence');
         $response->assertSee('Understand the day');
-        $response->assertSee('Engineering');
-        $response->assertSee('Leadership');
         $response->assertSee('Ada Example');
         $response->assertSee('Grace Example');
+
+        // Department is still a field on the model, but it no longer splits
+        // the page into headed groups.
+        $html = preg_replace('/\s+/', ' ', $response->getContent());
+
+        $this->assertDoesNotMatchRegularExpression(
+            '/<h3 class="text-eyebrow[^"]*">\s*(Engineering|Leadership)\s*</',
+            $html,
+            'The team should render as one grid rather than department groups.',
+        );
     }
 
     public function test_a_team_member_with_no_department_still_appears(): void

@@ -15,8 +15,11 @@
 <footer class="relative overflow-hidden bg-ink text-white/75">
     <div class="mx-auto grid max-w-6xl gap-10 px-4 py-(--spacing-band-sm) sm:px-6 lg:grid-cols-[1.5fr_1fr_1fr]">
         <div>
-            <img src="{{ asset('images/logo.png') }}" alt="I-NNOVA" width="180" height="180"
-                 loading="lazy" decoding="async" class="h-14 w-auto object-contain">
+            <div class="flex items-center gap-3">
+                <img src="{{ asset('images/logo-mark.png') }}" alt="" width="40" height="40"
+                     loading="lazy" decoding="async" class="h-10 w-10 object-contain" aria-hidden="true">
+                <span class="font-display text-2xl leading-none tracking-tight text-white">I-NNOVA</span>
+            </div>
 
             <p class="mt-5 max-w-sm text-sm leading-relaxed">
                 {{ __('Software for institutions, built in Bamenda, plus a programme building the people who write it.') }}

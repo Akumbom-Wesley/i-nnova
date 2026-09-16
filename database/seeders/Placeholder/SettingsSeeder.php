@@ -35,7 +35,7 @@ class SettingsSeeder extends Seeder
 
             'socials' => [
                 'facebook' => 'https://facebook.com/innovacm',
-                'twitter' => 'https://twitter.com/innovacm',
+                'x' => 'https://twitter.com/innovacm',
                 'linkedin' => 'https://linkedin.com/company/innovacm',
                 'instagram' => 'https://instagram.com/innovacm',
                 'github' => 'https://github.com/innovacm',

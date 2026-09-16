@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @push('schema')
-    <x-seo.people :people="$departments->flatten()" />
+    <x-seo.people :people="$team" />
 @endpush
 
 @php
@@ -114,7 +114,7 @@
         </section>
     @endif
 
-    @if ($departments->isNotEmpty())
+    @if ($team->isNotEmpty())
         <section id="team" class="scroll-mt-24 bg-paper py-(--spacing-band)">
             <div class="mx-auto max-w-6xl px-4 sm:px-6">
                 <x-ui.section-header
@@ -123,49 +123,45 @@
                     lead="{{ __('Values and people carry the same weight here as the products do.') }}"
                 />
 
-                <div class="mt-16 space-y-16">
-                    @foreach ($departments as $department => $members)
-                        <div>
-                            <h3 class="text-eyebrow font-semibold uppercase text-muted">{{ $department }}</h3>
+                {{-- One flat grid. Departments were splitting three people into
+                     three headed groups, which read as an org chart rather than
+                     a team. --}}
+                <ul class="mt-16 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+                    @foreach ($team as $index => $member)
+                        <x-ui.reveal :as="'li'" :delay="$index * 80" from="scale" class="group text-center">
+                            <div class="relative mx-auto aspect-square w-40 overflow-hidden rounded-full bg-paper-dim">
+                                @if ($photo = $member->getFirstMediaUrl('photo', 'thumb'))
+                                    <img src="{{ $photo }}" alt="{{ $member->name }}" width="160" height="160" loading="lazy" decoding="async"
+                                         class="h-full w-full object-cover transition-transform duration-700 ease-[var(--ease-brand)] group-hover:scale-105">
+                                @endif
 
-                            <div class="mt-8 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-                                @foreach ($members as $index => $member)
-                                    <x-ui.reveal :delay="$index * 80" from="scale" class="group text-center">
-                                        <div class="relative mx-auto aspect-square w-36 overflow-hidden rounded-full bg-paper-dim">
-                                            @if ($photo = $member->getFirstMediaUrl('photo', 'thumb'))
-                                                <img src="{{ $photo }}" alt="{{ $member->name }}" width="144" height="144" loading="lazy" decoding="async"
-                                                     class="h-full w-full object-cover transition-transform duration-700 ease-[var(--ease-brand)] group-hover:scale-105">
-                                            @endif
-
-                                            <span class="pointer-events-none absolute inset-0 rounded-full ring-0 ring-accent transition-all duration-300 ease-[var(--ease-brand)] group-hover:ring-4"
-                                                  aria-hidden="true"></span>
-                                        </div>
-
-                                        <h4 class="mt-6 font-display text-lg text-ink">{{ $member->name }}</h4>
-                                        <p class="mt-1 text-sm text-muted">{{ $member->role }}</p>
-
-                                        @if ($member->credentials)
-                                            <p class="mt-1 text-xs text-muted/80">{{ $member->credentials }}</p>
-                                        @endif
-
-                                        @php $socials = array_filter($member->socials ?? []); @endphp
-
-                                        @if ($socials !== [])
-                                            <div class="mt-3 flex justify-center gap-4">
-                                                @foreach ($socials as $network => $url)
-                                                    <a href="{{ $url }}" target="_blank" rel="noopener noreferrer"
-                                                       class="text-xs font-semibold uppercase tracking-wide text-primary hover:text-accent-text">
-                                                        <span class="sr-only">{{ $member->name }} on </span>{{ $network }}
-                                                    </a>
-                                                @endforeach
-                                            </div>
-                                        @endif
-                                    </x-ui.reveal>
-                                @endforeach
+                                <span class="pointer-events-none absolute inset-0 rounded-full ring-0 ring-accent transition-all duration-300 ease-[var(--ease-brand)] group-hover:ring-4"
+                                      aria-hidden="true"></span>
                             </div>
-                        </div>
+
+                            <h3 class="mt-6 font-display text-lg text-ink">{{ $member->name }}</h3>
+                            <p class="mt-1 text-sm text-muted">{{ $member->role }}</p>
+
+                            @if ($member->credentials)
+                                <p class="mt-1 text-xs text-muted/80">{{ $member->credentials }}</p>
+                            @endif
+
+                            @php $socials = array_filter($member->socials ?? []); @endphp
+
+                            @if ($socials !== [])
+                                <div class="mt-4 flex justify-center gap-2">
+                                    @foreach ($socials as $network => $url)
+                                        <a href="{{ $url }}" target="_blank" rel="noopener noreferrer"
+                                           class="flex h-8 w-8 items-center justify-center rounded-full border border-ink/15 transition-all duration-300 ease-[var(--ease-brand)] hover:-translate-y-0.5 hover:border-accent hover:bg-accent">
+                                            <x-brand.social-icon :network="$network" class="h-3.5 w-3.5 text-muted transition-colors duration-300 hover:text-white" />
+                                            <span class="sr-only">{{ $member->name }}{{ __(' on ') }}{{ $network }}</span>
+                                        </a>
+                                    @endforeach
+                                </div>
+                            @endif
+                        </x-ui.reveal>
                     @endforeach
-                </div>
+                </ul>
             </div>
         </section>
     @endif

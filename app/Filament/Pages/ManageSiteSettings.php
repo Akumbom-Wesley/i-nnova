@@ -125,13 +125,14 @@ class ManageSiteSettings extends Page implements HasSchemas
                     ->columns(2),
 
                 Section::make('Social links')
+                    ->description('These are the icons in the footer. Leave one empty and its icon simply does not appear.')
                     ->schema([
-                        TextInput::make('socials.linkedin')->label('LinkedIn')->url(),
-                        TextInput::make('socials.facebook')->label('Facebook')->url(),
-                        TextInput::make('socials.instagram')->label('Instagram')->url(),
-                        TextInput::make('socials.x')->label('X')->url(),
-                        TextInput::make('socials.youtube')->label('YouTube')->url(),
-                        TextInput::make('socials.github')->label('GitHub')->url(),
+                        TextInput::make('socials.facebook')->label('Facebook')->url()->maxLength(255),
+                        TextInput::make('socials.x')->label('X')->url()->maxLength(255),
+                        TextInput::make('socials.linkedin')->label('LinkedIn')->url()->maxLength(255),
+                        TextInput::make('socials.instagram')->label('Instagram')->url()->maxLength(255),
+                        TextInput::make('socials.github')->label('GitHub')->url()->maxLength(255),
+                        TextInput::make('socials.youtube')->label('YouTube')->url()->maxLength(255),
                     ])
                     ->columns(2),
 
