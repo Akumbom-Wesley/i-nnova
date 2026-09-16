@@ -8,8 +8,8 @@ Working plan and sprint checklist. Tick items as they land. One branch per sprin
 
 | Decision | Choice |
 |---|---|
-| Stack | Laravel 12 + Blade + Tailwind + Alpine.js |
-| Admin / CMS | Filament v4 (self-hosted, no custom CMS build) |
+| Stack | Laravel 13 + Blade + Tailwind 4 + Alpine.js |
+| Admin / CMS | Filament v5 (self-hosted, no custom CMS build) |
 | Rendering | Server-rendered HTML — no SPA |
 | Direction | Institutional / editorial (veridyl-style restraint) |
 | Languages | Bilingual EN / FR |
@@ -56,21 +56,29 @@ Values and people carry equal weight with products. Three CMS-driven sections do
 
 ---
 
-## Sprint 0 — Foundation & tooling
+## Sprint 0 — Foundation & tooling ✅
 
-- [ ] Decide final project location (**move out of OneDrive** — `vendor/` and `node_modules/` cause sync conflicts and file locks)
-- [ ] Enable `extension=intl` in `C:\tools\php85\php.ini` (line 927) — required by Filament
-- [ ] Enable `extension=pdo_mysql` (line 934) if using MySQL; otherwise SQLite for dev
-- [ ] `git init`, `.gitignore`, initial commit on `main`
-- [ ] Install Laravel 12
-- [ ] Install Tailwind + Alpine.js, wire Vite
-- [ ] Install Filament v4, create admin user, brand the panel
-- [ ] Install Spatie Media Library (image conversions, WebP, responsive srcsets)
-- [ ] Install Spatie Translatable (EN/FR per-field)
-- [ ] Install spatie/laravel-sitemap
-- [ ] Encode design tokens in `tailwind.config`, load fonts
-- [ ] Base layout: header, nav, footer, language switcher shell
+- [x] Decide final project location — moved out of OneDrive to `C:\dev\innova-website`
+- [x] Enable `extension=intl` in `C:\tools\php85\php.ini` — required by Filament
+- [x] Enable `extension=pdo_mysql` for production MySQL
+- [x] Enable `extension=exif` — required by Spatie Media Library
+- [x] `git init`, `.gitignore`, initial commit on `main`
+- [x] Remote added and pushed — `github.com/Akumbom-Wesley/i-nnova`
+- [x] Install Laravel **13.32.0** (not 12 — 13 is current stable)
+- [x] Tailwind 4 + Vite 8 (ship with Laravel 13) + Alpine.js installed and wired
+- [x] Install Filament **v5.8** — panel scaffolded at `/admin`
+- [x] Admin user created
+- [x] Spatie Media Library 11.23 + `media` table migrated
+- [x] Spatie Translatable 6.14
+- [x] spatie/laravel-sitemap 8.2
+- [x] Design tokens in `resources/css/app.css` (`@theme`), fonts self-hosted via Bunny
+- [x] Base layout — header, nav, mobile nav, footer, language switcher shell
+- [x] Verified: `/` and `/admin/login` both return HTTP 200
+- [ ] Brand the Filament panel (logo, colours)
 - [ ] Choose hosting target and PHP version parity
+
+**Local dev credentials** — `admin@i-nnovacmr.com` / `innova-dev-2026`.
+Dev only. Must be changed before anything is deployed.
 
 ## Sprint 1 — Content model & admin
 

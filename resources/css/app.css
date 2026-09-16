@@ -1,0 +1,32 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../views/**/*.blade.php';
+
+@theme {
+    /* Brand — derived from the I-NNOVA logo (blue → orange) */
+    --color-ink: #0A1A2F;
+    --color-ink-soft: #14263D;
+    --color-ink-line: #1F3550;
+
+    --color-bone: #F7F5F2;
+    --color-bone-dim: #EDEAE4;
+
+    --color-primary: #0B5FB0;
+    --color-primary-dark: #084A8C;
+    --color-primary-soft: #E6F0FA;
+
+    /* Accent is rationed — CTAs and active states only, never decoration */
+    --color-accent: #F26A1B;
+    --color-accent-dark: #D4550E;
+
+    --color-muted: #5B6B7F;
+
+    --font-display: 'Instrument Serif', ui-serif, Georgia, serif;
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+[x-cloak] {
+    display: none !important;
+}
