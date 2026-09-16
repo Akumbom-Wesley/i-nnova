@@ -5,7 +5,7 @@
     where the motif animates at full contrast rather than as a wash.
 --}}
 <section class="relative overflow-hidden bg-ink py-(--spacing-band-lg) text-white">
-    <x-tech.circuit class="pointer-events-none absolute -left-24 top-1/2 w-[38rem] -translate-y-1/2 text-white/[0.09]" />
+    <x-tech.code class="pointer-events-none absolute -left-20 top-1/2 w-[30rem] -translate-y-1/2 text-white/[0.09]" />
 
     <div class="relative mx-auto max-w-6xl px-4 sm:px-6">
         <div class="grid gap-16 lg:grid-cols-2 lg:items-center">

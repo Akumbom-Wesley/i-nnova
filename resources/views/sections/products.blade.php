@@ -1,7 +1,9 @@
 @props(['products', 'comingSoon'])
 
-<section class="border-y border-ink/10 bg-paper-dim py-(--spacing-band)">
-    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+<section class="relative overflow-hidden border-y border-ink/10 bg-paper-dim py-(--spacing-band)">
+    <x-tech.grid class="pointer-events-none absolute inset-x-0 top-0 h-60 w-full text-primary/[0.10]" />
+
+    <div class="relative mx-auto max-w-6xl px-4 sm:px-6">
         <x-ui.section-header
             eyebrow="Our solutions"
             title="Software that runs the working day"

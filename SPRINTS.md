@@ -162,7 +162,7 @@ Everything below editable in Filament with zero code changes.
 ## Sprint 2: Design system & homepage
 
 - [x] Typography scale and spacing rhythm
-- [x] Component library: buttons, cards, section headers, stat blocks, quote blocks
+- [x] Component library: buttons, badges, cards, section headers, stat blocks, quote blocks, feature lists, score rings, logo walls
 - [x] Hero
 - [x] Live products section
 - [x] Deployments / proof section
@@ -185,6 +185,10 @@ complete without motion. STEM is the positioning, but the motion vocabulary is
 the one the work actually lives in: board traces that draw themselves, packets
 running down those traces, solder pads waking up, a processor die lighting as
 it works, a signal readout and a terminal cursor. No laboratory imagery.
+Each band gets the drawing that belongs to it rather than one motif repeated:
+a board in the hero, a dot mesh with a sweeping scan behind the products, a
+terminal typing itself out in the STEM band, a node graph on the Kickstarter
+teaser and a signal trace closing the page.
 
 **Corrected from the roll-up artwork.** PAXHI and SAHIK are client institutions,
 not products, and are now case studies carrying their real crests. The product

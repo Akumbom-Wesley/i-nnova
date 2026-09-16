@@ -9,15 +9,7 @@
     'badgeTone' => 'accent',
 ])
 
-@php
-    $tag = $href ? 'a' : 'div';
-
-    $badgeTones = [
-        'accent' => 'bg-accent-soft text-accent-text',
-        'primary' => 'bg-primary-soft text-primary',
-        'muted' => 'bg-paper-dim text-muted',
-    ];
-@endphp
+@php $tag = $href ? 'a' : 'div'; @endphp
 
 <{{ $tag }}
     @if ($href) href="{{ $href }}" @endif
@@ -38,9 +30,7 @@
                 @endif
 
                 @if ($badge)
-                    <span class="rounded-full px-3 py-1 text-xs font-semibold {{ $badgeTones[$badgeTone] ?? $badgeTones['accent'] }}">
-                        {{ $badge }}
-                    </span>
+                    <x-ui.badge :tone="$badgeTone">{{ $badge }}</x-ui.badge>
                 @endif
             </div>
         @endif
