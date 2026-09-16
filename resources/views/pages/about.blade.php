@@ -140,6 +140,8 @@
 
     @include('sections.timeline', ['milestones' => $milestones])
 
+    @include('sections.partners', ['partners' => $partners])
+
     @include('sections.gallery', [
         'images' => $photos,
         'eyebrow' => __('Inside I-NNOVA'),

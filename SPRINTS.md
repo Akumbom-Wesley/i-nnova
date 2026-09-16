@@ -18,7 +18,7 @@ Working plan and sprint checklist. Tick items as they land. One branch per sprin
 | Tagline | **"Build Your Creativity"**, confirmed |
 | Positioning | Institutional & education software, led by real deployments (PAXHI, SAHIK) |
 | Kickstarter | Main site sells, hands off to `innovakickstarter.com` |
-| Partner logos | **Removed**, not real relationships |
+| Partner logos | Section exists and is CMS driven, but **nothing renders until a partnership is marked confirmed**. The old site published logos for relationships that did not exist. |
 
 ### Narrative spine
 
@@ -66,6 +66,17 @@ Do not crop · do not change transparency · do not invert · do not change colo
 
 Variants: main horizontal lockup (posters, flyers, socials), stand-alone mark (merch),
 cubed logo (documents, files).
+
+### Partner pairings, from brand guide Section 4
+
+Two arrangements only: the partner logo set beside ours, or stacked under it,
+divided by a rule. The guide is explicit that the stand-alone mark is never
+paired with a partner: a pairing always uses the logo carrying the trademark
+name. A test asserts exactly that, so the rule cannot be broken quietly.
+
+The partner row itself follows the reference arrangement: a heading, a single
+row of logos on a dark ground held to one tone, generous space between them,
+and no captions competing with the marks. Colour returns on hover.
 
 ### Brand voice, from brand guide Section 2
 

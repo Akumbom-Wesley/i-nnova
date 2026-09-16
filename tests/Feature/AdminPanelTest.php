@@ -32,6 +32,7 @@ class AdminPanelTest extends TestCase
             'alumni outcomes' => ['alumni-outcomes'],
             'stats' => ['stats'],
             'clients' => ['clients'],
+            'partners' => ['partners'],
             'sectors' => ['sectors'],
             'leads' => ['leads'],
         ];

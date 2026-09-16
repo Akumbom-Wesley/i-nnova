@@ -7,6 +7,7 @@ use App\Models\CaseStudy;
 use App\Models\Client;
 use App\Models\CompanyValue;
 use App\Models\GalleryImage;
+use App\Models\Partner;
 use App\Models\KickstarterTrack;
 use App\Models\Product;
 use App\Models\SiteSetting;
@@ -33,6 +34,8 @@ class HomeController extends Controller
             'clients' => Client::query()->verified()->ordered()->get(),
             'photos' => GalleryImage::query()->placedOn(GalleryPlacement::Home)->ordered()->get(),
             'slides' => GalleryImage::query()->placedOn(GalleryPlacement::Hero)->ordered()->get(),
+            // Verified only. An unconfirmed partnership must never reach a page.
+            'partners' => Partner::query()->verified()->ordered()->get(),
         ]);
     }
 }

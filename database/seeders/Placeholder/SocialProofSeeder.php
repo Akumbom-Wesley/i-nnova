@@ -2,7 +2,9 @@
 
 namespace Database\Seeders\Placeholder;
 
+use App\Enums\PartnerLockup;
 use App\Models\Client;
+use App\Models\Partner;
 use App\Models\Product;
 use App\Models\Testimonial;
 use Database\Seeders\Concerns\AttachesPlaceholderImages;
@@ -19,6 +21,7 @@ class SocialProofSeeder extends Seeder
     {
         $this->testimonials();
         $this->clients();
+        $this->partners();
     }
 
     private function testimonials(): void
@@ -61,6 +64,41 @@ class SocialProofSeeder extends Seeder
             );
 
             $this->attachImage($client, 'logo', $name, 800, 400, 'paper');
+        }
+    }
+
+    /**
+     * Partner organisations.
+     *
+     * Seeded unconfirmed on purpose, so the admin has rows to look at and the
+     * arrangement can be tried, while nothing reaches a page. The previous
+     * site published partner logos for relationships that did not exist, and
+     * the locked decision was to remove them. These become visible only when
+     * somebody ticks "confirmed partnership" on a real one.
+     */
+    private function partners(): void
+    {
+        $rows = [
+            ['Unconfirmed Partner A', 'Education partner', false, PartnerLockup::Horizontal],
+            ['Unconfirmed Partner B', 'Technology partner', false, PartnerLockup::Horizontal],
+            ['Unconfirmed Partner C', 'Training partner', false, PartnerLockup::Horizontal],
+            ['Unconfirmed Partner D', 'Community partner', true, PartnerLockup::Horizontal],
+            ['Unconfirmed Partner E', 'Institutional partner', true, PartnerLockup::Vertical],
+        ];
+
+        foreach ($rows as $order => [$name, $relationship, $featured, $lockup]) {
+            $partner = Partner::updateOrCreate(
+                ['name' => $name],
+                [
+                    'relationship' => ['en' => $relationship, 'fr' => $relationship],
+                    'lockup' => $lockup,
+                    'is_featured' => $featured,
+                    'is_verified' => false,
+                    'sort_order' => $order,
+                ],
+            );
+
+            $this->attachImage($partner, 'logo', $name, 480, 240, 'paper');
         }
     }
 }
