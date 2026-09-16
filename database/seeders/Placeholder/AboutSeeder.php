@@ -25,24 +25,31 @@ class AboutSeeder extends Seeder
     {
         $rows = [
             [
-                'title' => ['en' => 'Collaborative', 'fr' => 'Collaboratif'],
+                'title' => ['en' => 'Innovative Solutions', 'fr' => 'Solutions Innovantes'],
                 'body' => [
-                    'en' => '<p>Open, team driven and inclusive. We encourage shared thinking and open dialogue.</p>',
-                    'fr' => '<p>Ouvert, porte par l equipe et inclusif. Nous encourageons la reflexion partagee.</p>',
+                    'en' => '<p>We build smart solutions that solve real world problems rather than demonstrate technology.</p>',
+                    'fr' => '<p>Nous creons des solutions intelligentes qui resolvent de vrais problemes.</p>',
                 ],
             ],
             [
-                'title' => ['en' => 'Structured', 'fr' => 'Structure'],
+                'title' => ['en' => 'Community Impact', 'fr' => 'Impact Communautaire'],
                 'body' => [
-                    'en' => '<p>Organised and proactive. Clear, concise and intentional in how we work.</p>',
-                    'fr' => '<p>Organise et proactif. Clair, concis et intentionnel dans notre travail.</p>',
+                    'en' => '<p>Transforming communities, empowering innovators. The work is measured by what it changes locally.</p>',
+                    'fr' => '<p>Transformer les communautes, autonomiser les innovateurs.</p>',
                 ],
             ],
             [
-                'title' => ['en' => 'Accountable', 'fr' => 'Responsable'],
+                'title' => ['en' => 'Tech Excellence', 'fr' => 'Excellence Technique'],
                 'body' => [
-                    'en' => '<p>Driven and accountable. Confident, but grounded in what we have actually shipped.</p>',
-                    'fr' => '<p>Engage et responsable. Confiant, mais ancre dans ce que nous avons livre.</p>',
+                    'en' => '<p>Driven by STEM. Industry standard tools and workflows, applied with discipline.</p>',
+                    'fr' => '<p>Portes par les STEM. Outils et methodes standards, appliques avec rigueur.</p>',
+                ],
+            ],
+            [
+                'title' => ['en' => 'Empowering Innovators', 'fr' => 'Autonomiser les Innovateurs'],
+                'body' => [
+                    'en' => '<p>We do not just build software. We build the builders.</p>',
+                    'fr' => '<p>Nous ne construisons pas que des logiciels. Nous formons ceux qui les construisent.</p>',
                 ],
             ],
         ];
