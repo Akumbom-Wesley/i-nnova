@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'I-NNOVA — Software for institutions, built in Bamenda')
-@section('description', 'I-NNOVA builds and operates software for universities, schools, hotels and retail businesses in Cameroon — and trains the engineers who build it.')
+@section('title', 'I-NNOVA | Software for institutions, built in Bamenda')
+@section('description', 'I-NNOVA builds and operates software for universities, schools, hotels and retail businesses in Cameroon, and trains the engineers who build it.')
 
 @section('content')
     {{-- Sprint 2 replaces this with the real hero, products, proof, values and team sections. --}}
@@ -13,7 +13,7 @@
         </h1>
 
         <p class="mt-8 max-w-xl text-lg leading-relaxed text-muted">
-            We design, build and run the systems universities, schools and businesses depend on every day —
+            We design, build and run the systems universities, schools and businesses depend on every day,
             and we train the engineers who build them.
         </p>
 
@@ -32,7 +32,7 @@
     <section class="border-y border-ink/10 bg-paper-dim">
         <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
             <p class="font-display text-3xl leading-snug sm:text-4xl">
-                We don't just build software — we build the builders.
+                We don’t just build software. We build the builders.
             </p>
         </div>
     </section>

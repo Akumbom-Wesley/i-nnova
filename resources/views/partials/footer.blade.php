@@ -3,7 +3,7 @@
         <div class="md:col-span-2">
             <span class="font-display text-2xl text-paper">I-NNOVA</span>
             <p class="mt-3 max-w-sm text-sm leading-relaxed">
-                Software for institutions, built in Bamenda — and a programme building the people who write it.
+                Software for institutions, built in Bamenda, plus a programme building the people who write it.
             </p>
             <p class="mt-6 font-display text-xl text-accent">Build Your Creativity</p>
         </div>

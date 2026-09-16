@@ -39,7 +39,7 @@ class AdminPanelProvider extends PanelProvider
             ->darkMode(false)
             ->colors([
                 // Brand blue. Semantic colours (danger, success, warning, info)
-                // keep Filament's defaults — they signal state, not brand.
+                // keep Filament’s defaults, since they signal state, not brand.
                 'primary' => Color::hex('#1157B6'),
                 'gray' => Color::Slate,
             ])

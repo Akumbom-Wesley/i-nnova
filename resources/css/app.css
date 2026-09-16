@@ -6,28 +6,28 @@
 
 @theme {
     /* ---------------------------------------------------------------
-       Brand palette — BLUE + ORANGE on WHITE.
+       Brand palette: BLUE + ORANGE on WHITE.
 
        Sampled from the logo artwork itself (public/images/logo-mark.png):
        dominant blue #1157B6, orange range #FB5613 → #F89317.
 
        The brand guide's red (#EA2A34) and black grounds are deliberately
-       NOT used on the website — client direction. The guide's blue
+       NOT used on the website, by client direction. The guide's blue
        (#39419A) is likewise superseded by the logo's own blue, so the
        UI matches the mark it sits next to.
        --------------------------------------------------------------- */
 
-    /* Blue — primary. 6.86:1 against white, both directions. */
+    /* Blue, the primary. 6.86:1 against white, both directions. */
     --color-primary: #1157B6;
     --color-primary-dark: #0E4A9C;
     --color-primary-soft: #EAF1FA;
 
-    /* Orange — accent. Rationed: CTAs, active states, rules. Never a field. */
+    /* Orange, the accent. Rationed: CTAs, active states, rules. Never a field. */
     --color-accent: #E85D0C;
     --color-accent-dark: #C74F0C;  /* hover; 4.61:1 with white text */
     --color-accent-text: #B8460A;  /* orange AS text on white; 5.36:1 */
 
-    /* Deep navy rather than black — reads as part of the blue family. */
+    /* Deep navy rather than black, so it reads as part of the blue family. */
     --color-ink: #0A1A33;
     --color-ink-soft: #14264A;
     --color-ink-line: #23375E;
@@ -38,10 +38,10 @@
     --color-muted: #5B6B85;
 
     /* ---------------------------------------------------------------
-       Typography — the guide specifies Kinektic Bold (primary),
+       Typography: the guide specifies Kinektic Bold (primary),
        Larsseit (secondary) and Arial (support). Both are commercial;
-       we ship free, visually-close, self-hosted equivalents instead —
-       a settled decision, not a placeholder. Arial stays as the
+       we ship free, visually-close, self-hosted equivalents instead.
+       That is a settled decision, not a placeholder. Arial stays as the
        guide's support font in the fallback stack.
        --------------------------------------------------------------- */
 
