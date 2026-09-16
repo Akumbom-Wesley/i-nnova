@@ -31,46 +31,35 @@ Values and people carry equal weight with products. Three CMS-driven sections do
 
 ## Design system
 
-Source of truth: **`brand-guide.pdf`** (in the parent `I-NNOVA` folder). Not derived, not invented.
+Source of truth: **`docs/brand-guide.pdf`**, except on colour, where client direction overrides it (see below).
 
-### Core colours — brand guide, Section 3
+### Core colours — blue + orange on white
 
-| Token | Hex | Guide role | Use on site |
+Client direction **overrides the brand guide here**: the guide's red `#EA2A34` and black grounds
+are not used on the website. Values are sampled from the logo artwork itself
+(`public/images/logo-mark.png`), so the UI matches the mark it sits beside.
+
+| Token | Hex | Use | Contrast |
 |---|---|---|---|
-| `accent` | `#EA2A34` | Primary red | CTAs, active states — rationed, never decoration |
-| `primary` | `#39419A` | Primary blue | Institutional ground, links, headings |
-| `paper` | `#FFFFFF` | White | Light ground |
-| `ink` | `#000000` | Black | Dark ground |
+| `primary` | `#1157B6` | Blue — institutional ground, links, headings | 6.86:1 both ways ✅ |
+| `accent` | `#E85D0C` | Orange — CTAs, active states, rules. Rationed, never a field | 3.50:1 w/ white |
+| `accent-dark` | `#C74F0C` | Hover state | 4.61:1 w/ white ✅ |
+| `accent-text` | `#B8460A` | Orange *as text* on white | 5.36:1 ✅ |
+| `ink` | `#0A1A33` | Deep navy, not black — stays in the blue family | 17.38:1 ✅ |
+| `paper` | `#FFFFFF` | Light ground | — |
 
-Shades (`-dark`, `-soft`, `-dim`, `ink-line`) are secondary colours derived from the four
-primaries, which the guide explicitly permits.
-
-### Typography — decided
-
-The guide specifies **Kinektic Bold** (primary), **Larsseit** (secondary) and **Arial** (support).
-Kinektic and Larsseit are commercial and we hold no web licence. **Decision: ship free stand-ins
-permanently** — no licence cost, no renewal, self-hosted, visually close.
-
-| Role | Font | Guide equivalent |
-|---|---|---|
-| Display | **Archivo** (600, 700) | Kinektic Bold |
-| Body | **Figtree** (400–700) | Larsseit |
-| Fallback | Arial | Arial (guide's support font) |
-
-Self-hosted via Bunny, `@font-face` inlined and woff2 preloaded — zero external font requests,
-which matters for buyers on Cameroonian mobile data.
+**One accessibility note:** white text on `accent` is 3.50:1 — clears AA for UI components and
+large text, but not for body copy. Orange CTA labels are therefore set at 16px semibold minimum.
+Anywhere orange needs to carry small text, use `accent-dark` or `accent-text` instead.
 
 ### Visual direction — decided
 
-**Institutional restraint, painted in brand colours.** veridyl-style whitespace and calm, using the
-guide's real palette — not the guide's bold red/black mockup treatment.
+**Institutional restraint, in blue and orange.** veridyl-style whitespace and calm hierarchy.
 
-- White fields, generous margins, quiet hierarchy
-- Blue `#39419A` as the institutional ground and band colour
-- Red `#EA2A34` rationed to CTAs and active states — roughly 5% of any screen, never decoration
-- Black `#000000` for type and dark grounds
-
-The guide's bold register stays available for social and print, where it belongs.
+- White fields, generous margins
+- Blue `#1157B6` as the institutional ground and band colour
+- Orange `#E85D0C` rationed to CTAs and active states — roughly 5% of any screen
+- Deep navy `#0A1A33` for type and dark grounds; no pure black, no red
 
 ### Logo rules — brand guide, Section 3
 
@@ -90,9 +79,9 @@ This is the raw material for the Values section — it does not need inventing.
 
 ### Still outstanding
 
-**Official logo files.** The PNGs in `public/images` are a blue→orange gradient mark that
-contradicts the guide's monochrome mark and its own "do not change the colors" rule. They are
-placeholders until official SVG / high-resolution assets arrive.
+**Official logo files.** The supplied PNGs are blue/orange, so they now sit consistently with the
+site palette. They are still low-resolution raster and do not match the guide's monochrome
+variants. Official SVG / high-resolution assets are wanted before launch.
 
 ## Site structure
 

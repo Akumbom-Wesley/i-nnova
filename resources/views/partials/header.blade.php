@@ -24,7 +24,7 @@
                 <span class="rounded px-1.5 py-0.5 transition-colors hover:text-ink">FR</span>
             </div>
             <a href="{{ url('/contact') }}"
-               class="rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-dark">
+               class="rounded-full bg-accent px-5 py-2.5 text-base font-semibold text-white transition-colors hover:bg-accent-dark">
                 Contact
             </a>
         </div>

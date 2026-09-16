@@ -19,11 +19,11 @@
 
         <div class="mt-10 flex flex-wrap items-center gap-4">
             <a href="{{ url('/work') }}"
-               class="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-dark">
+               class="rounded-full bg-accent px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-accent-dark">
                 See our work
             </a>
             <a href="{{ url('/products') }}"
-               class="rounded-full border border-ink/20 px-6 py-3 text-sm font-semibold transition-colors hover:border-ink/40">
+               class="rounded-full border border-ink/20 px-6 py-3 text-base font-semibold transition-colors hover:border-ink/40">
                 Explore products
             </a>
         </div>
