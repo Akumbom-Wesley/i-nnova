@@ -9,7 +9,7 @@ Alpine.start();
  *
  * Elements marked [data-reveal] start displaced in CSS and get
  * [data-revealed] once they enter the viewport, which is also what
- * triggers the STEM traces and the drawn rules nested inside them.
+ * triggers the board traces and the drawn rules nested inside them.
  *
  * If the reader prefers reduced motion, or the browser has no
  * IntersectionObserver, everything is revealed immediately. The CSS

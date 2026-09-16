@@ -111,9 +111,9 @@ class HomePageTest extends TestCase
         // The reveal hooks the IntersectionObserver binds to.
         $this->assertStringContainsString('data-reveal', $html);
 
-        // The STEM motif animation classes.
-        $this->assertStringContainsString('stem-orbit', $html);
-        $this->assertStringContainsString('stem-trace', $html);
+        // The tech motif animation classes.
+        $this->assertStringContainsString('circuit-packet', $html);
+        $this->assertStringContainsString('circuit-trace', $html);
 
         // Content is present in the markup, not injected by the animation,
         // so a reader with motion disabled loses nothing.

@@ -170,88 +170,83 @@
 }
 
 /* -------------------------------------------------------------------
-   STEM motion vocabulary
+   Tech motion vocabulary
    -------------------------------------------------------------------
-   STEM is core positioning, so the motifs come straight out of the
-   "Driven by STEM" artwork rather than being invented: circuit traces
-   that draw themselves, an orbiting atom, a turning gear, rising
-   bubbles in a flask, and the speed streaks under the wordmark.
+   I-NNOVA is a software company. STEM is the positioning, but the
+   visual language is the one the work actually lives in: boards,
+   traces, packets moving down a wire, signal and a terminal cursor.
+   No laboratory glassware, no orbiting atoms, no gears.
    ------------------------------------------------------------------- */
 
 @layer components {
-    /* Technology: a trace that draws from its origin. */
-    .stem-trace {
+    /* A trace that draws itself from its origin as the section reveals. */
+    .circuit-trace {
         stroke-dasharray: var(--trace-length, 260);
         stroke-dashoffset: var(--trace-length, 260);
         transition: stroke-dashoffset 1.6s var(--ease-brand);
         transition-delay: var(--reveal-delay, 0ms);
     }
 
-    [data-revealed] .stem-trace {
+    [data-revealed] .circuit-trace {
         stroke-dashoffset: 0;
     }
 
-    /* Science: the atom's electrons. */
-    .stem-orbit {
-        transform-box: fill-box;
-        transform-origin: center;
-        animation: stem-orbit 14s linear infinite;
+    /* A packet running down a trace. A short dash chasing the path, which
+       is what makes a static board read as a system doing something. */
+    .circuit-packet {
+        stroke-dasharray: 16 var(--path-length, 400);
+        stroke-dashoffset: calc(var(--path-length, 400) + 16);
+        animation: circuit-packet var(--packet-duration, 4s) linear infinite;
+        animation-delay: var(--packet-delay, 0s);
     }
 
-    .stem-orbit--reverse {
-        animation-direction: reverse;
-        animation-duration: 19s;
-    }
-
-    /* Engineering: the gear. Slow enough to read as machinery. */
-    .stem-gear {
-        transform-box: fill-box;
-        transform-origin: center;
-        animation: stem-gear 26s linear infinite;
-    }
-
-    /* Science: bubbles rising in the flask. */
-    .stem-bubble {
-        animation: stem-bubble 3.2s var(--ease-brand) infinite;
-        animation-delay: var(--bubble-delay, 0s);
-    }
-
-    /* Maths: a node that pulses on the network. */
-    .stem-node {
-        animation: stem-pulse 3.6s var(--ease-brand) infinite;
+    /* Solder pads waking up. */
+    .circuit-node {
+        animation: circuit-node 3.6s var(--ease-brand) infinite;
         animation-delay: var(--node-delay, 0s);
     }
 
-    /* The speed streaks that sit under the STEM wordmark. */
-    .stem-streak {
-        animation: stem-streak 2.8s var(--ease-brand) infinite;
-        animation-delay: var(--streak-delay, 0s);
+    /* Signal bars, the kind on any monitoring panel. */
+    .circuit-bar {
+        transform-box: fill-box;
+        transform-origin: bottom;
+        animation: circuit-bar 2.4s var(--ease-brand) infinite;
+        animation-delay: var(--bar-delay, 0s);
+    }
+
+    /* A blinking terminal cursor. */
+    .circuit-cursor {
+        animation: circuit-cursor 1.1s steps(1, end) infinite;
+    }
+
+    /* The processor edge lighting as it does work. */
+    .circuit-core {
+        animation: circuit-core 3.4s var(--ease-brand) infinite;
     }
 }
 
-@keyframes stem-orbit {
-    to { transform: rotate(360deg); }
+@keyframes circuit-packet {
+    to { stroke-dashoffset: 0; }
 }
 
-@keyframes stem-gear {
-    to { transform: rotate(360deg); }
+@keyframes circuit-node {
+    0%, 100% { opacity: 0.3; }
+    50%      { opacity: 1; }
 }
 
-@keyframes stem-bubble {
-    0%        { transform: translateY(0); opacity: 0; }
-    25%       { opacity: 1; }
-    100%      { transform: translateY(-14px); opacity: 0; }
+@keyframes circuit-bar {
+    0%, 100% { transform: scaleY(0.35); }
+    50%      { transform: scaleY(1); }
 }
 
-@keyframes stem-pulse {
-    0%, 100%  { opacity: 0.35; r: 3; }
-    50%       { opacity: 1; r: 4.5; }
+@keyframes circuit-cursor {
+    0%, 49%   { opacity: 1; }
+    50%, 100% { opacity: 0; }
 }
 
-@keyframes stem-streak {
-    0%        { transform: translateX(-6px); opacity: 0.25; }
-    50%       { transform: translateX(6px); opacity: 1; }
-    100%      { transform: translateX(-6px); opacity: 0.25; }
+@keyframes circuit-core {
+    0%, 100% { opacity: 0.45; }
+    50%      { opacity: 1; }
 }
 
 /* -------------------------------------------------------------------
@@ -268,15 +263,22 @@
     .rule-draw { transform: scaleX(1); transition: none; }
     .card-lift:hover { transform: none; }
     .link-underline { background-size: 100% 2px; transition: none; }
-    .stem-trace { stroke-dashoffset: 0; transition: none; }
+    .circuit-trace { stroke-dashoffset: 0; transition: none; }
 
-    .stem-orbit,
-    .stem-gear,
-    .stem-bubble,
-    .stem-node,
-    .stem-streak {
+    .circuit-packet {
+        stroke-dasharray: none;
+        stroke-dashoffset: 0;
+        opacity: 0.5;
         animation: none;
     }
 
-    .stem-bubble { opacity: 1; }
+    .circuit-node,
+    .circuit-bar,
+    .circuit-core {
+        opacity: 1;
+        animation: none;
+    }
+
+    .circuit-bar { transform: scaleY(1); }
+    .circuit-cursor { opacity: 1; animation: none; }
 }

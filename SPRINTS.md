@@ -179,11 +179,12 @@ and the band carries the four accelerator tracks.
 
 **The motion system.** Nothing animates until the reader scrolls to it, via one
 IntersectionObserver in `app.js` that sets `[data-revealed]`. That single hook
-also starts the drawn rules and the STEM traces nested inside. Every animation
+also starts the drawn rules and the board traces nested inside. Every animation
 collapses to its finished state under `prefers-reduced-motion`, so the page is
-complete without motion. The STEM motifs are drawn from the artwork's own
-vocabulary: circuit traces that draw themselves, an orbiting atom, a turning
-gear and rising flask bubbles.
+complete without motion. STEM is the positioning, but the motion vocabulary is
+the one the work actually lives in: board traces that draw themselves, packets
+running down those traces, solder pads waking up, a processor die lighting as
+it works, a signal readout and a terminal cursor. No laboratory imagery.
 
 **Corrected from the roll-up artwork.** PAXHI and SAHIK are client institutions,
 not products, and are now case studies carrying their real crests. The product

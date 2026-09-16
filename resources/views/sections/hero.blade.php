@@ -6,7 +6,7 @@
          aria-hidden="true"></div>
 
     {{-- The STEM motif, low contrast, as the ground the hero sits on. --}}
-    <x-stem.motif class="pointer-events-none absolute -right-16 top-10 hidden w-[34rem] text-primary/[0.13] lg:block" />
+    <x-tech.circuit class="pointer-events-none absolute -right-16 top-10 hidden w-[34rem] text-primary/[0.13] lg:block" />
 
     <div class="relative mx-auto max-w-6xl px-4 pt-(--spacing-band) pb-(--spacing-band-lg) sm:px-6">
         <x-ui.reveal from="none">

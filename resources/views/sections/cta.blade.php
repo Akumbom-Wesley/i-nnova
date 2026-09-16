@@ -4,7 +4,7 @@
     <div class="mx-auto max-w-6xl px-4 sm:px-6">
         <x-ui.reveal from="scale"
                      class="relative overflow-hidden rounded-3xl border border-ink/10 bg-ink px-8 py-16 text-center text-white sm:px-16">
-            <x-stem.motif class="pointer-events-none absolute -left-32 -top-20 w-[34rem] text-white/[0.07]" />
+            <x-tech.circuit class="pointer-events-none absolute -left-32 -top-20 w-[34rem] text-white/[0.07]" />
 
             <div class="relative mx-auto max-w-2xl">
                 <h2 class="font-display text-h1">

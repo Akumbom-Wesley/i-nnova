@@ -6,7 +6,7 @@
 
 {{--
     Scroll reveal wrapper. app.js adds [data-revealed] when this enters the
-    viewport, which also starts any drawn rules or STEM traces nested inside.
+    viewport, which also starts any drawn rules or board traces nested inside.
 
     Under prefers-reduced-motion the CSS renders the finished state, so nothing
     here is load bearing for legibility.

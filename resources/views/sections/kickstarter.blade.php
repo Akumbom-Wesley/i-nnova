@@ -1,7 +1,7 @@
 @props(['settings'])
 
 <section class="relative overflow-hidden bg-primary py-(--spacing-band) text-white">
-    <x-stem.motif class="pointer-events-none absolute -right-20 bottom-0 w-[30rem] text-white/[0.10]" />
+    <x-tech.circuit class="pointer-events-none absolute -right-20 bottom-0 w-[30rem] text-white/[0.10]" />
 
     <div class="relative mx-auto max-w-6xl px-4 sm:px-6">
         <div class="grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-center">
