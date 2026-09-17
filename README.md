@@ -69,7 +69,9 @@ word, a photograph or a phone number.
 ### Content models
 
 Each of these is a Filament resource under `/admin`, with drag to reorder
-where order matters and a per locale tab on every translatable field.
+where order matters and a per locale tab on every translatable field. Tables
+page, including while being reordered: Filament stops paginating during a
+reorder by default, which is the one time a long list really hurts.
 
 | Resource | What it drives |
 | --- | --- |
@@ -116,6 +118,19 @@ where a row appears: the home hero slideshow, the home strip, the About band,
 the Kickstarter gallery or the cluster beside the Kickstarter heading. A row
 can hold a YouTube or Vimeo link or an uploaded video file, and the gallery
 renders a player instead of an image.
+
+The Kickstarter gallery is in two places. The band on the Kickstarter page
+shows the rows marked **Featured**, three of them, and links on to
+`/{locale}/kickstarter/gallery`, which is everything: newest first, filterable
+by photograph or video, twenty four to a page. Featured is a toggle in the
+admin list rather than only on the record, because choosing three is a
+comparison between rows. Mark none and the first three in the editor's own
+order are used, so a fresh set of uploads still gives a band that looks right.
+
+Tiles on the gallery page carry no captions, deliberately: there can be
+hundreds of them. The caption shows in the lightbox instead. Photographs open
+with the arrow keys and Escape, and each one is a plain link to its own file
+underneath, so the grid still works with JavaScript off.
 
 ### Stats
 
@@ -216,10 +231,11 @@ php artisan test
 php artisan test tests/Feature/DarkModeTest.php
 ```
 
-230 tests. They cover more than the happy path: contrast ratios in both
+250 tests. They cover more than the happy path: contrast ratios in both
 themes, the query count per page (so an added record cannot quietly become an
 N+1), that placeholder contact details never reappear, that every anchor in
-the menu points at a section that exists, and that admin pages load for a user
+the menu points at a section that exists, that the palette in the dark mode
+test still matches the stylesheet, and that admin pages load for a user
 who can reach the panel.
 
 `phpunit.xml` raises `memory_limit` to 1G, because seeding runs image
