@@ -16,7 +16,7 @@
 
     <div class="rule-draw mt-3 h-0.5 w-10 bg-accent" aria-hidden="true"></div>
 
-    <p class="mt-4 text-sm font-semibold {{ $isDark ? 'text-white/85' : 'text-ink' }}">
+    <p class="mt-4 text-sm font-semibold {{ $isDark ? 'text-white/85' : 'text-content' }}">
         {{ $label }}
     </p>
 

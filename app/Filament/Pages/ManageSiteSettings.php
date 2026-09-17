@@ -9,6 +9,7 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Section;
@@ -123,6 +124,37 @@ class ManageSiteSettings extends Page implements HasSchemas
                         ], 'Address'),
                     ])
                     ->columns(2),
+
+                Section::make('Where to find us')
+                    ->description('Coordinates rather than a pasted embed, so the map, the directions link and the address all come from one place. Right click a spot in any maps app to copy its latitude and longitude.')
+                    ->schema([
+                        TextInput::make('map_latitude')
+                            ->label('Latitude')
+                            ->numeric()
+                            ->minValue(-90)
+                            ->maxValue(90)
+                            ->helperText('Between -90 and 90. Bamenda is about 5.96.'),
+
+                        TextInput::make('map_longitude')
+                            ->label('Longitude')
+                            ->numeric()
+                            ->minValue(-180)
+                            ->maxValue(180)
+                            ->helperText('Between -180 and 180. Bamenda is about 10.16.'),
+
+                        TextInput::make('map_zoom')
+                            ->label('Zoom')
+                            ->numeric()
+                            ->minValue(10)
+                            ->maxValue(19)
+                            ->default(15)
+                            ->helperText('15 shows the street. Lower shows the town, higher the building.'),
+
+                        Toggle::make('map_is_visible')
+                            ->label('Show the map on the About page')
+                            ->default(true),
+                    ])
+                    ->columns(3),
 
                 Section::make('Social links')
                     ->description('These are the icons in the footer. Leave one empty and its icon simply does not appear.')

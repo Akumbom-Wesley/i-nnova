@@ -266,7 +266,7 @@ class PhotographyTest extends TestCase
     public function test_the_kickstarter_header_carries_a_photo_cluster(): void
     {
         foreach (range(1, 3) as $number) {
-            $this->photo(GalleryPlacement::Kickstarter, [
+            $this->photo(GalleryPlacement::KickstarterFeature, [
                 'external_url' => "https://picsum.photos/seed/ks{$number}/1200/900",
                 'sort_order' => $number,
             ]);
@@ -281,11 +281,18 @@ class PhotographyTest extends TestCase
         $this->assertSame(1, substr_count($html, 'aspect-[16/10]'));
     }
 
-    public function test_the_cluster_photos_are_not_repeated_in_the_gallery_below(): void
+    public function test_the_cluster_and_the_gallery_show_different_photographs(): void
     {
+        // Separate placements, so neither takes from the other and the
+        // gallery no longer disappears when the cluster is full.
         foreach (range(1, 3) as $number) {
+            $this->photo(GalleryPlacement::KickstarterFeature, [
+                'external_url' => "https://picsum.photos/seed/feature{$number}/1200/900",
+                'sort_order' => $number,
+            ]);
+
             $this->photo(GalleryPlacement::Kickstarter, [
-                'external_url' => "https://picsum.photos/seed/ks{$number}/1200/900",
+                'external_url' => "https://picsum.photos/seed/gallery{$number}/1200/900",
                 'sort_order' => $number,
             ]);
         }
@@ -293,27 +300,47 @@ class PhotographyTest extends TestCase
         $html = $this->get('/en/kickstarter')->getContent();
 
         foreach (range(1, 3) as $number) {
-            $this->assertSame(
-                1,
-                substr_count($html, "seed/ks{$number}/"),
-                "Photograph {$number} appears more than once on the page.",
-            );
+            $this->assertSame(1, substr_count($html, "seed/feature{$number}/"));
+            $this->assertSame(1, substr_count($html, "seed/gallery{$number}/"));
         }
 
-        // With only three, the gallery below has nothing left and disappears.
-        $this->assertStringNotContainsString('What a cohort actually looks like', $html);
+        $this->assertStringContainsString('The programme in pictures and video', $html);
     }
 
-    public function test_the_gallery_returns_once_there_are_more_than_three(): void
+    public function test_the_gallery_shows_with_even_one_item(): void
     {
-        foreach (range(1, 5) as $number) {
-            $this->photo(GalleryPlacement::Kickstarter, [
-                'external_url' => "https://picsum.photos/seed/ks{$number}/1200/900",
-                'sort_order' => $number,
-            ]);
-        }
+        // It used to take what the cluster left over, so fewer than four
+        // meant no gallery at all. It is its own placement now.
+        $this->photo(GalleryPlacement::Kickstarter, [
+            'external_url' => 'https://picsum.photos/seed/only-one/1200/900',
+        ]);
 
-        $this->get('/en/kickstarter')->assertSee('What a cohort actually looks like');
+        $this->get('/en/kickstarter')
+            ->assertSee('The programme in pictures and video')
+            ->assertSee('only-one', false);
+    }
+
+    public function test_the_gallery_plays_a_linked_video(): void
+    {
+        $this->photo(GalleryPlacement::Kickstarter, [
+            'external_url' => null,
+            'video_url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+        ]);
+
+        $this->get('/en/kickstarter')
+            ->assertSee('youtube-nocookie.com/embed/dQw4w9WgXcQ', false)
+            ->assertSee('<iframe', false);
+    }
+
+    public function test_a_video_that_is_neither_youtube_nor_vimeo_is_not_embedded(): void
+    {
+        $photo = $this->photo(GalleryPlacement::Kickstarter, [
+            'video_url' => 'https://example.com/clip.mp4',
+        ]);
+
+        // Embedding an unknown host would mean trusting whatever it serves.
+        $this->assertNull($photo->videoEmbedUrl());
+        $this->assertTrue($photo->isVideo());
     }
 
     public function test_the_cluster_is_absent_when_there_are_no_photographs(): void

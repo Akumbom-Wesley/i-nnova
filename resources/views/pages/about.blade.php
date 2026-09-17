@@ -63,12 +63,19 @@
             <div class="relative mx-auto max-w-6xl px-4 sm:px-6">
                 <x-ui.seam />
 
-                <div class="grid gap-12 lg:grid-cols-[auto_1fr] lg:gap-16">
-                    {{-- A quiet marker rather than a heading: the story speaks for
-                         itself, it just needs something to start against. --}}
-                    <div class="hidden lg:block" aria-hidden="true">
-                        <span class="block font-display text-[7rem] leading-none text-primary/10">&ldquo;</span>
-                        <span class="mt-4 block h-24 w-px bg-gradient-to-b from-accent to-transparent"></span>
+                {{-- A quiet marker rather than a heading: the story speaks for
+                     itself, it just needs something to start against.
+
+                     On a phone the marker sits above the text and the rule runs
+                     across rather than down, so the mark is still there and the
+                     column it used to occupy is not left empty. --}}
+                <div class="grid gap-6 lg:grid-cols-[auto_1fr] lg:gap-16">
+                    <div class="flex items-center gap-4 lg:block" aria-hidden="true">
+                        <span class="block font-display leading-none text-primary/15 text-[3.25rem] sm:text-[4.5rem] lg:text-[7rem] lg:text-primary/10">
+                            &ldquo;
+                        </span>
+
+                        <span class="h-px flex-1 bg-gradient-to-r from-accent to-transparent lg:mt-4 lg:block lg:h-24 lg:w-px lg:flex-none lg:bg-gradient-to-b"></span>
                     </div>
 
                     <x-ui.reveal>
@@ -82,11 +89,11 @@
     @include('sections.mission', ['settings' => $settings])
 
     @if ($stats->isNotEmpty())
-        <section class="border-y border-ink/10 bg-paper-dim py-(--spacing-band)">
+        <section class="border-y border-content/10 bg-paper-dim py-(--spacing-band)">
             <div class="mx-auto grid max-w-6xl gap-10 px-4 sm:grid-cols-3 sm:px-6">
                 @foreach ($stats as $index => $stat)
                     <x-ui.reveal :delay="$index * 110">
-                        <x-ui.stat :value="$stat->value" :label="$stat->label" :caption="$stat->caption" />
+                        <x-ui.stat :value="$stat->displayValue()" :label="$stat->label" :caption="$stat->caption" />
                     </x-ui.reveal>
                 @endforeach
             </div>
@@ -103,7 +110,7 @@
                 <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach ($values as $index => $value)
                         <x-ui.reveal :delay="$index * 90"
-                                     class="card-lift group relative h-full overflow-hidden rounded-2xl border border-ink/10 bg-paper p-7 hover:border-accent/40 hover:shadow-lg hover:shadow-ink/5">
+                                     class="card-lift group relative h-full overflow-hidden rounded-2xl border border-content/10 bg-paper p-7 hover:border-accent/40 hover:shadow-lg hover:shadow-shade/5">
                             {{-- The number as a ghosted numeral behind the card, so
                                  the grid has depth without another colour in it. --}}
                             <span class="pointer-events-none absolute -right-3 -top-6 font-display text-[5.5rem] leading-none text-primary/[0.06] transition-colors duration-500 ease-[var(--ease-brand)] group-hover:text-accent/[0.10]"
@@ -115,7 +122,7 @@
                                 {{ str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT) }}
                             </span>
 
-                            <h3 class="relative mt-3 font-display text-h3 text-ink">{{ $value->title }}</h3>
+                            <h3 class="relative mt-3 font-display text-h3 text-content">{{ $value->title }}</h3>
 
                             <div class="rule-draw relative mt-4 h-0.5 w-10 bg-accent" aria-hidden="true"></div>
 
@@ -128,7 +135,7 @@
     @endif
 
     @if ($steps->isNotEmpty())
-        <section class="relative overflow-hidden bg-ink py-(--spacing-band) text-white">
+        <section id="how-we-work" class="relative scroll-mt-24 overflow-hidden bg-ink py-(--spacing-band) text-white">
             <x-tech.code class="pointer-events-none absolute -right-16 top-1/2 hidden w-[26rem] -translate-y-1/2 text-white/[0.09] lg:block" />
 
             <div class="relative mx-auto max-w-6xl px-4 sm:px-6">
@@ -173,7 +180,7 @@
                                       aria-hidden="true"></span>
                             </div>
 
-                            <h3 class="mt-6 font-display text-lg text-ink">{{ $member->name }}</h3>
+                            <h3 class="mt-6 font-display text-lg text-content">{{ $member->name }}</h3>
                             <p class="mt-1 text-sm text-muted">{{ $member->role }}</p>
 
                             @if ($member->credentials)
@@ -186,7 +193,7 @@
                                 <div class="mt-4 flex justify-center gap-2">
                                     @foreach ($socials as $network => $url)
                                         <a href="{{ $url }}" target="_blank" rel="noopener noreferrer"
-                                           class="flex h-8 w-8 items-center justify-center rounded-full border border-ink/15 transition-all duration-300 ease-[var(--ease-brand)] hover:-translate-y-0.5 hover:border-accent hover:bg-accent">
+                                           class="flex h-8 w-8 items-center justify-center rounded-full border border-content/15 transition-all duration-300 ease-[var(--ease-brand)] hover:-translate-y-0.5 hover:border-accent hover:bg-accent">
                                             <x-brand.social-icon :network="$network" class="h-3.5 w-3.5 text-muted transition-colors duration-300 hover:text-white" />
                                             <span class="sr-only">{{ $member->name }}{{ __(' on ') }}{{ $network }}</span>
                                         </a>
@@ -212,6 +219,8 @@
         'title' => __('Life here'),
         'lead' => __('The building in Bamenda, and the team at work in it.'),
     ])
+
+    @include('sections.map', ['settings' => $settings])
 
     @include('sections.cta', ['settings' => $settings])
 @endsection

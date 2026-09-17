@@ -21,6 +21,7 @@ class SitemapController extends Controller
             ['name' => 'products.index', 'params' => [], 'priority' => '0.9', 'frequency' => 'weekly'],
             ['name' => 'work.index', 'params' => [], 'priority' => '0.9', 'frequency' => 'weekly'],
             ['name' => 'kickstarter', 'params' => [], 'priority' => '0.8', 'frequency' => 'monthly'],
+            ['name' => 'kickstarter.gallery', 'params' => [], 'priority' => '0.6', 'frequency' => 'monthly'],
             ['name' => 'about', 'params' => [], 'priority' => '0.7', 'frequency' => 'monthly'],
             ['name' => 'contact', 'params' => [], 'priority' => '0.6', 'frequency' => 'yearly'],
         ];

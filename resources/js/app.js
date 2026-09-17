@@ -177,6 +177,157 @@ Alpine.data('countUp', (raw = '') => ({
 
 window.Alpine = Alpine;
 
+/**
+ * Light and dark.
+ *
+ * Three states: following the system, forced light, forced dark. The choice
+ * is written to the same key the inline script in the document head reads, so
+ * a reload paints the right mode immediately rather than flashing the other
+ * one first.
+ */
+Alpine.data('themeToggle', () => ({
+    mode: 'system',
+
+    init() {
+        this.mode = window.localStorage.getItem('theme') || 'system';
+        this.apply();
+    },
+
+    get label() {
+        return {
+            system: 'Appearance: following your system. Switch to light.',
+            light: 'Appearance: light. Switch to dark.',
+            dark: 'Appearance: dark. Follow your system instead.',
+        }[this.mode];
+    },
+
+    cycle() {
+        this.mode = { system: 'light', light: 'dark', dark: 'system' }[this.mode];
+        this.apply();
+    },
+
+    apply() {
+        const root = document.documentElement;
+
+        if (this.mode === 'system') {
+            root.removeAttribute('data-theme');
+
+            try {
+                window.localStorage.removeItem('theme');
+            } catch (error) {
+                // Private browsing can refuse storage. The mode still applies
+                // for this page; it just will not be remembered.
+            }
+
+            return;
+        }
+
+        root.setAttribute('data-theme', this.mode);
+
+        try {
+            window.localStorage.setItem('theme', this.mode);
+        } catch (error) {
+            // As above.
+        }
+    },
+}));
+
+/**
+ * The gallery lightbox.
+ *
+ * Collects the photographs inside its own element, so the grid decides what
+ * is viewable and this only handles showing it. Video tiles are left out: a
+ * player is something you use where it sits, not something to open over the
+ * page.
+ *
+ * Nothing here is load bearing. Every photograph is already a link to its own
+ * file, so with JavaScript off, or before Alpine has started, clicking one
+ * still opens it.
+ */
+Alpine.data('lightbox', () => ({
+    isOpen: false,
+    index: 0,
+    items: [],
+    trigger: null,
+
+    init() {
+        this.items = Array.from(this.$el.querySelectorAll('[data-lightbox-item]'));
+    },
+
+    get current() {
+        return this.items[this.index] || null;
+    },
+
+    get source() {
+        return this.current ? this.current.dataset.full : '';
+    },
+
+    get alt() {
+        return this.current ? this.current.dataset.alt : '';
+    },
+
+    get caption() {
+        return this.current ? this.current.dataset.caption : '';
+    },
+
+    get hasMany() {
+        return this.items.length > 1;
+    },
+
+    show(element) {
+        const index = this.items.indexOf(element);
+
+        if (index === -1) {
+            return;
+        }
+
+        this.trigger = element;
+        this.index = index;
+        this.isOpen = true;
+
+        // The page behind must not scroll under the overlay.
+        document.body.style.overflow = 'hidden';
+
+        this.$nextTick(() => this.$refs.close && this.$refs.close.focus());
+    },
+
+    hide() {
+        this.isOpen = false;
+        document.body.style.overflow = '';
+
+        // Back to the tile it came from, so the keyboard does not lose its
+        // place in the grid.
+        if (this.trigger) {
+            this.trigger.focus();
+            this.trigger = null;
+        }
+    },
+
+    move(step) {
+        if (! this.hasMany) {
+            return;
+        }
+
+        this.index = (this.index + step + this.items.length) % this.items.length;
+    },
+
+    /**
+     * Keeps Tab inside the overlay. Without this, tabbing would walk off into
+     * the grid hidden behind it.
+     */
+    trapTab(event) {
+        const order = [this.$refs.close, this.$refs.previous, this.$refs.next].filter(Boolean);
+
+        if (order.length === 0) {
+            return;
+        }
+
+        const at = order.indexOf(document.activeElement);
+        const step = event.shiftKey ? -1 : 1;
+
+        order[(at + step + order.length) % order.length].focus();
+    },
+}));
 Alpine.start();
 
 /**
@@ -240,4 +391,73 @@ if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', setupReveal);
 } else {
     setupReveal();
+}
+
+/**
+ * Navigation progress.
+ *
+ * Shows a bar the moment a link that leads somewhere else is followed, and
+ * again if the page is restored from the back/forward cache. Only same-tab,
+ * same-origin navigations count: an anchor, a new tab, a download or a
+ * mailto link is not a page load and should not pretend to be one.
+ */
+const setupNavigationProgress = () => {
+    const bar = document.createElement('div');
+    bar.className = 'nav-progress';
+    bar.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(bar);
+
+    const start = () => bar.setAttribute('data-loading', '');
+    const stop = () => bar.removeAttribute('data-loading');
+
+    document.addEventListener('click', (event) => {
+        if (event.defaultPrevented || event.button !== 0) {
+            return;
+        }
+
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+            return;
+        }
+
+        const link = event.target.closest('a');
+
+        if (!link || link.target === '_blank' || link.hasAttribute('download')) {
+            return;
+        }
+
+        const href = link.getAttribute('href');
+
+        if (!href || href.startsWith('#') || /^(mailto|tel|sms):/i.test(href)) {
+            return;
+        }
+
+        const destination = new URL(link.href, window.location.href);
+
+        if (destination.origin !== window.location.origin) {
+            return;
+        }
+
+        // Same page, different anchor: nothing is loading.
+        if (
+            destination.pathname === window.location.pathname &&
+            destination.search === window.location.search &&
+            destination.hash
+        ) {
+            return;
+        }
+
+        start();
+    });
+
+    window.addEventListener('beforeunload', start);
+
+    // Coming back through history serves a cached page, so the bar has to be
+    // cleared or it would still be sitting there.
+    window.addEventListener('pageshow', stop);
+};
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupNavigationProgress);
+} else {
+    setupNavigationProgress();
 }

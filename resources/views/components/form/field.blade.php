@@ -12,12 +12,12 @@
     $hintId = $hint ? $id . '-hint' : null;
     $errorId = $id . '-error';
 
-    $control = 'w-full rounded-xl border bg-paper px-4 py-3 text-ink placeholder:text-muted/60'
+    $control = 'w-full rounded-xl border bg-paper px-4 py-3 text-content placeholder:text-muted/60'
         . ' transition-colors duration-200 focus:outline-2 focus:outline-offset-2 focus:outline-primary';
 @endphp
 
 <div {{ $attributes->class('flex flex-col') }}>
-    <label for="{{ $id }}" class="text-sm font-semibold text-ink">
+    <label for="{{ $id }}" class="text-sm font-semibold text-content">
         {{ $label }}
         @unless ($required)
             <span class="ml-1 font-normal text-muted">{{ __('(optional)') }}</span>
@@ -34,7 +34,7 @@
             @if ($required) required @endif
             @if ($errors->has($name)) aria-invalid="true" @endif
             aria-describedby="{{ trim(($hintId ?? '') . ' ' . ($errors->has($name) ? $errorId : '')) ?: null }}"
-            class="mt-3 {{ $control }} {{ $errors->has($name) ? 'border-accent-text' : 'border-ink/20' }}"
+            class="mt-3 {{ $control }} {{ $errors->has($name) ? 'border-accent-text' : 'border-content/20' }}"
         >{{ old($name) }}</textarea>
     @else
         <input
@@ -42,7 +42,7 @@
             @if ($required) required @endif
             @if ($errors->has($name)) aria-invalid="true" @endif
             aria-describedby="{{ trim(($hintId ?? '') . ' ' . ($errors->has($name) ? $errorId : '')) ?: null }}"
-            class="mt-3 {{ $control }} {{ $errors->has($name) ? 'border-accent-text' : 'border-ink/20' }}"
+            class="mt-3 {{ $control }} {{ $errors->has($name) ? 'border-accent-text' : 'border-content/20' }}"
         >
     @endif
 

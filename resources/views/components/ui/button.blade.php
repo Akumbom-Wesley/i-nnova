@@ -10,7 +10,7 @@
     $variants = [
         'accent' => 'bg-accent text-white hover:bg-accent-dark focus-visible:outline-accent-dark',
         'primary' => 'bg-primary text-white hover:bg-primary-dark focus-visible:outline-primary-dark',
-        'outline' => 'border border-ink/20 text-ink hover:border-ink/40 hover:bg-paper-dim focus-visible:outline-primary',
+        'outline' => 'border border-content/20 text-content hover:border-content/40 hover:bg-paper-dim focus-visible:outline-primary',
         'ghost-light' => 'border border-white/30 text-white hover:border-white/60 hover:bg-white/10 focus-visible:outline-white',
     ];
 

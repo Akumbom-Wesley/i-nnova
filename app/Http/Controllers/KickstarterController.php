@@ -17,10 +17,14 @@ class KickstarterController extends Controller
     {
         return view('pages.kickstarter', [
             'settings' => SiteSetting::instance(),
-            'tracks' => KickstarterTrack::query()->where('is_active', true)->ordered()->get(),
-            'mentors' => KickstarterMentor::query()->ordered()->get(),
-            'photos' => GalleryImage::query()->placedOn(GalleryPlacement::Kickstarter)->ordered()->get(),
-            'alumni' => AlumniOutcome::query()->ordered()->with('track')->get(),
+            'tracks' => KickstarterTrack::query()->where('is_active', true)->ordered()->with('media')->get(),
+            'mentors' => KickstarterMentor::query()->ordered()->with('media')->get(),
+            // The short selection, with the count behind it, so the band
+            // can say whether there is a fuller gallery worth visiting.
+            'photos' => GalleryImage::selectionFor(GalleryPlacement::Kickstarter),
+            'photoCount' => GalleryImage::query()->placedOn(GalleryPlacement::Kickstarter)->count(),
+            'feature' => GalleryImage::query()->placedOn(GalleryPlacement::KickstarterFeature)->ordered()->with('media')->get(),
+            'alumni' => AlumniOutcome::query()->ordered()->with('track', 'media')->get(),
             'stats' => Stat::query()->context(Stat::CONTEXT_KICKSTARTER)->ordered()->get(),
         ]);
     }

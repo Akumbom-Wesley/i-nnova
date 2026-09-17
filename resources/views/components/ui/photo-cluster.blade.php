@@ -27,7 +27,7 @@
 
             <div class="{{ $offset }}">
                 <div class="float-drift" style="--float-delay: {{ $index * 1.4 }}s">
-                    <div class="card-lift group overflow-hidden rounded-2xl border border-white/15 shadow-2xl shadow-ink/40 {{ $ratio }}">
+                    <div class="card-lift group overflow-hidden rounded-2xl border border-white/15 shadow-2xl shadow-shade/40 {{ $ratio }}">
                         <x-ui.photo
                             :image="$image"
                             :width="$index === 2 ? 640 : 480"

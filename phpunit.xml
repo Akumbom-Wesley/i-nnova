@@ -18,6 +18,9 @@
         </include>
     </source>
     <php>
+        <!-- Media Library generates image conversions during seeding, which is
+             memory hungry enough to end the process partway through a full run. -->
+        <ini name="memory_limit" value="1G"/>
         <env name="APP_ENV" value="testing"/>
         <env name="APP_MAINTENANCE_DRIVER" value="file"/>
         <env name="BCRYPT_ROUNDS" value="4"/>

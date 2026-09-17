@@ -19,13 +19,27 @@ class GalleryImageForm
     {
         return $schema
             ->components([
-                Section::make('The photograph')
-                    ->description('Upload the real photograph here. Anything uploaded replaces the stand-in below automatically.')
+                Section::make('The photograph or video')
+                    ->description('Upload the real photograph here. Anything uploaded replaces the stand-in below automatically. A video can be uploaded or linked, and still wants a photograph as its still.')
                     ->schema([
                         SpatieMediaLibraryFileUpload::make('image')
                             ->collection('image')
                             ->image()
                             ->imageEditor()
+                            ->columnSpanFull(),
+
+                        SpatieMediaLibraryFileUpload::make('video')
+                            ->collection('video')
+                            ->acceptedFileTypes(['video/mp4', 'video/webm', 'video/quicktime'])
+                            ->maxSize(102400)
+                            ->helperText('Optional. Footage you took yourself, up to 100 MB. The photograph above is used as the still shown before it plays.')
+                            ->columnSpanFull(),
+
+                        TextInput::make('video_url')
+                            ->label('Or a link to YouTube or Vimeo')
+                            ->url()
+                            ->maxLength(500)
+                            ->helperText('Used instead of an uploaded file. Paste the ordinary watch link; it is turned into an embed.')
                             ->columnSpanFull(),
 
                         TextInput::make('external_url')
@@ -53,8 +67,13 @@ class GalleryImageForm
                         Toggle::make('is_active')
                             ->label('Show on the site')
                             ->default(true),
+
+                        Toggle::make('is_featured')
+                            ->label('Featured')
+                            ->helperText('Featured photographs are the few shown on the page itself. Everything else waits in the full gallery. Mark none and the first three in this order are used.')
+                            ->default(false),
                     ])
-                    ->columns(3),
+                    ->columns(2),
 
                 Section::make('Words')
                     ->schema([

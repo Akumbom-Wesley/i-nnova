@@ -1,6 +1,6 @@
 @props(['products', 'comingSoon'])
 
-<section class="relative overflow-hidden border-y border-ink/10 bg-paper-dim py-(--spacing-band)">
+<section class="relative overflow-hidden border-y border-content/10 bg-paper-dim py-(--spacing-band)">
     <x-tech.grid class="pointer-events-none absolute inset-x-0 top-0 h-60 w-full text-primary/[0.10]" />
 
     <div class="relative mx-auto max-w-6xl px-4 sm:px-6">
@@ -28,13 +28,13 @@
         </div>
 
         @if ($comingSoon->isNotEmpty())
-            <x-ui.reveal class="mt-14 rounded-2xl border border-dashed border-ink/20 bg-paper p-8">
+            <x-ui.reveal class="mt-14 rounded-2xl border border-dashed border-content/20 bg-paper p-8">
                 <p class="text-eyebrow font-semibold uppercase text-muted">In development</p>
 
                 <div class="mt-5 flex flex-wrap gap-x-8 gap-y-4">
                     @foreach ($comingSoon as $product)
                         <div class="flex items-baseline gap-3">
-                            <span class="font-display text-h3 text-ink">{{ $product->name }}</span>
+                            <span class="font-display text-h3 text-content">{{ $product->name }}</span>
                             @if ($product->launch_date)
                                 <span class="text-sm text-muted">{{ $product->launch_date->format('F Y') }}</span>
                             @endif

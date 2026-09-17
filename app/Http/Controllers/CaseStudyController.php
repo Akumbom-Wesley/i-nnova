@@ -17,7 +17,7 @@ class CaseStudyController extends Controller
         $caseStudies = CaseStudy::query()
             ->when($sector !== '', fn ($query) => $query->whereRelation('sector', 'slug', $sector))
             ->ordered()
-            ->with('sector', 'product')
+            ->with('sector', 'product', 'media')
             ->get();
 
         return view('pages.work.index', [
@@ -41,7 +41,7 @@ class CaseStudyController extends Controller
                 ->whereKeyNot($caseStudy->getKey())
                 ->ordered()
                 ->limit(2)
-                ->with('sector')
+                ->with('sector', 'media')
                 ->get(),
         ]);
     }

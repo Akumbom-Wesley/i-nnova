@@ -5,6 +5,7 @@ namespace Database\Seeders\Placeholder;
 use App\Models\AlumniOutcome;
 use App\Models\KickstarterMentor;
 use App\Models\KickstarterTrack;
+use App\Enums\StatSource;
 use App\Models\Stat;
 use Database\Seeders\Concerns\AttachesPlaceholderImages;
 use Illuminate\Database\Seeder;
@@ -148,19 +149,21 @@ class KickstarterSeeder extends Seeder
      */
     private function stats(): void
     {
+        // The three that read as claims are counted rather than typed, so they
+        // cannot drift as the site grows. Source, value, suffix, label.
         $rows = [
-            [Stat::CONTEXT_SITE, '6', ['en' => 'Products and growing', 'fr' => 'Produits, et ca continue']],
-            [Stat::CONTEXT_SITE, '100+', ['en' => 'Businesses served', 'fr' => 'Entreprises servies']],
-            [Stat::CONTEXT_SITE, '3+', ['en' => 'Years building', 'fr' => 'Annees de construction']],
-            [Stat::CONTEXT_KICKSTARTER, '500+', ['en' => 'Students reached', 'fr' => 'Etudiants touches']],
-            [Stat::CONTEXT_KICKSTARTER, '90%+', ['en' => 'Employed within 3 months', 'fr' => 'Employes en moins de 3 mois']],
-            [Stat::CONTEXT_KICKSTARTER, '5', ['en' => 'Accelerator tracks', 'fr' => 'Parcours accelerateur']],
+            [Stat::CONTEXT_SITE, StatSource::ProductsLive, '', '', ['en' => 'Products live', 'fr' => 'Produits en service']],
+            [Stat::CONTEXT_SITE, StatSource::BusinessesServed, '', '+', ['en' => 'Businesses served', 'fr' => 'Entreprises servies']],
+            [Stat::CONTEXT_SITE, StatSource::YearsBuilding, '', '+', ['en' => 'Years building', 'fr' => 'Annees de construction']],
+            [Stat::CONTEXT_KICKSTARTER, StatSource::Manual, '500', '+', ['en' => 'Students reached', 'fr' => 'Etudiants touches']],
+            [Stat::CONTEXT_KICKSTARTER, StatSource::Manual, '90%', '+', ['en' => 'Employed within 3 months', 'fr' => 'Employes en moins de 3 mois']],
+            [Stat::CONTEXT_KICKSTARTER, StatSource::AcceleratorTracks, '', '', ['en' => 'Accelerator tracks', 'fr' => 'Parcours accelerateur']],
         ];
 
-        foreach ($rows as $order => [$context, $value, $label]) {
+        foreach ($rows as $order => [$context, $source, $value, $suffix, $label]) {
             Stat::updateOrCreate(
                 ['context' => $context, 'sort_order' => $order],
-                ['value' => $value, 'label' => $label],
+                ['source' => $source, 'value' => $value, 'suffix' => $suffix, 'label' => $label],
             );
         }
     }

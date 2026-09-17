@@ -3,7 +3,7 @@
 <section class="bg-paper py-(--spacing-band-lg)">
     <div class="mx-auto max-w-6xl px-4 sm:px-6">
         <x-ui.reveal from="scale"
-                     class="band-sheen relative overflow-hidden rounded-3xl border border-ink/10 bg-ink px-8 py-16 text-center text-white sm:px-16">
+                     class="band-sheen relative overflow-hidden rounded-3xl border border-content/10 bg-ink px-8 py-16 text-center text-white sm:px-16">
             <x-tech.waveform class="pointer-events-none absolute inset-x-0 bottom-0 h-32 w-full text-white/[0.14]" />
 
             <div class="relative mx-auto max-w-2xl">

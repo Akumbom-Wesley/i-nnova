@@ -40,6 +40,6 @@
              loading="lazy" decoding="async"
              class="h-16 w-auto shrink-0 object-contain {{ $isVertical ? '' : 'sm:h-20' }}">
     @else
-        <span class="font-display text-h3 {{ $isDark ? 'text-white' : 'text-ink' }}">{{ $partner->name }}</span>
+        <span class="font-display text-h3 {{ $isDark ? 'text-white' : 'text-content' }}">{{ $partner->name }}</span>
     @endif
 </div>

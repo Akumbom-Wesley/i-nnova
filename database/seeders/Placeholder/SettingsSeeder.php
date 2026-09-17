@@ -51,6 +51,16 @@ class SettingsSeeder extends Seeder
                 'en' => ['innovators', 'builders', 'businesses', 'institutions', 'careers'],
                 'fr' => ['innovateurs', 'batisseurs', 'entreprises', 'institutions', 'carrieres'],
             ],
+            // Founded in Bamenda in 2022, per the company's own site. The
+            // years-building stat counts from here rather than being typed.
+            'founded_year' => 2022,
+
+            // Commercial Avenue, Bamenda. Adjustable in the admin.
+            'map_latitude' => 5.9631,
+            'map_longitude' => 10.1591,
+            'map_zoom' => 15,
+            'map_is_visible' => true,
+
             // Mission and vision, in the company's own words.
             'mission' => [
                 'en' => 'To develop innovative, affordable and scalable technology tailored for Cameroon, while building a world-class tech talent pipeline through hands-on education and mentorship.',

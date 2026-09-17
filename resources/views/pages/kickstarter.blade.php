@@ -27,16 +27,16 @@
         </x-ui.reveal>
 
         <x-slot:media>
-            <x-ui.photo-cluster :images="$photos" />
+            <x-ui.photo-cluster :images="$feature" />
         </x-slot:media>
     </x-ui.page-header>
 
     @if ($stats->isNotEmpty())
-        <section class="border-b border-ink/10 bg-paper-dim py-(--spacing-band-sm)">
+        <section class="border-b border-content/10 bg-paper-dim py-(--spacing-band-sm)">
             <div class="mx-auto grid max-w-6xl gap-10 px-4 sm:grid-cols-3 sm:px-6">
                 @foreach ($stats as $index => $stat)
                     <x-ui.reveal :delay="$index * 110">
-                        <x-ui.stat :value="$stat->value" :label="$stat->label" :caption="$stat->caption" />
+                        <x-ui.stat :value="$stat->displayValue()" :label="$stat->label" :caption="$stat->caption" />
                     </x-ui.reveal>
                 @endforeach
             </div>
@@ -55,10 +55,10 @@
                 <div class="mt-16 grid gap-6 sm:grid-cols-2">
                     @foreach ($tracks as $index => $track)
                         <x-ui.reveal :delay="$index * 90"
-                                     class="card-lift h-full rounded-2xl border border-ink/10 bg-paper p-8 hover:border-accent/40 hover:shadow-lg hover:shadow-ink/5">
+                                     class="card-lift h-full rounded-2xl border border-content/10 bg-paper p-8 hover:border-accent/40 hover:shadow-lg hover:shadow-shade/5">
                             <span class="font-display text-sm text-accent-text">0{{ $index + 1 }}</span>
 
-                            <h3 class="mt-3 font-display text-h3 text-ink">{{ $track->name }}</h3>
+                            <h3 class="mt-3 font-display text-h3 text-content">{{ $track->name }}</h3>
 
                             @if ($track->duration)
                                 <p class="mt-2 text-sm font-semibold text-primary">{{ $track->duration }}</p>
@@ -75,7 +75,7 @@
     @endif
 
     {{-- Career Capital Score, the measure the programme actually reports on. --}}
-    <section class="relative overflow-hidden bg-primary py-(--spacing-band) text-white">
+    <section class="relative overflow-hidden bg-primary-band py-(--spacing-band) text-white">
         <x-tech.circuit class="pointer-events-none absolute -left-24 top-0 hidden w-[30rem] text-white/[0.10] lg:block" />
 
         <div class="relative mx-auto max-w-6xl px-4 sm:px-6">
@@ -147,12 +147,12 @@
                         [__('Launch'), __('your future')],
                     ] as $index => [$verb, $detail])
                         <x-ui.reveal :delay="$index * 110"
-                                     class="card-lift flex items-center gap-5 rounded-2xl border border-ink/10 bg-paper-dim p-6 hover:border-accent/40">
+                                     class="card-lift flex items-center gap-5 rounded-2xl border border-content/10 bg-paper-dim p-6 hover:border-accent/40">
                             <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-accent font-display text-white">
                                 {{ $index + 1 }}
                             </span>
 
-                            <p class="font-display text-h3 text-ink">
+                            <p class="font-display text-h3 text-content">
                                 {{ $verb }}
                                 <span class="font-sans text-base font-normal text-muted">{{ $detail }}</span>
                             </p>
@@ -164,7 +164,7 @@
     </section>
 
     @if ($mentors->isNotEmpty())
-        <section class="border-y border-ink/10 bg-paper-dim py-(--spacing-band)">
+        <section class="border-y border-content/10 bg-paper-dim py-(--spacing-band)">
             <div class="mx-auto max-w-6xl px-4 sm:px-6">
                 <x-ui.section-header
                     eyebrow="{{ __('Mentors') }}"
@@ -184,7 +184,7 @@
                                       aria-hidden="true"></span>
                             </div>
 
-                            <h3 class="mt-6 font-display text-lg text-ink">{{ $mentor->name }}</h3>
+                            <h3 class="mt-6 font-display text-lg text-content">{{ $mentor->name }}</h3>
                             <p class="mt-1 text-sm text-muted">{{ $mentor->title }}</p>
 
                             @if ($mentor->credentials)
@@ -197,15 +197,18 @@
         </section>
     @endif
 
-    {{-- The first three are already in the header cluster, so the gallery
-         takes what is left rather than showing them twice. It disappears
-         entirely until there are more than three. --}}
+    {{-- A taste of the gallery: whichever photographs are marked Featured in
+         the admin, with everything else a click away. The link only appears
+         when there is more behind it than is already on screen. --}}
     @include('sections.gallery', [
-        'images' => $photos->skip(3)->values(),
-        'eyebrow' => __('The programme in action'),
-        'title' => __('What a cohort actually looks like'),
+        'id' => 'gallery',
+        'images' => $photos,
+        'eyebrow' => __('Gallery'),
+        'title' => __('The programme in pictures and video'),
         'lead' => __('Internships running, projects being built, and the people doing it.'),
         'tone' => 'dark',
+        'ctaUrl' => $photoCount > $photos->count() ? route('kickstarter.gallery') : null,
+        'ctaLabel' => __('See all :count photographs and videos', ['count' => $photoCount]),
     ])
 
     @if ($alumni->isNotEmpty())
@@ -220,7 +223,7 @@
                 <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach ($alumni as $index => $person)
                         <x-ui.reveal :delay="$index * 90"
-                                     class="card-lift h-full rounded-2xl border border-ink/10 bg-paper p-7 hover:border-accent/40 hover:shadow-lg hover:shadow-ink/5">
+                                     class="card-lift h-full rounded-2xl border border-content/10 bg-paper p-7 hover:border-accent/40 hover:shadow-lg hover:shadow-shade/5">
                             <div class="flex items-center gap-4">
                                 @if ($photo = $person->getFirstMediaUrl('photo', 'thumb'))
                                     <img src="{{ $photo }}" alt="" width="56" height="56" loading="lazy" decoding="async"
@@ -228,7 +231,7 @@
                                 @endif
 
                                 <div class="min-w-0">
-                                    <h3 class="truncate font-display text-lg text-ink">{{ $person->name }}</h3>
+                                    <h3 class="truncate font-display text-lg text-content">{{ $person->name }}</h3>
                                     <p class="truncate text-sm text-muted">{{ $person->role }}</p>
                                 </div>
                             </div>
@@ -264,7 +267,7 @@
     <section class="bg-paper pb-(--spacing-band-lg)">
         <div class="mx-auto max-w-6xl px-4 sm:px-6">
             <x-ui.reveal from="scale"
-                         class="relative overflow-hidden rounded-3xl border border-ink/10 bg-ink px-8 py-16 text-center text-white sm:px-16">
+                         class="relative overflow-hidden rounded-3xl border border-content/10 bg-ink px-8 py-16 text-center text-white sm:px-16">
                 <x-tech.waveform class="pointer-events-none absolute inset-x-0 bottom-0 h-32 w-full text-white/[0.14]" />
 
                 <div class="relative mx-auto max-w-2xl">

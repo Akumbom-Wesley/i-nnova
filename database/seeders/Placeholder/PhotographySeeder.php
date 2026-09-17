@@ -65,22 +65,25 @@ class PhotographySeeder extends Seeder
                 'Engineers who build the products and teach the programme',
             ],
 
-            // Kickstarter carries all the photography of the programme: three
-            // in the header cluster and the rest in the gallery below it. The
-            // About header is a designed panel rather than photographs, so
-            // nothing is shown twice across the two pages.
+            // Three beside the Kickstarter heading, and the programme itself
+            // in the gallery. The first three are marked featured, so they are
+            // what the band on the Kickstarter page shows; the rest wait on
+            // the gallery page. A gallery is the one place repetition is fine:
+            // it is meant to hold everything, and the cluster is a selection
+            // rather than a separate set. The About header is a designed
+            // panel, so nothing repeats across the two pages.
             [
-                'kickstarter', 'office-discussion.jpeg',
+                'kickstarter_feature', 'office-discussion.jpeg',
                 'In the room',
                 'A session under way at the Bamenda office',
             ],
             [
-                'kickstarter', 'cohort-workroom.jpeg',
+                'kickstarter_feature', 'cohort-workroom.jpeg',
                 'The workroom',
                 'Laptops open, work in progress',
             ],
             [
-                'kickstarter', 'cohort-tables.jpeg',
+                'kickstarter_feature', 'cohort-tables.jpeg',
                 'Heads down',
                 'Around the tables, mid build',
             ],
@@ -99,6 +102,34 @@ class PhotographySeeder extends Seeder
                 'Following along',
                 'A cohort working through a walkthrough together',
             ],
+            [
+                'kickstarter', 'cohort-full-room.jpeg',
+                'A full room',
+                'Every seat taken, a cohort mid session',
+            ],
+            [
+                'kickstarter', 'cohort-workroom.jpeg',
+                'The workroom',
+                'Laptops open, work in progress',
+            ],
+            [
+                'kickstarter', 'cohort-tables.jpeg',
+                'Around the tables',
+                'Heads down, mid build',
+            ],
+            [
+                'kickstarter', 'office-discussion.jpeg',
+                'Talking it through',
+                'A problem worked out loud at the Bamenda office',
+            ],
+        ];
+
+        // The three the Kickstarter page itself shows. Everything else is on
+        // the gallery page behind them.
+        $featured = [
+            'kickstarter-security-session.jpeg',
+            'kickstarter-deployment-session.jpeg',
+            'kickstarter-projector.jpeg',
         ];
 
         foreach ($rows as $order => [$placement, $file, $title, $caption]) {
@@ -109,6 +140,7 @@ class PhotographySeeder extends Seeder
                     'alt' => ['en' => $caption, 'fr' => $caption],
                     'caption' => ['en' => $caption, 'fr' => $caption],
                     'is_active' => true,
+                    'is_featured' => in_array($file, $featured, true),
                 ],
             );
 

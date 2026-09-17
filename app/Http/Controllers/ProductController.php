@@ -12,8 +12,8 @@ class ProductController extends Controller
     {
         return view('pages.products.index', [
             'settings' => SiteSetting::instance(),
-            'live' => Product::query()->live()->ordered()->with('sector')->get(),
-            'comingSoon' => Product::query()->comingSoon()->ordered()->with('sector')->get(),
+            'live' => Product::query()->live()->ordered()->with('sector', 'media')->get(),
+            'comingSoon' => Product::query()->comingSoon()->ordered()->with('sector', 'media')->get(),
         ]);
     }
 
