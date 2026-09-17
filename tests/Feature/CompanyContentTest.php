@@ -64,4 +64,40 @@ class CompanyContentTest extends TestCase
                 ->assertDontSee('innovacm.com');
         }
     }
+    public function test_each_about_band_carries_a_seam_so_a_new_section_registers(): void
+    {
+        \App\Models\CompanyValue::create(['title' => ['en' => 'Innovation First']]);
+        \App\Models\Milestone::create(['year' => '2022', 'title' => ['en' => 'The spark']]);
+
+        $settings = SiteSetting::instance();
+        $settings->about_story = ['en' => '<p>Founded in Bamenda in 2022.</p>'];
+        $settings->save();
+        SiteSetting::forgetInstance();
+
+        $html = $this->get('/en/about')->getContent();
+
+        // Story, values and timeline each open with a seam. Counted by the
+        // tick, because section-seam--warm contains section-seam and would
+        // double count the warm band.
+        $this->assertSame(3, substr_count($html, 'seam-tick'), 'Expected three seamed bands on About.');
+
+        // One of them is the warm variant, so consecutive bands alternate
+        // rather than repeating the same tint.
+        $this->assertStringContainsString('section-seam--warm', $html);
+        $this->assertStringContainsString('seam-tick', $html);
+    }
+
+    public function test_the_year_chip_uses_the_darker_orange_for_contrast(): void
+    {
+        \App\Models\Milestone::create(['year' => '2025', 'title' => ['en' => 'Scale']]);
+
+        // White on accent is 3.50:1 and the chip is 18px semibold, which is
+        // under the size WCAG treats as large text. accent-dark is 4.61:1.
+        $html = $this->get('/en/about')->getContent();
+
+        preg_match('/<span class="inline-flex items-center rounded-full[^"]*"/', $html, $chip);
+
+        $this->assertNotEmpty($chip, 'No year chip rendered.');
+        $this->assertStringContainsString('bg-accent-dark', $chip[0]);
+    }
 }

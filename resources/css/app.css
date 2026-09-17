@@ -673,3 +673,65 @@
         }
     }
 }
+
+/* -------------------------------------------------------------------
+   Section seams
+   -------------------------------------------------------------------
+   A quiet signal that a new band has started: a hairline across the
+   top and a soft wash of colour falling away beneath it. Light enough
+   that white still reads as the ground, present enough that scrolling
+   from one section to the next registers as a change.
+
+   Two tints so consecutive bands alternate rather than repeat.
+   ------------------------------------------------------------------- */
+
+@layer components {
+    .section-seam {
+        position: relative;
+        isolation: isolate;
+    }
+
+    .section-seam::before {
+        content: '';
+        position: absolute;
+        inset-inline: 0;
+        top: 0;
+        height: 1px;
+        background-image: linear-gradient(
+            to right,
+            transparent,
+            rgb(10 26 51 / 0.10) 12%,
+            rgb(10 26 51 / 0.10) 88%,
+            transparent
+        );
+        z-index: -1;
+    }
+
+    .section-seam::after {
+        content: '';
+        position: absolute;
+        inset-inline: 0;
+        top: 0;
+        height: 14rem;
+        background-image: linear-gradient(to bottom, var(--color-primary-soft), transparent);
+        opacity: 0.7;
+        pointer-events: none;
+        z-index: -1;
+    }
+
+    /* The warm variant, for a band sitting between two cool ones. */
+    .section-seam--warm::after {
+        background-image: linear-gradient(to bottom, var(--color-accent-soft), transparent);
+        opacity: 0.55;
+    }
+
+    /* A short accent tick at the start of the seam, aligned to the page
+       gutter rather than the viewport edge. */
+    .seam-tick {
+        position: absolute;
+        top: 0;
+        height: 2px;
+        width: 4.5rem;
+        background-color: var(--color-accent);
+    }
+}

@@ -59,11 +59,22 @@
     </header>
 
     @if (filled($settings->about_story))
-        <section class="bg-paper py-(--spacing-band)">
-            <div class="mx-auto max-w-6xl px-4 sm:px-6">
-                <x-ui.reveal>
-                    <x-ui.prose class="text-lead">{!! $settings->about_story !!}</x-ui.prose>
-                </x-ui.reveal>
+        <section class="section-seam bg-paper py-(--spacing-band)">
+            <div class="relative mx-auto max-w-6xl px-4 sm:px-6">
+                <x-ui.seam />
+
+                <div class="grid gap-12 lg:grid-cols-[auto_1fr] lg:gap-16">
+                    {{-- A quiet marker rather than a heading: the story speaks for
+                         itself, it just needs something to start against. --}}
+                    <div class="hidden lg:block" aria-hidden="true">
+                        <span class="block font-display text-[7rem] leading-none text-primary/10">&ldquo;</span>
+                        <span class="mt-4 block h-24 w-px bg-gradient-to-b from-accent to-transparent"></span>
+                    </div>
+
+                    <x-ui.reveal>
+                        <x-ui.prose class="text-lead">{!! $settings->about_story !!}</x-ui.prose>
+                    </x-ui.reveal>
+                </div>
             </div>
         </section>
     @endif
@@ -83,18 +94,32 @@
     @endif
 
     @if ($values->isNotEmpty())
-        <section class="bg-paper py-(--spacing-band)">
-            <div class="mx-auto max-w-6xl px-4 sm:px-6">
+        <section class="section-seam section-seam--warm bg-paper py-(--spacing-band)">
+            <div class="relative mx-auto max-w-6xl px-4 sm:px-6">
+                <x-ui.seam />
+
                 <x-ui.section-header eyebrow="{{ __('What we stand for') }}" title="{{ __('Values') }}" />
 
                 <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach ($values as $index => $value)
                         <x-ui.reveal :delay="$index * 90"
-                                     class="card-lift h-full rounded-2xl border border-ink/10 bg-paper p-7 hover:border-accent/40 hover:shadow-lg hover:shadow-ink/5">
-                            <span class="font-display text-sm text-accent-text">0{{ $index + 1 }}</span>
-                            <h3 class="mt-3 font-display text-h3 text-ink">{{ $value->title }}</h3>
-                            <div class="rule-draw mt-4 h-0.5 w-10 bg-accent" aria-hidden="true"></div>
-                            <div class="mt-4 leading-relaxed text-muted [&_p]:m-0">{!! $value->body !!}</div>
+                                     class="card-lift group relative h-full overflow-hidden rounded-2xl border border-ink/10 bg-paper p-7 hover:border-accent/40 hover:shadow-lg hover:shadow-ink/5">
+                            {{-- The number as a ghosted numeral behind the card, so
+                                 the grid has depth without another colour in it. --}}
+                            <span class="pointer-events-none absolute -right-3 -top-6 font-display text-[5.5rem] leading-none text-primary/[0.06] transition-colors duration-500 ease-[var(--ease-brand)] group-hover:text-accent/[0.10]"
+                                  aria-hidden="true">
+                                {{ str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT) }}
+                            </span>
+
+                            <span class="relative font-display text-sm text-accent-text">
+                                {{ str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT) }}
+                            </span>
+
+                            <h3 class="relative mt-3 font-display text-h3 text-ink">{{ $value->title }}</h3>
+
+                            <div class="rule-draw relative mt-4 h-0.5 w-10 bg-accent" aria-hidden="true"></div>
+
+                            <div class="relative mt-4 leading-relaxed text-muted [&_p]:m-0">{!! $value->body !!}</div>
                         </x-ui.reveal>
                     @endforeach
                 </div>
