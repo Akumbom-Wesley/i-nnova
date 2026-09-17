@@ -13,11 +13,11 @@
 
 <{{ $tag }}
     @if ($href) href="{{ $href }}" @endif
-    {{ $attributes->class('card-lift group flex h-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper hover:border-accent/40 hover:shadow-xl hover:shadow-ink/5') }}
+    {{ $attributes->class('card-lift card-trace group flex h-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper hover:border-accent/40 hover:shadow-xl hover:shadow-ink/5') }}
 >
     @if ($image)
         <div class="aspect-[16/10] overflow-hidden bg-paper-dim">
-            <img src="{{ $image }}" alt="{{ $imageAlt }}" loading="lazy"
+            <img src="{{ $image }}" alt="{{ $imageAlt }}" width="800" height="500" loading="lazy" decoding="async"
                  class="h-full w-full object-cover transition-transform duration-700 ease-[var(--ease-brand)] group-hover:scale-[1.04]">
         </div>
     @endif
@@ -47,7 +47,7 @@
 
         @if ($href)
             <span class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary" aria-hidden="true">
-                Read more
+                {{ __('Read more') }}
                 <svg class="h-4 w-4 transition-transform duration-300 ease-[var(--ease-brand)] group-hover:translate-x-1"
                      fill="none" stroke="currentColor" stroke-width="2.25" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6"/>

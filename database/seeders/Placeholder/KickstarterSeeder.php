@@ -32,6 +32,11 @@ class KickstarterSeeder extends Seeder
     /** @return array<int, KickstarterTrack> */
     private function tracks(): array
     {
+        // Five tracks: the four the company lists on its own site, plus
+        // cybersecurity from the roll-up. "Software Development" from the
+        // roll-up is not repeated because Web and Mobile already cover it.
+        // The five tracks named on the roll-up, which is the current statement
+        // of the programme.
         $rows = [
             [
                 'slug' => 'software-development',
@@ -54,7 +59,7 @@ class KickstarterSeeder extends Seeder
                 'name' => ['en' => 'Cybersecurity', 'fr' => 'Cybersecurite'],
                 'summary' => [
                     'en' => 'Protect systems, data and networks. Build a secure digital future.',
-                    'fr' => 'Proteger les systemes, les donnees et les reseaux.',
+                    'fr' => 'Proteger les systemes, les donnees et les reseaux. Construire un avenir numerique sur.',
                 ],
             ],
             [
@@ -62,7 +67,15 @@ class KickstarterSeeder extends Seeder
                 'name' => ['en' => 'Data Science', 'fr' => 'Science des Donnees'],
                 'summary' => [
                     'en' => 'Turn data into insights. Solve problems with data driven decisions.',
-                    'fr' => 'Transformer les donnees en decisions.',
+                    'fr' => 'Transformer les donnees en decisions fondees sur les faits.',
+                ],
+            ],
+            [
+                'slug' => 'cloud-engineering',
+                'name' => ['en' => 'Cloud Engineering', 'fr' => 'Ingenierie Cloud'],
+                'summary' => [
+                    'en' => 'Design, build and manage scalable cloud infrastructure.',
+                    'fr' => 'Concevoir, construire et gerer une infrastructure cloud evolutive.',
                 ],
             ],
         ];
@@ -136,12 +149,12 @@ class KickstarterSeeder extends Seeder
     private function stats(): void
     {
         $rows = [
-            [Stat::CONTEXT_SITE, '4', ['en' => 'Products live', 'fr' => 'Produits en service']],
-            [Stat::CONTEXT_SITE, '4', ['en' => 'Sectors served', 'fr' => 'Secteurs servis']],
-            [Stat::CONTEXT_SITE, '100%', ['en' => 'Built in Cameroon', 'fr' => 'Concu au Cameroun']],
-            [Stat::CONTEXT_KICKSTARTER, '4', ['en' => 'Accelerator tracks', 'fr' => 'Parcours accelerateur']],
-            [Stat::CONTEXT_KICKSTARTER, '5', ['en' => 'Career Capital measures', 'fr' => 'Mesures du Capital Carriere']],
-            [Stat::CONTEXT_KICKSTARTER, '100', ['en' => 'Career Capital scale', 'fr' => 'Echelle du Capital Carriere']],
+            [Stat::CONTEXT_SITE, '6', ['en' => 'Products and growing', 'fr' => 'Produits, et ca continue']],
+            [Stat::CONTEXT_SITE, '100+', ['en' => 'Businesses served', 'fr' => 'Entreprises servies']],
+            [Stat::CONTEXT_SITE, '3+', ['en' => 'Years building', 'fr' => 'Annees de construction']],
+            [Stat::CONTEXT_KICKSTARTER, '500+', ['en' => 'Students reached', 'fr' => 'Etudiants touches']],
+            [Stat::CONTEXT_KICKSTARTER, '90%+', ['en' => 'Employed within 3 months', 'fr' => 'Employes en moins de 3 mois']],
+            [Stat::CONTEXT_KICKSTARTER, '5', ['en' => 'Accelerator tracks', 'fr' => 'Parcours accelerateur']],
         ];
 
         foreach ($rows as $order => [$context, $value, $label]) {

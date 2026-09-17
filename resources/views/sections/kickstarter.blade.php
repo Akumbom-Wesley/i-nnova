@@ -1,6 +1,6 @@
 @props(['settings'])
 
-<section class="relative overflow-hidden bg-primary py-(--spacing-band) text-white">
+<section class="band-sheen relative overflow-hidden bg-primary py-(--spacing-band) text-white">
     <x-tech.network class="pointer-events-none absolute -right-16 bottom-0 w-[26rem] text-white/[0.12]" />
 
     <div class="relative mx-auto max-w-6xl px-4 sm:px-6">
@@ -15,8 +15,7 @@
                     </h2>
 
                     <p class="text-lead mt-7 max-w-xl text-white/75">
-                        Real projects, industry standard tools, mentorship from working
-                        engineers, and a Career Capital Score that shows where you actually stand.
+                        {{ __('Hands-on learning on real projects, career focused and community driven, with a Career Capital Score that shows where you actually stand.') }}
                     </p>
                 </x-ui.reveal>
 
@@ -28,22 +27,22 @@
                         tone="dark"
                         :columns="2"
                         :items="[
-                            'Hands-on projects',
-                            'Mentorship and guidance',
-                            'Certificates and recognition',
-                            'Career growth opportunities',
+                            __('Hands-on projects'),
+                            __('Mentorship and guidance'),
+                            __('Certificates and recognition'),
+                            __('Career growth opportunities'),
                         ]"
                     />
                 </x-ui.reveal>
 
                 <x-ui.reveal from="left" :delay="200" class="mt-10 flex flex-wrap gap-4">
-                    <x-ui.button :href="url('/kickstarter')" size="lg">
-                        See the programme
+                    <x-ui.button :href="route('kickstarter')" size="lg">
+                        {{ __('See the programme') }}
                     </x-ui.button>
 
                     @if ($settings->kickstarter_url)
                         <x-ui.button :href="$settings->kickstarter_url" variant="ghost-light" size="lg">
-                            Apply now
+                            {{ __('Apply now') }}
                         </x-ui.button>
                     @endif
                 </x-ui.reveal>
@@ -56,7 +55,7 @@
                     <x-ui.score-ring
                         :value="27"
                         :max="100"
-                        label="Career Capital Score"
+                        label="{{ __('Career Capital Score') }}"
                         caption="Measured across technical skills, interview performance, portfolio, collaboration and learning."
                         class="text-white"
                     />
@@ -65,9 +64,9 @@
                 {{-- Learn, build, launch. The three-beat from the company artwork. --}}
                 <div class="space-y-3">
                     @foreach ([
-                        ['Learn', 'in-demand skills'],
-                        ['Build', 'real projects'],
-                        ['Launch', 'your future'],
+                        [__('Learn'), __('in-demand skills')],
+                        [__('Build'), __('real projects')],
+                        [__('Launch'), __('your future')],
                     ] as $index => [$verb, $detail])
                         <x-ui.reveal from="right" :delay="$index * 110"
                                      class="card-lift flex items-center gap-5 rounded-2xl border border-white/15 bg-white/5 p-5 hover:border-accent/50 hover:bg-white/10">

@@ -5,22 +5,22 @@
 
     <div class="relative mx-auto max-w-6xl px-4 sm:px-6">
         <x-ui.section-header
-            eyebrow="Our solutions"
-            title="Software that runs the working day"
-            lead="Four products in service across education, health, hospitality and retail, plus custom work where none of them fit."
+            eyebrow="{{ __('Our solutions') }}"
+            title="{{ __('Software that runs the working day') }}"
+            lead="{{ __('Four products in service across education, health, hospitality and retail, plus custom work where none of them fit.') }}"
         />
 
         <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             @foreach ($products as $index => $product)
                 <x-ui.reveal :delay="$index * 90" class="h-full">
                     <x-ui.card
-                        :href="url('/products/' . $product->slug)"
+                        :href="route('products.show', $product)"
                         :image="$product->getFirstMediaUrl('cover', 'thumb') ?: null"
                         :image-alt="$product->name"
                         :eyebrow="$product->sector?->name"
                         :title="$product->name"
                         :body="$product->tagline"
-                        badge="Live"
+                        badge="{{ __('Live') }}"
                         badge-tone="primary"
                     />
                 </x-ui.reveal>

@@ -22,7 +22,7 @@ class HomePageTest extends TestCase
     {
         // Every section is conditional, so an empty database must still give
         // a complete page rather than a stack of empty headers.
-        $this->get('/')->assertSuccessful();
+        $this->get('/en')->assertSuccessful();
     }
 
     public function test_it_shows_live_products_and_holds_back_unlaunched_ones(): void
@@ -40,7 +40,7 @@ class HomePageTest extends TestCase
             'status' => ProductStatus::ComingSoon,
         ]);
 
-        $response = $this->get('/');
+        $response = $this->get('/en');
 
         $response->assertSee('EduTrust Schools');
         $response->assertSee('Comprehensive school management system');
@@ -53,7 +53,7 @@ class HomePageTest extends TestCase
 
     public function test_it_carries_the_stem_positioning(): void
     {
-        $response = $this->get('/');
+        $response = $this->get('/en');
 
         $response->assertSee('Driven by');
         $response->assertSee('STEM');
@@ -69,7 +69,7 @@ class HomePageTest extends TestCase
             'is_featured' => true,
         ]);
 
-        $this->get('/')->assertSee('Sapientia Higher Institute of the Diocese of Kumba');
+        $this->get('/en')->assertSee('Sapientia Higher Institute of the Diocese of Kumba');
     }
 
     public function test_it_shows_values_team_tracks_and_testimonials(): void
@@ -79,7 +79,7 @@ class HomePageTest extends TestCase
         KickstarterTrack::create(['name' => ['en' => 'Cybersecurity'], 'slug' => 'cybersecurity', 'is_active' => true]);
         Testimonial::create(['quote' => ['en' => 'It runs every day.'], 'person_name' => 'Grace Example', 'is_featured' => true]);
 
-        $response = $this->get('/');
+        $response = $this->get('/en');
 
         $response->assertSee('Community Impact');
         $response->assertSee('Ada Example');
@@ -96,7 +96,7 @@ class HomePageTest extends TestCase
 
         SiteSetting::forgetInstance();
 
-        $response = $this->get('/');
+        $response = $this->get('/en');
 
         $response->assertSee('A heading set in the admin');
         $response->assertSee('+237 671 008 494');
@@ -106,7 +106,7 @@ class HomePageTest extends TestCase
     {
         Stat::create(['context' => Stat::CONTEXT_SITE, 'value' => '4', 'label' => ['en' => 'Products live']]);
 
-        $html = $this->get('/')->getContent();
+        $html = $this->get('/en')->getContent();
 
         // The reveal hooks the IntersectionObserver binds to.
         $this->assertStringContainsString('data-reveal', $html);
@@ -127,7 +127,7 @@ class HomePageTest extends TestCase
         // Site settings start empty, which is exactly that case.
         $before = ob_get_level();
 
-        $this->get('/')->assertSuccessful();
+        $this->get('/en')->assertSuccessful();
 
         $this->assertSame($before, ob_get_level(), 'Rendering the home page leaked an output buffer.');
     }

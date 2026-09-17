@@ -4,9 +4,9 @@
     <section class="bg-paper py-(--spacing-band)">
         <div class="mx-auto max-w-6xl px-4 sm:px-6">
             <x-ui.section-header
-                eyebrow="Deployments"
-                title="Running in real institutions"
-                lead="The products are not demos. They are in service, and the institutions running them are named."
+                eyebrow="{{ __('Deployments') }}"
+                title="{{ __('Running in real institutions') }}"
+                lead="{{ __('The products are not demos. They are in service, and the institutions running them are named.') }}"
             />
 
             <div class="mt-16 grid gap-6 md:grid-cols-2">
@@ -20,7 +20,7 @@
                     @endphp
 
                     <x-ui.reveal :delay="$index * 120" class="h-full">
-                        <a href="{{ url('/work/' . $caseStudy->slug) }}"
+                        <a href="{{ route('work.show', $caseStudy) }}"
                            class="card-lift group flex h-full flex-col rounded-2xl border border-ink/10 bg-paper p-8 hover:border-accent/40 hover:shadow-xl hover:shadow-ink/5">
                             <div class="flex items-start gap-6">
                                 @if ($logo)
@@ -48,7 +48,7 @@
                             <p class="mt-6 flex-1 leading-relaxed text-muted">{{ $caseStudy->summary }}</p>
 
                             <span class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary" aria-hidden="true">
-                                Read the case study
+                                {{ __('Read the case study') }}
                                 <svg class="h-4 w-4 transition-transform duration-300 ease-[var(--ease-brand)] group-hover:translate-x-1"
                                      fill="none" stroke="currentColor" stroke-width="2.25" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6"/>

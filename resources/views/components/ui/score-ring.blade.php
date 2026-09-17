@@ -29,7 +29,7 @@
 
         <div class="absolute inset-0 flex flex-col items-center justify-center">
             <span class="font-display text-h2 tabular-nums">{{ $value }}</span>
-            <span class="text-xs opacity-60">out of {{ $max }}</span>
+            <span class="text-xs opacity-60">{{ __('out of :max', ['max' => $max]) }}</span>
         </div>
     </div>
 

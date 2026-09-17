@@ -4,14 +4,14 @@
     The STEM band. This is where the positioning gets room to breathe and
     where the motif animates at full contrast rather than as a wash.
 --}}
-<section class="relative overflow-hidden bg-ink py-(--spacing-band-lg) text-white">
+<section class="band-sheen relative overflow-hidden bg-ink py-(--spacing-band-lg) text-white">
     <x-tech.code class="pointer-events-none absolute -left-20 top-1/2 w-[30rem] -translate-y-1/2 text-white/[0.09]" />
 
     <div class="relative mx-auto max-w-6xl px-4 sm:px-6">
         <div class="grid gap-16 lg:grid-cols-2 lg:items-center">
             <div>
                 <x-ui.reveal from="left">
-                    <p class="text-eyebrow font-semibold uppercase text-accent">Driven by STEM</p>
+                    <p class="text-eyebrow font-semibold uppercase text-accent">{{ __('Driven by STEM') }}</p>
 
                     <h2 class="mt-5 font-display text-h1">
                         Science, technology, engineering and maths, pointed at
@@ -25,12 +25,6 @@
                         Our accelerator runs four tracks, each one built around shipping
                         real work rather than finishing a syllabus.
                     </p>
-                </x-ui.reveal>
-
-                <x-ui.reveal from="left" :delay="160" class="mt-10">
-                    <x-ui.button :href="url('/kickstarter')" size="lg">
-                        Explore Kickstarter
-                    </x-ui.button>
                 </x-ui.reveal>
             </div>
 

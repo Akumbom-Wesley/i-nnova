@@ -1,0 +1,79 @@
+<?php
+
+namespace App\Filament\Resources\GalleryImages\Schemas;
+
+use App\Enums\GalleryPlacement;
+use App\Filament\Support\LocaleTabs;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Schema;
+
+class GalleryImageForm
+{
+    public static function configure(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                Section::make('The photograph')
+                    ->description('Upload the real photograph here. Anything uploaded replaces the stand-in below automatically.')
+                    ->schema([
+                        SpatieMediaLibraryFileUpload::make('image')
+                            ->collection('image')
+                            ->image()
+                            ->imageEditor()
+                            ->columnSpanFull(),
+
+                        TextInput::make('external_url')
+                            ->label('Stand-in image address')
+                            ->url()
+                            ->maxLength(500)
+                            ->helperText('A temporary image from the web, used only until a real photograph is uploaded. Clear it once you have.')
+                            ->columnSpanFull()
+                            ->disabled(fn (Get $get): bool => filled($get('image')))
+                            ->dehydrated(),
+                    ]),
+
+                Section::make('Placement')
+                    ->schema([
+                        Select::make('placement')
+                            ->options(GalleryPlacement::class)
+                            ->default(GalleryPlacement::About)
+                            ->required(),
+
+                        TextInput::make('sort_order')
+                            ->label('Order')
+                            ->numeric()
+                            ->default(0),
+
+                        Toggle::make('is_active')
+                            ->label('Show on the site')
+                            ->default(true),
+                    ])
+                    ->columns(3),
+
+                Section::make('Words')
+                    ->schema([
+                        LocaleTabs::make(fn (string $locale) => [
+                            TextInput::make("title.{$locale}")
+                                ->label('Title')
+                                ->maxLength(120),
+
+                            TextInput::make("alt.{$locale}")
+                                ->label('Alt text')
+                                ->maxLength(180)
+                                ->helperText('What the photograph shows, for anyone who cannot see it. Falls back to the title if left empty.'),
+
+                            Textarea::make("caption.{$locale}")
+                                ->label('Caption')
+                                ->rows(2)
+                                ->columnSpanFull(),
+                        ]),
+                    ]),
+            ]);
+    }
+}

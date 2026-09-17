@@ -61,18 +61,21 @@ class CatalogueSeeder extends Seeder
      */
     private function products(array $sectors): array
     {
+        // The roll-up is the source of truth for the product line: these are
+        // the four solutions it names, plus the custom work it calls "and
+        // more". Nothing here comes from the older website.
         $rows = [
             [
-                'slug' => 'edutrust-schools',
-                'sector' => 'education',
-                'name' => ['en' => 'EduTrust Schools', 'fr' => 'EduTrust Schools'],
+                'slug' => 'innova-pos',
+                'sector' => 'retail',
+                'name' => ['en' => 'I-NNOVA POS', 'fr' => 'I-NNOVA POS'],
                 'tagline' => [
-                    'en' => 'Comprehensive school management system',
-                    'fr' => 'Systeme complet de gestion scolaire',
+                    'en' => 'Smart POS for modern businesses',
+                    'fr' => 'Un point de vente intelligent pour les entreprises modernes',
                 ],
                 'features' => [
-                    'en' => ['Enrolment and records', 'Timetabling', 'Results and reports', 'Parent messaging'],
-                    'fr' => ['Inscriptions et dossiers', 'Emplois du temps', 'Resultats et bulletins', 'Messagerie parents'],
+                    'en' => ['Till and receipts', 'Inventory management', 'Analytics', 'Multi location'],
+                    'fr' => ['Caisse et recus', 'Gestion de stock', 'Analyses', 'Multi sites'],
                 ],
                 'status' => ProductStatus::Live,
                 'is_featured' => true,
@@ -93,6 +96,21 @@ class CatalogueSeeder extends Seeder
                 'is_featured' => true,
             ],
             [
+                'slug' => 'edutrust-schools',
+                'sector' => 'education',
+                'name' => ['en' => 'EduTrust Schools', 'fr' => 'EduTrust Schools'],
+                'tagline' => [
+                    'en' => 'Comprehensive school management system',
+                    'fr' => 'Systeme complet de gestion scolaire',
+                ],
+                'features' => [
+                    'en' => ['Enrolment and records', 'Timetabling', 'Results and reports', 'Parent messaging'],
+                    'fr' => ['Inscriptions et dossiers', 'Emplois du temps', 'Resultats et bulletins', 'Messagerie parents'],
+                ],
+                'status' => ProductStatus::Live,
+                'is_featured' => true,
+            ],
+            [
                 'slug' => 'hotel-booking-system',
                 'sector' => 'hospitality',
                 'name' => ['en' => 'Hotel Booking System', 'fr' => 'Systeme de Reservation Hoteliere'],
@@ -101,40 +119,25 @@ class CatalogueSeeder extends Seeder
                     'fr' => 'La reservation intelligente, simplifiee',
                 ],
                 'features' => [
-                    'en' => ['Rooms and availability', 'Front desk and reservations', 'Billing and receipts', 'Housekeeping boards'],
-                    'fr' => ['Chambres et disponibilite', 'Reception et reservations', 'Facturation et recus', 'Tableaux de menage'],
+                    'en' => ['Rooms and availability', 'Reservations', 'Billing and receipts', 'Housekeeping boards'],
+                    'fr' => ['Chambres et disponibilite', 'Reservations', 'Facturation et recus', 'Tableaux de menage'],
                 ],
                 'status' => ProductStatus::Live,
                 'is_featured' => true,
             ],
             [
-                'slug' => 'i-nnova-pos',
+                'slug' => 'custom-development',
                 'sector' => 'retail',
-                'name' => ['en' => 'I-NNOVA POS', 'fr' => 'I-NNOVA POS'],
+                'name' => ['en' => 'Custom Development', 'fr' => 'Developpement sur mesure'],
                 'tagline' => [
-                    'en' => 'Smart POS for modern businesses',
-                    'fr' => 'Un point de vente intelligent pour les entreprises modernes',
+                    'en' => 'Custom solutions for your unique needs',
+                    'fr' => 'Des solutions sur mesure pour vos besoins particuliers',
                 ],
                 'features' => [
-                    'en' => ['Till and receipts', 'Stock control', 'Daily takings', 'Multi branch'],
-                    'fr' => ['Caisse et recus', 'Gestion de stock', 'Recettes journalieres', 'Multi succursale'],
+                    'en' => ['Discovery and scoping', 'Build and deploy', 'Training', 'Ongoing support'],
+                    'fr' => ['Cadrage', 'Developpement et deploiement', 'Formation', 'Support continu'],
                 ],
                 'status' => ProductStatus::Live,
-                'is_featured' => true,
-            ],
-            [
-                // A placeholder so the coming-soon treatment on the products
-                // pages is visible while they are built. Not a roadmap promise,
-                // and it goes when real content lands in Sprint 5.
-                'slug' => 'placeholder-coming-soon',
-                'sector' => 'retail',
-                'name' => ['en' => 'Placeholder Coming Soon', 'fr' => 'Placeholder A Venir'],
-                'tagline' => [
-                    'en' => 'A product still in development',
-                    'fr' => 'Un produit encore en developpement',
-                ],
-                'features' => ['en' => [], 'fr' => []],
-                'status' => ProductStatus::ComingSoon,
                 'is_featured' => false,
             ],
         ];

@@ -1,2 +1,9 @@
 User-agent: *
-Disallow:
+Allow: /
+
+# The admin is behind authentication anyway, but there is no reason to spend
+# anyone's crawl budget on it.
+Disallow: /admin
+Disallow: /admin/
+
+Sitemap: https://www.i-nnovacmr.com/sitemap.xml

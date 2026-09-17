@@ -24,12 +24,16 @@ class AdminPanelTest extends TestCase
             'team members' => ['team-members'],
             'values' => ['company-values'],
             'testimonials' => ['testimonials'],
+            'wording' => ['site-texts'],
+            'photography' => ['gallery-images'],
+            'timeline' => ['milestones'],
             'how we work' => ['process-steps'],
             'kickstarter tracks' => ['kickstarter-tracks'],
             'kickstarter mentors' => ['kickstarter-mentors'],
             'alumni outcomes' => ['alumni-outcomes'],
             'stats' => ['stats'],
             'clients' => ['clients'],
+            'partners' => ['partners'],
             'sectors' => ['sectors'],
             'leads' => ['leads'],
         ];
@@ -46,9 +50,10 @@ class AdminPanelTest extends TestCase
     #[DataProvider('resourceRoutes')]
     public function test_resource_create_renders(string $slug): void
     {
-        if ($slug === 'leads') {
-            // Leads arrive from the public contact form, never created by hand.
-            $this->markTestSkipped('Leads are not created in the admin.');
+        if (in_array($slug, ['leads', 'site-texts'], true)) {
+            // Leads arrive from the contact form and wording rows come from
+            // scanning the templates. Neither is created by hand.
+            $this->markTestSkipped("{$slug} are not created in the admin.");
         }
 
         $this->actingAs(User::factory()->create())

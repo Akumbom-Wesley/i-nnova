@@ -42,6 +42,12 @@ class CaseStudy extends Model implements HasMedia
         $this->addMediaConversion('thumb')
             ->fit(Fit::Contain, 400, 400)
             ->nonQueued();
+
+        $this->addMediaConversion('wide')
+            ->fit(Fit::Max, 1600, 900)
+            ->performOnCollections('cover', 'images')
+            ->withResponsiveImages()
+            ->nonQueued();
     }
 
     public function sector(): BelongsTo

@@ -18,7 +18,7 @@ Working plan and sprint checklist. Tick items as they land. One branch per sprin
 | Tagline | **"Build Your Creativity"**, confirmed |
 | Positioning | Institutional & education software, led by real deployments (PAXHI, SAHIK) |
 | Kickstarter | Main site sells, hands off to `innovakickstarter.com` |
-| Partner logos | **Removed**, not real relationships |
+| Partner logos | Section exists and is CMS driven, but **nothing renders until a partnership is marked confirmed**. The old site published logos for relationships that did not exist. |
 
 ### Narrative spine
 
@@ -66,6 +66,17 @@ Do not crop · do not change transparency · do not invert · do not change colo
 
 Variants: main horizontal lockup (posters, flyers, socials), stand-alone mark (merch),
 cubed logo (documents, files).
+
+### Partner pairings, from brand guide Section 4
+
+Two arrangements only: the partner logo set beside ours, or stacked under it,
+divided by a rule. The guide is explicit that the stand-alone mark is never
+paired with a partner: a pairing always uses the logo carrying the trademark
+name. A test asserts exactly that, so the rule cannot be broken quietly.
+
+The partner row itself follows the reference arrangement: a heading, a single
+row of logos on a dark ground held to one tone, generous space between them,
+and no captions competing with the marks. Colour returns on hover.
 
 ### Brand voice, from brand guide Section 2
 
@@ -241,18 +252,86 @@ policies and puts the links back.
 
 ## Sprint 4: Bilingual, SEO & performance
 
-- [ ] EN/FR routing + language switcher
-- [ ] Translate all static UI strings
-- [ ] Meta tags, OG images **that actually resolve** (current site 404s)
-- [ ] sitemap.xml, robots.txt
-- [ ] schema.org: Organization, Product, Person
-- [ ] Image optimization, lazy loading, responsive srcsets
-- [ ] Lighthouse pass: target 90+ across the board
-- [ ] Accessibility pass: contrast, focus states, keyboard nav, alt text
+- [x] EN/FR routing + language switcher
+- [x] Translate all static UI strings
+- [x] Meta tags, OG images **that actually resolve** (current site 404s)
+- [x] sitemap.xml, robots.txt
+- [x] schema.org: Organization, Product, Person
+- [x] Image optimization, lazy loading, responsive srcsets
+- [ ] Lighthouse pass: target 90+ across the board (not yet measured, see note)
+- [x] Accessibility pass: contrast, focus states, keyboard nav, alt text
+
+
+**URL shape.** Every public page lives under its locale: `/en/products`,
+`/fr/products`. Anything without one redirects to the default locale, keeping
+the path. The locale is registered as a URL default in middleware, which is why
+no `route()` call in the views takes a locale argument, and it is dropped from
+the route parameters so it never arrives as a controller's first argument.
+
+**The switcher keeps your place.** It rebuilds the current route in the other
+language rather than sending you to the home page.
+
+**Lighthouse is not measured.** There is no browser in this environment, so the
+90+ target is unverified and the box stays unticked. What was measured instead:
+CSS 51 KB raw and 9 KB gzipped, JS 53 KB raw and 18 KB gzipped, and total page
+weight between 26 KB and 181 KB. Every image carries intrinsic width and height,
+so layout shift should be nil, and everything below the fold is lazy loaded.
+Covers carry a srcset and sizes. Run Lighthouse against a production build
+before launch.
+
+**Accessibility, measured rather than assumed.** All twelve palette contrast
+pairs clear WCAG AA, and there is a test computing the ratios so the palette
+cannot regress. One real defect was found and fixed: a single orange focus ring
+measures 1.96:1 against the blue band, failing the 3:1 required of a non-text
+indicator, so the ring is now orange with a white halo either side and clears
+3:1 on white, blue and navy alike. Focus styling lives in a `:where()` base
+rule at zero specificity, so a component can restyle its focus but cannot
+silently remove it.
+
+## The roll-up is the source of truth
+
+Where the roll-up artwork and the older site at i-nnovacmr.com disagree, the
+roll-up wins, and product names come from it alone. The line is therefore
+I-NNOVA POS, I-NNOVA Integrated Hospital Software, EduTrust Schools, Hotel
+Booking System, and the custom work it calls "and more". Marketplace and
+BookIt appear only on the older site and are not carried over.
+
+The same rule settles the rest: five accelerator tracks (software development,
+AI and machine learning, cybersecurity, data science, cloud engineering, the
+last legible on the physical banner rather than in the roll-up file), the
+Career Capital dimensions, and the four value pillars.
+
+Still taken from the older site, because the roll-up does not cover it: the
+leadership team, the founding year and timeline, the mission and vision, the
+real figures, and the social profiles.
+
+**Deliberately not taken:** `info@innovacm.com` and `+237 670 000 000`, which
+are the placeholder phone and mismatched domain on the do-not-repeat list. A
+test fails if either reappears.
+
+## "We build the builders" lives in one place
+
+It is a claim about the accelerator rather than about the company, so it
+appears once, as the lead on the Kickstarter page, and nowhere else. A grep
+for it across the views returns exactly one hit.
+
+The About page leads instead with "Transforming communities, empowering" and a
+word that cycles through innovators, builders, businesses, institutions and
+careers. The words are editable, since which ones are right is a copy decision.
 
 ## Sprint 5: Content load & launch
 
 - [ ] Load real images via CMS: team, products, institutions, internships
+- [x] **Real photography loaded.** Twelve of the company's own photographs are
+      in, attached as uploads rather than remote stand-ins, so the Photography
+      list now shows zero outstanding. Four carry the hero, two the home strip,
+      three About and three Kickstarter. The hero serves the untouched
+      original, byte for byte; tiles take a conversion at quality 90 to 95
+      with a responsive srcset, so phones get lighter files and desktops get
+      the full thing.
+- [ ] More photography as it is taken: product screenshots, institution
+      logos, and individual portraits for the three team members, which are
+      still generated placeholders.
 - [ ] Real case studies (PAXHI, SAHIK)
 - [ ] Real testimonials with photos
 - [ ] **Correct contact details**: no placeholder phone, email domain matching the site

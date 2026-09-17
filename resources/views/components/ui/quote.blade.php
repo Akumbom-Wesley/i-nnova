@@ -10,7 +10,7 @@
 @php $isDark = $tone === 'dark'; @endphp
 
 <figure {{ $attributes->class([
-    'card-lift flex h-full flex-col rounded-2xl border p-8',
+    'card-lift card-trace flex h-full flex-col overflow-hidden rounded-2xl border p-8',
     'border-white/15 bg-white/5' => $isDark,
     'border-ink/10 bg-paper hover:border-accent/40 hover:shadow-lg hover:shadow-ink/5' => ! $isDark,
 ]) }}>
@@ -24,7 +24,7 @@
 
     <figcaption class="mt-8 flex items-center gap-4 border-t pt-6 {{ $isDark ? 'border-white/15' : 'border-ink/10' }}">
         @if ($photo)
-            <img src="{{ $photo }}" alt="" class="h-12 w-12 shrink-0 rounded-full object-cover" loading="lazy">
+            <img src="{{ $photo }}" alt="" width="48" height="48" loading="lazy" decoding="async" class="h-12 w-12 shrink-0 rounded-full object-cover">
         @endif
 
         <div class="min-w-0">

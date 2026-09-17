@@ -374,3 +374,364 @@
         transition: none;
     }
 }
+
+/* -------------------------------------------------------------------
+   Focus
+   -------------------------------------------------------------------
+   Every focusable element gets a visible ring by default. Written with
+   :where() so it carries zero specificity: a component can restyle its
+   own focus, but nothing removes it by accident.
+
+   It is a double ring: orange between 2px and 4px from the element,
+   with a white halo either side of it. A single orange ring measures
+   only 1.96:1 against the blue band, which fails the 3:1 that WCAG
+   asks of a non-text indicator. With the halo, whichever ground the
+   element sits on, one of the two rings clears 3:1.
+   ------------------------------------------------------------------- */
+
+@layer base {
+    :where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+        outline: 2px solid var(--color-accent);
+        outline-offset: 2px;
+        box-shadow: 0 0 0 6px var(--color-paper);
+        border-radius: 0.25rem;
+    }
+
+    /* Anything that scrolls to an anchor should not land under the sticky
+       header. */
+    :where([id]) {
+        scroll-margin-top: 6rem;
+    }
+}
+
+/* -------------------------------------------------------------------
+   Hero slideshow
+   -------------------------------------------------------------------
+   Photographs run full bleed behind the headline, which means the
+   headline sits on a ground that changes every few seconds. The scrim
+   is what makes that safe: at 0.70 opacity over the worst possible
+   photograph, a pure white one, white text still measures 6.49:1.
+   The gradient never drops below that behind the text column.
+   ------------------------------------------------------------------- */
+
+@layer components {
+    .hero-scrim {
+        /* Phone: text runs full width, so the scrim is heaviest at the
+           bottom where the headline and buttons sit. */
+        background-image: linear-gradient(
+            to top,
+            rgb(10 26 51 / 0.94) 0%,
+            rgb(10 26 51 / 0.86) 45%,
+            rgb(10 26 51 / 0.72) 100%
+        );
+    }
+
+    @media (min-width: 64rem) {
+        .hero-scrim {
+            /* Desktop: text occupies the left column, so the photograph is
+               allowed to come through on the right. */
+            background-image: linear-gradient(
+                to right,
+                rgb(10 26 51 / 0.92) 0%,
+                rgb(10 26 51 / 0.86) 42%,
+                rgb(10 26 51 / 0.60) 70%,
+                rgb(10 26 51 / 0.38) 100%
+            );
+        }
+    }
+
+    .hero-slide {
+        opacity: 0;
+        transition: opacity 1.2s var(--ease-brand);
+    }
+
+    .hero-slide[data-active] {
+        opacity: 1;
+    }
+
+    /* A slow drift, so a still photograph does not sit dead behind the
+       type. Only the visible slide moves. */
+    .hero-slide[data-active] img {
+        animation: hero-drift 14s ease-out forwards;
+    }
+
+    .hero-dot {
+        transition:
+            width 0.4s var(--ease-brand),
+            background-color 0.4s var(--ease-brand);
+    }
+}
+
+@keyframes hero-drift {
+    from { transform: scale(1.06) translate3d(0, 0, 0); }
+    to   { transform: scale(1.14) translate3d(-1.5%, -1%, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-slide {
+        transition: none;
+    }
+
+    .hero-slide[data-active] img {
+        animation: none;
+        transform: scale(1.06);
+    }
+
+    .hero-dot {
+        transition: none;
+    }
+}
+
+/* -------------------------------------------------------------------
+   Rotating word
+   -------------------------------------------------------------------
+   Every word sits in the same grid cell, so the line never reflows as
+   it cycles. Only the active one is visible. Under reduced motion the
+   first word simply stays put.
+   ------------------------------------------------------------------- */
+
+@layer components {
+    .word-cycle {
+        opacity: 0;
+        transform: translateY(0.45em) rotateX(-40deg);
+        transform-origin: bottom center;
+        transition:
+            opacity 0.5s var(--ease-brand),
+            transform 0.5s var(--ease-brand);
+    }
+
+    .word-cycle[data-active] {
+        opacity: 1;
+        transform: none;
+    }
+
+    .word-caret {
+        animation: circuit-cursor 1.1s steps(1, end) infinite;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .word-cycle {
+        transition: none;
+        transform: none;
+    }
+
+    .word-caret {
+        animation: none;
+        opacity: 1;
+    }
+}
+
+/* -------------------------------------------------------------------
+   Card trace and band sheen
+   -------------------------------------------------------------------
+   Two small pieces of machinery that make a static card feel wired up
+   without turning the page into a light show. Both are decorative and
+   both stop under reduced motion.
+   ------------------------------------------------------------------- */
+
+@layer components {
+    /* A charge running along the top edge of a card as it is hovered,
+       like current finding a trace. */
+    .card-trace {
+        position: relative;
+    }
+
+    .card-trace::before {
+        content: '';
+        position: absolute;
+        inset-inline: 0;
+        top: 0;
+        height: 2px;
+        background: linear-gradient(
+            90deg,
+            transparent 0%,
+            var(--color-accent) 35%,
+            var(--color-accent) 65%,
+            transparent 100%
+        );
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.55s var(--ease-brand);
+        pointer-events: none;
+        border-start-start-radius: inherit;
+        border-start-end-radius: inherit;
+    }
+
+    .card-trace:hover::before,
+    .card-trace:focus-within::before {
+        transform: scaleX(1);
+    }
+
+    /* A slow diagonal sheen crossing a dark band, so a large flat area
+       is never entirely still. */
+    .band-sheen {
+        position: relative;
+        isolation: isolate;
+    }
+
+    .band-sheen::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: linear-gradient(
+            115deg,
+            transparent 35%,
+            rgb(255 255 255 / 0.05) 50%,
+            transparent 65%
+        );
+        background-size: 250% 100%;
+        animation: band-sheen 14s linear infinite;
+        pointer-events: none;
+    }
+}
+
+@keyframes band-sheen {
+    from { background-position: 150% 0; }
+    to   { background-position: -150% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card-trace::before {
+        transition: none;
+    }
+
+    .band-sheen::after {
+        animation: none;
+    }
+}
+
+/* -------------------------------------------------------------------
+   Floating photo cluster
+   -------------------------------------------------------------------
+   Three photographs arranged as an inverted triangle beside a page
+   heading. Each drifts on its own clock so the group never pulses in
+   unison, which would read as a loading state rather than a still life.
+
+   The drift is applied to an inner wrapper so the static offset that
+   makes the triangle can stay on the outer element.
+   ------------------------------------------------------------------- */
+
+@layer components {
+    .float-drift {
+        animation: float-drift 7s ease-in-out infinite;
+        animation-delay: var(--float-delay, 0s);
+    }
+}
+
+@keyframes float-drift {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-0.7rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .float-drift {
+        animation: none;
+    }
+}
+
+/* -------------------------------------------------------------------
+   Inner page header ground
+   -------------------------------------------------------------------
+   Colour, without putting text where it cannot be read.
+
+   The orange accent measures 4.97:1 on navy but only 2.42:1 on the
+   brand blue, so it fails as an eyebrow or a rule anywhere the blue
+   reaches. The stops are therefore fixed rather than left to a
+   diagonal: navy holds the whole text column and the blue is let in
+   only past it, where the photographs sit.
+
+   On a phone there is no photo column and the text runs full width, so
+   the blue is pushed to the very bottom.
+   ------------------------------------------------------------------- */
+
+@layer components {
+    .page-header-ground {
+        background-image:
+            radial-gradient(38rem 26rem at 88% -15%, rgb(232 93 12 / 0.22), transparent 70%),
+            linear-gradient(
+                170deg,
+                var(--color-ink) 0%,
+                var(--color-ink) 74%,
+                var(--color-primary-dark) 100%
+            );
+    }
+
+    @media (min-width: 64rem) {
+        .page-header-ground {
+            background-image:
+                radial-gradient(34rem 26rem at 78% -10%, rgb(232 93 12 / 0.26), transparent 68%),
+                radial-gradient(28rem 22rem at 110% 90%, rgb(17 87 182 / 0.55), transparent 70%),
+                linear-gradient(
+                    100deg,
+                    var(--color-ink) 0%,
+                    var(--color-ink) 54%,
+                    var(--color-primary-dark) 80%,
+                    var(--color-primary) 100%
+                );
+        }
+    }
+}
+
+/* -------------------------------------------------------------------
+   Section seams
+   -------------------------------------------------------------------
+   A quiet signal that a new band has started: a hairline across the
+   top and a soft wash of colour falling away beneath it. Light enough
+   that white still reads as the ground, present enough that scrolling
+   from one section to the next registers as a change.
+
+   Two tints so consecutive bands alternate rather than repeat.
+   ------------------------------------------------------------------- */
+
+@layer components {
+    .section-seam {
+        position: relative;
+        isolation: isolate;
+    }
+
+    .section-seam::before {
+        content: '';
+        position: absolute;
+        inset-inline: 0;
+        top: 0;
+        height: 1px;
+        background-image: linear-gradient(
+            to right,
+            transparent,
+            rgb(10 26 51 / 0.10) 12%,
+            rgb(10 26 51 / 0.10) 88%,
+            transparent
+        );
+        z-index: -1;
+    }
+
+    .section-seam::after {
+        content: '';
+        position: absolute;
+        inset-inline: 0;
+        top: 0;
+        height: 14rem;
+        background-image: linear-gradient(to bottom, var(--color-primary-soft), transparent);
+        opacity: 0.7;
+        pointer-events: none;
+        z-index: -1;
+    }
+
+    /* The warm variant, for a band sitting between two cool ones. */
+    .section-seam--warm::after {
+        background-image: linear-gradient(to bottom, var(--color-accent-soft), transparent);
+        opacity: 0.55;
+    }
+
+    /* A short accent tick at the start of the seam, aligned to the page
+       gutter rather than the viewport edge. */
+    .seam-tick {
+        position: absolute;
+        top: 0;
+        height: 2px;
+        width: 4.5rem;
+        background-color: var(--color-accent);
+    }
+}

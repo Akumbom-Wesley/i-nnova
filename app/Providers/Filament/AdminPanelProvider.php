@@ -2,6 +2,10 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\ContentOverview;
+use App\Filament\Widgets\EnquiriesChart;
+use App\Filament\Widgets\LaunchChecklist;
+use App\Filament\Widgets\RecentEnquiries;
 use Filament\FontProviders\BunnyFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -51,6 +55,10 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
                 AccountWidget::class,
+                ContentOverview::class,
+                LaunchChecklist::class,
+                RecentEnquiries::class,
+                EnquiriesChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,

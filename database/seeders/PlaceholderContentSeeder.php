@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Database\Seeders\Placeholder\AboutSeeder;
 use Database\Seeders\Placeholder\CatalogueSeeder;
 use Database\Seeders\Placeholder\KickstarterSeeder;
+use Database\Seeders\Placeholder\PhotographySeeder;
 use Database\Seeders\Placeholder\SettingsSeeder;
 use Database\Seeders\Placeholder\SocialProofSeeder;
 use Illuminate\Database\Seeder;
@@ -35,6 +36,7 @@ class PlaceholderContentSeeder extends Seeder
             AboutSeeder::class,
             SocialProofSeeder::class,
             KickstarterSeeder::class,
+            PhotographySeeder::class,
             SettingsSeeder::class,
         ]);
     }

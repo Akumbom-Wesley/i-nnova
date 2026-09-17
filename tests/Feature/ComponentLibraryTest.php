@@ -72,16 +72,16 @@ class ComponentLibraryTest extends TestCase
     {
         Client::create(['name' => 'Unconfirmed Institution', 'is_verified' => false]);
 
-        $this->get('/')->assertDontSee('Trusted by');
+        $this->get('/en')->assertDontSee('Trusted partners and clients');
     }
 
     public function test_the_clients_section_appears_once_a_client_is_verified(): void
     {
         Client::create(['name' => 'Confirmed Institution', 'is_verified' => true]);
 
-        $response = $this->get('/');
+        $response = $this->get('/en');
 
-        $response->assertSee('Trusted by');
+        $response->assertSee('Trusted partners and clients');
         $response->assertSee('Confirmed Institution');
     }
 

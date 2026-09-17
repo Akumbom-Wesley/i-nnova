@@ -1,41 +1,70 @@
+@php
+    $socials = array_filter($settings->socials ?? []);
+
+    $socialLabels = [
+        'facebook' => 'Facebook',
+        'twitter' => 'X',
+        'x' => 'X',
+        'linkedin' => 'LinkedIn',
+        'instagram' => 'Instagram',
+        'github' => 'GitHub',
+        'youtube' => 'YouTube',
+    ];
+@endphp
+
 <footer class="relative overflow-hidden bg-ink text-white/75">
-    <div class="mx-auto grid max-w-6xl gap-12 px-4 py-(--spacing-band) sm:px-6 lg:grid-cols-[1.4fr_1fr_1fr]">
+    <div class="mx-auto grid max-w-6xl gap-10 px-4 py-(--spacing-band-sm) sm:px-6 lg:grid-cols-[1.5fr_1fr_1fr]">
         <div>
-            <span class="font-display text-2xl text-white">I-NNOVA</span>
+            {{-- The same cubed wordmark as the header. It sits on the navy
+                 ground unaltered: the brand guide forbids recolouring it. --}}
+            <img src="{{ asset('images/wordmark-cubes.png') }}" alt="I-NNOVA"
+                 width="245" height="77" loading="lazy" decoding="async"
+                 class="h-11 w-auto object-contain">
 
-            <p class="mt-4 max-w-sm leading-relaxed">
-                Software for institutions, built in Bamenda, plus a programme building the people who write it.
+            <p class="mt-5 max-w-sm text-sm leading-relaxed">
+                {{ __('Software for institutions, built in Bamenda, plus a programme building the people who write it.') }}
             </p>
 
-            <p class="mt-6 font-display text-xl text-accent">Build Your Creativity</p>
+            <p class="mt-5 font-display text-lg text-accent">{{ __('Build Your Creativity') }}</p>
 
-            <p class="mt-2 text-eyebrow font-semibold uppercase text-white/45">
-                Transforming communities, empowering innovators
-            </p>
+            @if ($socials !== [])
+                <ul class="mt-6 flex flex-wrap items-center gap-3">
+                    @foreach ($socials as $network => $url)
+                        <li>
+                            <a href="{{ $url }}" target="_blank" rel="noopener noreferrer"
+                               class="group flex h-10 w-10 items-center justify-center rounded-full border border-white/20 transition-all duration-300 ease-[var(--ease-brand)] hover:-translate-y-0.5 hover:border-accent hover:bg-accent">
+                                <x-brand.social-icon :network="$network" class="h-4 w-4 text-white/70 transition-colors duration-300 group-hover:text-white" />
+                                <span class="sr-only">{{ $socialLabels[$network] ?? ucfirst($network) }}</span>
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
         </div>
 
         <div>
-            <h2 class="text-eyebrow font-semibold uppercase text-white/45">Company</h2>
+            <h2 class="text-eyebrow font-semibold uppercase text-white/45">{{ __('Company') }}</h2>
 
-            <ul class="mt-5 space-y-3">
+            <ul class="mt-4 space-y-2 text-sm">
                 @foreach ([
-                    'Products'    => '/products',
-                    'Work'        => '/work',
-                    'Kickstarter' => '/kickstarter',
-                    'About'       => '/about',
-                    'Contact'     => '/contact',
+                    __('Products') => route('products.index'),
+                    __('Work') => route('work.index'),
+                    __('Kickstarter') => route('kickstarter'),
+                    __('About') => route('about'),
+                    __('Team') => route('about') . '#team',
+                    __('Contact') => route('contact'),
                 ] as $label => $href)
                     <li>
-                        <a href="{{ url($href) }}" class="link-underline hover:text-white">{{ $label }}</a>
+                        <a href="{{ $href }}" class="link-underline hover:text-white">{{ $label }}</a>
                     </li>
                 @endforeach
             </ul>
         </div>
 
         <div>
-            <h2 class="text-eyebrow font-semibold uppercase text-white/45">Contact</h2>
+            <h2 class="text-eyebrow font-semibold uppercase text-white/45">{{ __('Contact') }}</h2>
 
-            <ul class="mt-5 space-y-3">
+            <ul class="mt-4 space-y-2 text-sm">
                 @if ($settings->contact_phone)
                     <li>
                         <a href="tel:{{ preg_replace('/\s+/', '', $settings->contact_phone) }}"
@@ -51,7 +80,7 @@
                 @endif
 
                 @if ($settings->address)
-                    <li class="whitespace-pre-line pt-1 text-sm text-white/55">{{ $settings->address }}</li>
+                    <li class="whitespace-pre-line pt-1 text-white/55">{{ $settings->address }}</li>
                 @endif
             </ul>
         </div>
@@ -60,15 +89,9 @@
     {{-- The orange rule from the brand artwork, running the full width. --}}
     <div class="h-1 bg-accent" aria-hidden="true"></div>
 
-    <div class="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-6 text-xs sm:flex-row sm:items-center sm:justify-between sm:px-6">
-        <p>&copy; {{ date('Y') }} I-NNOVA. All rights reserved.</p>
+    <div class="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-5 text-xs sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <p>&copy; {{ date('Y') }} I-NNOVA. {{ __('All rights reserved.') }}</p>
 
-        <div class="flex gap-6">
-            {{--
-                Privacy and Terms are deliberately not linked yet. Sprint 5
-                writes the real policies and adds the routes; until then a
-                footer link on every page would only lead to a 404.
-            --}}
-        </div>
+        <p class="text-white/45">{{ __('Transforming communities, empowering innovators') }}</p>
     </div>
 </footer>
