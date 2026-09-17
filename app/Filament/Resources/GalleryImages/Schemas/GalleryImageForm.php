@@ -67,8 +67,13 @@ class GalleryImageForm
                         Toggle::make('is_active')
                             ->label('Show on the site')
                             ->default(true),
+
+                        Toggle::make('is_featured')
+                            ->label('Featured')
+                            ->helperText('Featured photographs are the few shown on the page itself. Everything else waits in the full gallery. Mark none and the first three in this order are used.')
+                            ->default(false),
                     ])
-                    ->columns(3),
+                    ->columns(2),
 
                 Section::make('Words')
                     ->schema([

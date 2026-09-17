@@ -232,6 +232,102 @@ Alpine.data('themeToggle', () => ({
     },
 }));
 
+/**
+ * The gallery lightbox.
+ *
+ * Collects the photographs inside its own element, so the grid decides what
+ * is viewable and this only handles showing it. Video tiles are left out: a
+ * player is something you use where it sits, not something to open over the
+ * page.
+ *
+ * Nothing here is load bearing. Every photograph is already a link to its own
+ * file, so with JavaScript off, or before Alpine has started, clicking one
+ * still opens it.
+ */
+Alpine.data('lightbox', () => ({
+    isOpen: false,
+    index: 0,
+    items: [],
+    trigger: null,
+
+    init() {
+        this.items = Array.from(this.$el.querySelectorAll('[data-lightbox-item]'));
+    },
+
+    get current() {
+        return this.items[this.index] || null;
+    },
+
+    get source() {
+        return this.current ? this.current.dataset.full : '';
+    },
+
+    get alt() {
+        return this.current ? this.current.dataset.alt : '';
+    },
+
+    get caption() {
+        return this.current ? this.current.dataset.caption : '';
+    },
+
+    get hasMany() {
+        return this.items.length > 1;
+    },
+
+    show(element) {
+        const index = this.items.indexOf(element);
+
+        if (index === -1) {
+            return;
+        }
+
+        this.trigger = element;
+        this.index = index;
+        this.isOpen = true;
+
+        // The page behind must not scroll under the overlay.
+        document.body.style.overflow = 'hidden';
+
+        this.$nextTick(() => this.$refs.close && this.$refs.close.focus());
+    },
+
+    hide() {
+        this.isOpen = false;
+        document.body.style.overflow = '';
+
+        // Back to the tile it came from, so the keyboard does not lose its
+        // place in the grid.
+        if (this.trigger) {
+            this.trigger.focus();
+            this.trigger = null;
+        }
+    },
+
+    move(step) {
+        if (! this.hasMany) {
+            return;
+        }
+
+        this.index = (this.index + step + this.items.length) % this.items.length;
+    },
+
+    /**
+     * Keeps Tab inside the overlay. Without this, tabbing would walk off into
+     * the grid hidden behind it.
+     */
+    trapTab(event) {
+        const order = [this.$refs.close, this.$refs.previous, this.$refs.next].filter(Boolean);
+
+        if (order.length === 0) {
+            return;
+        }
+
+        const at = order.indexOf(document.activeElement);
+        const step = event.shiftKey ? -1 : 1;
+
+        order[(at + step + order.length) % order.length].focus();
+    },
+}));
 Alpine.start();
 
 /**

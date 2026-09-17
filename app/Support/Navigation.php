@@ -49,10 +49,13 @@ class Navigation
                         __('Accelerator tracks'),
                         route('kickstarter') . '#tracks',
                     ),
+                    // The gallery page rather than the band on the
+                    // Kickstarter page: someone reaching for Gallery in
+                    // the menu wants all of it, not the three on show.
                     static::anchor(
                         GalleryImage::query()->placedOn(GalleryPlacement::Kickstarter)->exists(),
                         __('Gallery'),
-                        route('kickstarter') . '#gallery',
+                        route('kickstarter.gallery'),
                     ),
                 ])),
             ],

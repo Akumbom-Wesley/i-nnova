@@ -3,6 +3,7 @@
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\CaseStudyController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KickstarterController;
 use App\Http\Controllers\ProductController;
@@ -33,6 +34,7 @@ Route::prefix('{locale}')
 
         Route::get('/about', AboutController::class)->name('about');
         Route::get('/kickstarter', KickstarterController::class)->name('kickstarter');
+        Route::get('/kickstarter/gallery', GalleryController::class)->name('kickstarter.gallery');
 
         Route::get('/contact', [ContactController::class, 'show'])->name('contact');
         Route::post('/contact', [ContactController::class, 'store'])
