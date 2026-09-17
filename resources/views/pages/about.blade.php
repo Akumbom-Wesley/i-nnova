@@ -135,7 +135,7 @@
     @endif
 
     @if ($steps->isNotEmpty())
-        <section class="relative overflow-hidden bg-ink py-(--spacing-band) text-white">
+        <section id="how-we-work" class="relative scroll-mt-24 overflow-hidden bg-ink py-(--spacing-band) text-white">
             <x-tech.code class="pointer-events-none absolute -right-16 top-1/2 hidden w-[26rem] -translate-y-1/2 text-white/[0.09] lg:block" />
 
             <div class="relative mx-auto max-w-6xl px-4 sm:px-6">
@@ -219,6 +219,8 @@
         'title' => __('Life here'),
         'lead' => __('The building in Bamenda, and the team at work in it.'),
     ])
+
+    @include('sections.map', ['settings' => $settings])
 
     @include('sections.cta', ['settings' => $settings])
 @endsection
