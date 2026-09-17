@@ -20,7 +20,7 @@
 <header @class([
     'relative overflow-hidden',
     'page-header-ground text-white' => $isDark,
-    'border-b border-ink/10 bg-paper' => ! $isDark,
+    'border-b border-content/10 bg-paper' => ! $isDark,
 ])>
     @unless ($isDark)
         <div class="pointer-events-none absolute inset-x-0 -top-40 h-96 bg-gradient-to-b from-primary-soft to-transparent"
@@ -59,7 +59,7 @@
                 @endif
 
                 <x-ui.reveal :delay="80">
-                    <h1 class="mt-5 max-w-4xl font-display text-h1 {{ $isDark ? 'text-white' : 'text-ink' }}">{{ $title }}</h1>
+                    <h1 class="mt-5 max-w-4xl font-display text-h1 {{ $isDark ? 'text-white' : 'text-content' }}">{{ $title }}</h1>
                 </x-ui.reveal>
 
                 <x-ui.reveal :delay="140">

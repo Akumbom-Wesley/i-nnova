@@ -42,7 +42,7 @@
 
     @if ($coverMedia)
         <div class="mx-auto max-w-6xl px-4 sm:px-6">
-            <x-ui.reveal from="scale" class="-mt-10 overflow-hidden rounded-2xl border border-ink/10 shadow-xl shadow-ink/5">
+            <x-ui.reveal from="scale" class="-mt-10 overflow-hidden rounded-2xl border border-content/10 shadow-xl shadow-shade/5">
                 <img src="{{ $coverMedia->getUrl('wide') ?: $coverMedia->getUrl() }}"
                      srcset="{{ $coverMedia->getSrcset('wide') }}"
                      sizes="(min-width: 72rem) 72rem, 100vw"
@@ -63,7 +63,7 @@
                     <x-ui.reveal :delay="$index * 80" class="grid gap-8 lg:grid-cols-[14rem_1fr]">
                         <div>
                             <span class="font-display text-sm text-accent-text">0{{ $index + 1 }}</span>
-                            <h2 class="mt-2 font-display text-h3 text-ink">{{ $heading }}</h2>
+                            <h2 class="mt-2 font-display text-h3 text-content">{{ $heading }}</h2>
                             <div class="rule-draw mt-4 h-0.5 w-10 bg-accent" aria-hidden="true"></div>
                         </div>
 
@@ -96,7 +96,7 @@
         <section class="bg-paper py-(--spacing-band)">
             <div class="mx-auto grid max-w-6xl gap-5 px-4 sm:grid-cols-2 sm:px-6">
                 @foreach ($gallery as $index => $image)
-                    <x-ui.reveal :delay="$index * 90" from="scale" class="overflow-hidden rounded-xl border border-ink/10">
+                    <x-ui.reveal :delay="$index * 90" from="scale" class="overflow-hidden rounded-xl border border-content/10">
                         <img src="{{ $image->getUrl('thumb') ?: $image->getUrl() }}"
                              alt="{{ $caseStudy->institution }}" width="600" height="400" loading="lazy" decoding="async" class="w-full object-cover">
                     </x-ui.reveal>
@@ -106,7 +106,7 @@
     @endif
 
     @if ($more->isNotEmpty())
-        <section class="border-t border-ink/10 bg-paper-dim py-(--spacing-band)">
+        <section class="border-t border-content/10 bg-paper-dim py-(--spacing-band)">
             <div class="mx-auto max-w-6xl px-4 sm:px-6">
                 <x-ui.section-header eyebrow="{{ __('More work') }}" title="{{ __('Other deployments') }}" />
 

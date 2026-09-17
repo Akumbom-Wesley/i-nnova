@@ -54,7 +54,7 @@
                                 'bg-primary' => ! $isLast,
                             ]) aria-hidden="true"></span>
 
-                            <h3 class="mt-2 font-display text-h3 text-ink lg:mt-0">{{ $milestone->title }}</h3>
+                            <h3 class="mt-2 font-display text-h3 text-content lg:mt-0">{{ $milestone->title }}</h3>
 
                             @if ($milestone->body)
                                 <p class="mt-3 max-w-2xl leading-relaxed text-muted">{{ $milestone->body }}</p>

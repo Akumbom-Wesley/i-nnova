@@ -16,7 +16,7 @@
     '[&_li]:mt-2',
     '[&_a]:font-semibold [&_a]:underline [&_a]:underline-offset-4',
     '[&_strong]:font-semibold',
-    'text-muted [&_h2]:text-ink [&_h3]:text-ink [&_a]:text-primary' => ! $isDark,
+    'text-muted [&_h2]:text-content [&_h3]:text-content [&_a]:text-primary' => ! $isDark,
     'text-white/70 [&_h2]:text-white [&_h3]:text-white [&_a]:text-accent' => $isDark,
 ]) }}>
     {{ $slot }}

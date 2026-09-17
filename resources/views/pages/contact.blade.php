@@ -23,7 +23,7 @@
                              stroke-width="2.25" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m5 13 4 4L19 7"/>
                         </svg>
-                        <p class="font-medium text-ink">{{ session('status') }}</p>
+                        <p class="font-medium text-content">{{ session('status') }}</p>
                     </div>
                 @endif
 
@@ -62,7 +62,7 @@
             </div>
 
             <aside class="space-y-10">
-                <x-ui.reveal from="right" class="rounded-2xl border border-ink/10 bg-paper-dim p-8">
+                <x-ui.reveal from="right" class="rounded-2xl border border-content/10 bg-paper-dim p-8">
                     <h2 class="text-eyebrow font-semibold uppercase text-muted">Reach us directly</h2>
 
                     <ul class="mt-6 space-y-5">
@@ -70,7 +70,7 @@
                             @php $whatsapp = preg_replace('/\D+/', '', $settings->whatsapp_number); @endphp
                             <li>
                                 <a href="https://wa.me/{{ $whatsapp }}" target="_blank" rel="noopener noreferrer"
-                                   class="group inline-flex items-center gap-3 font-semibold text-ink">
+                                   class="group inline-flex items-center gap-3 font-semibold text-content">
                                     <span class="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-white transition-transform duration-300 ease-[var(--ease-brand)] group-hover:scale-105">
                                         <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                             <path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.8 14.2c-.2.7-1.2 1.3-1.9 1.4-.5.1-1.2.1-1.9-.1a13.6 13.6 0 0 1-6.5-5.6c-.5-.8-.8-1.7-.8-2.5 0-.8.4-1.5.9-1.9.2-.2.4-.3.6-.3h.5c.2 0 .4 0 .5.4l.8 1.9c0 .2 0 .3-.1.5l-.4.5c-.1.2-.3.3-.1.6a9 9 0 0 0 4 3.4c.3.1.5.1.6-.1l.8-.9c.2-.2.3-.2.6-.1l1.8.9c.3.1.4.2.4.4 0 .2 0 .8-.2 1.5Z"/>
@@ -85,7 +85,7 @@
                             <li>
                                 <p class="text-eyebrow font-semibold uppercase text-muted">Phone</p>
                                 <a href="tel:{{ preg_replace('/\s+/', '', $settings->contact_phone) }}"
-                                   class="link-underline mt-1 inline-block font-semibold text-ink">
+                                   class="link-underline mt-1 inline-block font-semibold text-content">
                                     {{ $settings->contact_phone }}
                                 </a>
                             </li>
@@ -95,7 +95,7 @@
                             <li>
                                 <p class="text-eyebrow font-semibold uppercase text-muted">Email</p>
                                 <a href="mailto:{{ $settings->contact_email }}"
-                                   class="link-underline mt-1 inline-block font-semibold text-ink">
+                                   class="link-underline mt-1 inline-block font-semibold text-content">
                                     {{ $settings->contact_email }}
                                 </a>
                             </li>

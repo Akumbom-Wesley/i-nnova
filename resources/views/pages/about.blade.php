@@ -89,7 +89,7 @@
     @include('sections.mission', ['settings' => $settings])
 
     @if ($stats->isNotEmpty())
-        <section class="border-y border-ink/10 bg-paper-dim py-(--spacing-band)">
+        <section class="border-y border-content/10 bg-paper-dim py-(--spacing-band)">
             <div class="mx-auto grid max-w-6xl gap-10 px-4 sm:grid-cols-3 sm:px-6">
                 @foreach ($stats as $index => $stat)
                     <x-ui.reveal :delay="$index * 110">
@@ -110,7 +110,7 @@
                 <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach ($values as $index => $value)
                         <x-ui.reveal :delay="$index * 90"
-                                     class="card-lift group relative h-full overflow-hidden rounded-2xl border border-ink/10 bg-paper p-7 hover:border-accent/40 hover:shadow-lg hover:shadow-ink/5">
+                                     class="card-lift group relative h-full overflow-hidden rounded-2xl border border-content/10 bg-paper p-7 hover:border-accent/40 hover:shadow-lg hover:shadow-shade/5">
                             {{-- The number as a ghosted numeral behind the card, so
                                  the grid has depth without another colour in it. --}}
                             <span class="pointer-events-none absolute -right-3 -top-6 font-display text-[5.5rem] leading-none text-primary/[0.06] transition-colors duration-500 ease-[var(--ease-brand)] group-hover:text-accent/[0.10]"
@@ -122,7 +122,7 @@
                                 {{ str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT) }}
                             </span>
 
-                            <h3 class="relative mt-3 font-display text-h3 text-ink">{{ $value->title }}</h3>
+                            <h3 class="relative mt-3 font-display text-h3 text-content">{{ $value->title }}</h3>
 
                             <div class="rule-draw relative mt-4 h-0.5 w-10 bg-accent" aria-hidden="true"></div>
 
@@ -180,7 +180,7 @@
                                       aria-hidden="true"></span>
                             </div>
 
-                            <h3 class="mt-6 font-display text-lg text-ink">{{ $member->name }}</h3>
+                            <h3 class="mt-6 font-display text-lg text-content">{{ $member->name }}</h3>
                             <p class="mt-1 text-sm text-muted">{{ $member->role }}</p>
 
                             @if ($member->credentials)
@@ -193,7 +193,7 @@
                                 <div class="mt-4 flex justify-center gap-2">
                                     @foreach ($socials as $network => $url)
                                         <a href="{{ $url }}" target="_blank" rel="noopener noreferrer"
-                                           class="flex h-8 w-8 items-center justify-center rounded-full border border-ink/15 transition-all duration-300 ease-[var(--ease-brand)] hover:-translate-y-0.5 hover:border-accent hover:bg-accent">
+                                           class="flex h-8 w-8 items-center justify-center rounded-full border border-content/15 transition-all duration-300 ease-[var(--ease-brand)] hover:-translate-y-0.5 hover:border-accent hover:bg-accent">
                                             <x-brand.social-icon :network="$network" class="h-3.5 w-3.5 text-muted transition-colors duration-300 hover:text-white" />
                                             <span class="sr-only">{{ $member->name }}{{ __(' on ') }}{{ $network }}</span>
                                         </a>

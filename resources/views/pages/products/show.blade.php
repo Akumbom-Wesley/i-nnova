@@ -39,7 +39,7 @@
 
     @if ($coverMedia)
         <div class="mx-auto max-w-6xl px-4 sm:px-6">
-            <x-ui.reveal from="scale" class="-mt-10 overflow-hidden rounded-2xl border border-ink/10 shadow-xl shadow-ink/5">
+            <x-ui.reveal from="scale" class="-mt-10 overflow-hidden rounded-2xl border border-content/10 shadow-xl shadow-shade/5">
                 <img src="{{ $coverMedia->getUrl('wide') ?: $coverMedia->getUrl() }}"
                      srcset="{{ $coverMedia->getSrcset('wide') }}"
                      sizes="(min-width: 72rem) 72rem, 100vw"
@@ -62,8 +62,8 @@
                         purpose. Presenting unlaunched work as though it were in
                         service is exactly what this rebuild is correcting.
                     --}}
-                    <x-ui.reveal class="rounded-2xl border border-dashed border-ink/20 bg-paper-dim p-8">
-                        <h2 class="font-display text-h3 text-ink">Still in development</h2>
+                    <x-ui.reveal class="rounded-2xl border border-dashed border-content/20 bg-paper-dim p-8">
+                        <h2 class="font-display text-h3 text-content">Still in development</h2>
 
                         <p class="mt-4 leading-relaxed text-muted">
                             This one is being built. We would rather say little than describe
@@ -85,7 +85,7 @@
                     <div class="mt-14 grid gap-5 sm:grid-cols-2">
                         @foreach ($screenshots as $index => $shot)
                             <x-ui.reveal :delay="$index * 90" from="scale"
-                                         class="overflow-hidden rounded-xl border border-ink/10">
+                                         class="overflow-hidden rounded-xl border border-content/10">
                                 <img src="{{ $shot->getUrl('thumb') ?: $shot->getUrl() }}"
                                      alt="{{ $product->name }} screenshot" width="720" height="450" loading="lazy" decoding="async"
                                      class="w-full object-cover">
@@ -99,7 +99,7 @@
                 @php $features = $product->features ?? []; @endphp
 
                 @if (is_array($features) && $features !== [])
-                    <x-ui.reveal from="right" class="rounded-2xl border border-ink/10 bg-paper-dim p-8">
+                    <x-ui.reveal from="right" class="rounded-2xl border border-content/10 bg-paper-dim p-8">
                         <h2 class="text-eyebrow font-semibold uppercase text-muted">What it does</h2>
                         <x-ui.feature-list class="mt-6" :items="$features" />
                     </x-ui.reveal>
@@ -126,7 +126,7 @@
     </section>
 
     @if ($product->testimonials->isNotEmpty())
-        <section class="border-y border-ink/10 bg-paper-dim py-(--spacing-band)">
+        <section class="border-y border-content/10 bg-paper-dim py-(--spacing-band)">
             <div class="mx-auto max-w-6xl px-4 sm:px-6">
                 <div class="grid gap-6 md:grid-cols-2">
                     @foreach ($product->testimonials as $index => $testimonial)

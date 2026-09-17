@@ -15,7 +15,7 @@
         <div class="relative mx-auto max-w-3xl px-4 sm:px-6">
             <p class="font-display text-display text-primary/25" aria-hidden="true">{{ $code }}</p>
 
-            <h1 class="mt-2 font-display text-h1 text-ink">{{ $title }}</h1>
+            <h1 class="mt-2 font-display text-h1 text-content">{{ $title }}</h1>
 
             <div class="rule-draw mt-6 h-0.5 w-16 bg-accent" data-revealed aria-hidden="true"></div>
 
@@ -26,7 +26,7 @@
                 <x-ui.button :href="route('contact')" variant="outline" size="lg">Tell us what broke</x-ui.button>
             </div>
 
-            <div class="mt-16 border-t border-ink/10 pt-10">
+            <div class="mt-16 border-t border-content/10 pt-10">
                 <p class="text-eyebrow font-semibold uppercase text-muted">Or try one of these</p>
 
                 <ul class="mt-5 flex flex-wrap gap-x-8 gap-y-3">

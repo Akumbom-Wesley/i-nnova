@@ -30,7 +30,7 @@
                                   aria-hidden="true"></span>
                         </div>
 
-                        <h3 class="mt-6 font-display text-h3 text-ink">{{ $member->name }}</h3>
+                        <h3 class="mt-6 font-display text-h3 text-content">{{ $member->name }}</h3>
                         <p class="mt-1 text-sm text-muted">{{ $member->role }}</p>
                     </x-ui.reveal>
                 @endforeach

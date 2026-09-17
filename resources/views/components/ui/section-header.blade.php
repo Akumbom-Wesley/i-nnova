@@ -19,7 +19,7 @@
     @endif
 
     @if ($title)
-        <h2 class="mt-4 font-display text-h2 {{ $isDark ? 'text-white' : 'text-ink' }}">
+        <h2 class="mt-4 font-display text-h2 {{ $isDark ? 'text-white' : 'text-content' }}">
             {{ $title }}
         </h2>
     @endif

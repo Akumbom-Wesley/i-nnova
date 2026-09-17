@@ -21,7 +21,7 @@
 
                     <x-ui.reveal :delay="$index * 120" class="h-full">
                         <a href="{{ route('work.show', $caseStudy) }}"
-                           class="card-lift group flex h-full flex-col rounded-2xl border border-ink/10 bg-paper p-8 hover:border-accent/40 hover:shadow-xl hover:shadow-ink/5">
+                           class="card-lift group flex h-full flex-col rounded-2xl border border-content/10 bg-paper p-8 hover:border-accent/40 hover:shadow-xl hover:shadow-shade/5">
                             <div class="flex items-start gap-6">
                                 @if ($logo)
                                     <img src="{{ $logo }}" alt="" width="80" height="80" loading="lazy"
@@ -35,7 +35,7 @@
                                         </span>
                                     @endif
 
-                                    <h3 class="mt-2 font-display text-h3 text-ink">{{ $caseStudy->institution }}</h3>
+                                    <h3 class="mt-2 font-display text-h3 text-content">{{ $caseStudy->institution }}</h3>
 
                                     @if ($caseStudy->product)
                                         <p class="mt-2 text-sm font-semibold text-primary">

@@ -42,7 +42,7 @@
     @endif
 
     @if ($comingSoon->isNotEmpty())
-        <section class="relative overflow-hidden border-t border-ink/10 bg-paper-dim py-(--spacing-band)">
+        <section class="relative overflow-hidden border-t border-content/10 bg-paper-dim py-(--spacing-band)">
             <x-tech.grid class="pointer-events-none absolute inset-x-0 top-0 h-52 w-full text-primary/[0.09]" />
 
             <div class="relative mx-auto max-w-6xl px-4 sm:px-6">

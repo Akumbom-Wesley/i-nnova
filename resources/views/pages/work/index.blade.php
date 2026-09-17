@@ -21,7 +21,7 @@
                        @class([
                            'rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-200',
                            'bg-ink text-white' => $activeSector === '',
-                           'border border-ink/20 text-ink hover:border-ink/40' => $activeSector !== '',
+                           'border border-content/20 text-content hover:border-content/40' => $activeSector !== '',
                        ])>
                         {{ __('All sectors') }}
                     </a>
@@ -31,7 +31,7 @@
                            @class([
                                'rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-200',
                                'bg-ink text-white' => $activeSector === $sector->slug,
-                               'border border-ink/20 text-ink hover:border-ink/40' => $activeSector !== $sector->slug,
+                               'border border-content/20 text-content hover:border-content/40' => $activeSector !== $sector->slug,
                            ])>
                             {{ $sector->name }}
                         </a>
@@ -40,7 +40,7 @@
             @endif
 
             @if ($caseStudies->isEmpty())
-                <x-ui.reveal class="mt-16 rounded-2xl border border-dashed border-ink/20 p-12 text-center">
+                <x-ui.reveal class="mt-16 rounded-2xl border border-dashed border-content/20 p-12 text-center">
                     <p class="text-lead text-muted">Nothing published in this sector yet.</p>
 
                     <x-ui.button :href="route('work.index')" variant="outline" class="mt-8">
@@ -52,7 +52,7 @@
                     @foreach ($caseStudies as $index => $caseStudy)
                         <x-ui.reveal :delay="$index * 110" class="h-full">
                             <a href="{{ route('work.show', $caseStudy) }}"
-                               class="card-lift group flex h-full flex-col rounded-2xl border border-ink/10 bg-paper p-8 hover:border-accent/40 hover:shadow-xl hover:shadow-ink/5">
+                               class="card-lift group flex h-full flex-col rounded-2xl border border-content/10 bg-paper p-8 hover:border-accent/40 hover:shadow-xl hover:shadow-shade/5">
                                 <div class="flex items-start gap-6">
                                     @php $logo = $caseStudy->getFirstMediaUrl('logo', 'thumb') ?: $caseStudy->getFirstMediaUrl('logo'); @endphp
 
@@ -66,7 +66,7 @@
                                             <span class="text-eyebrow font-semibold uppercase text-muted">{{ $caseStudy->sector->name }}</span>
                                         @endif
 
-                                        <h2 class="mt-2 font-display text-h3 text-ink">{{ $caseStudy->institution }}</h2>
+                                        <h2 class="mt-2 font-display text-h3 text-content">{{ $caseStudy->institution }}</h2>
 
                                         @if ($caseStudy->product)
                                             <p class="mt-2 text-sm font-semibold text-primary">{{ $caseStudy->product->name }}</p>

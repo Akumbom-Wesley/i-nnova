@@ -12,7 +12,7 @@
     $current = app()->getLocale();
 @endphp
 
-<header x-data="{ open: false }" class="sticky top-0 z-40 border-b border-ink/10 bg-paper/90 backdrop-blur">
+<header x-data="{ open: false }" class="sticky top-0 z-40 border-b border-content/10 bg-paper/90 backdrop-blur">
     <div class="mx-auto flex max-w-6xl items-center justify-between gap-6 px-4 py-4 sm:px-6">
         {{-- The cubed wordmark carries the name, so there is no text beside
              it to repeat. The alt text is the company name rather than a
@@ -31,7 +31,7 @@
                    @class([
                        'text-sm font-medium transition-colors hover:text-primary',
                        'text-primary' => url()->current() === $href,
-                       'text-ink/80' => url()->current() !== $href,
+                       'text-content/80' => url()->current() !== $href,
                    ])>{{ $label }}</a>
             @endforeach
         </nav>
@@ -40,23 +40,25 @@
             <div class="flex items-center gap-1 text-xs font-semibold" role="group" aria-label="{{ __('Language') }}">
                 @foreach (config('site.locales') as $locale => $name)
                     @if ($locale === $current)
-                        <span class="rounded px-1.5 py-0.5 text-ink" aria-current="true">
+                        <span class="rounded px-1.5 py-0.5 text-content" aria-current="true">
                             {{ strtoupper($locale) }}
                             <span class="sr-only">({{ $name }}, {{ __('current') }})</span>
                         </span>
                     @else
                         <a href="{{ $route ? route($route->getName(), array_merge($route->parameters(), ['locale' => $locale])) : url('/' . $locale) }}"
                            hreflang="{{ $locale }}"
-                           class="rounded px-1.5 py-0.5 text-muted transition-colors hover:text-ink">
+                           class="rounded px-1.5 py-0.5 text-muted transition-colors hover:text-content">
                             {{ strtoupper($locale) }}
                             <span class="sr-only">({{ $name }})</span>
                         </a>
                     @endif
                     @if (! $loop->last)
-                        <span aria-hidden="true" class="text-ink/25">/</span>
+                        <span aria-hidden="true" class="text-content/25">/</span>
                     @endif
                 @endforeach
             </div>
+
+            <x-ui.theme-toggle />
 
             <a href="{{ route('contact') }}"
                class="rounded-full bg-accent px-5 py-2.5 text-base font-semibold text-white transition-colors hover:bg-accent-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-dark">
@@ -75,18 +77,18 @@
         </button>
     </div>
 
-    <div id="mobile-nav" x-show="open" x-cloak x-transition.opacity class="border-t border-ink/10 bg-paper md:hidden">
+    <div id="mobile-nav" x-show="open" x-cloak x-transition.opacity class="border-t border-content/10 bg-paper md:hidden">
         <nav class="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-4 sm:px-6" aria-label="{{ __('Mobile') }}">
             @foreach ($nav + [__('Contact') => route('contact')] as $label => $href)
                 <a href="{{ $href }}" class="rounded px-2 py-3 text-base font-medium hover:bg-paper-dim">{{ $label }}</a>
             @endforeach
 
-            <div class="mt-3 flex items-center gap-3 border-t border-ink/10 px-2 pt-4 text-sm font-semibold">
+            <div class="mt-3 flex items-center gap-3 border-t border-content/10 px-2 pt-4 text-sm font-semibold">
                 <span class="text-muted">{{ __('Language') }}</span>
 
                 @foreach (config('site.locales') as $locale => $name)
                     @if ($locale === $current)
-                        <span class="text-ink" aria-current="true">{{ $name }}</span>
+                        <span class="text-content" aria-current="true">{{ $name }}</span>
                     @else
                         <a href="{{ $route ? route($route->getName(), array_merge($route->parameters(), ['locale' => $locale])) : url('/' . $locale) }}"
                            hreflang="{{ $locale }}" class="text-primary hover:text-accent-text">{{ $name }}</a>

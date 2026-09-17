@@ -19,6 +19,26 @@
         :type="$seoType ?? 'website'"
     />
 
+    {{--
+        Applies a remembered appearance before the stylesheet is parsed, so
+        a reader who has chosen dark never gets a white flash first. It is
+        inline and tiny on purpose: a separate file would arrive too late
+        to be any use.
+    --}}
+    <script>
+        (function () {
+            try {
+                var mode = localStorage.getItem('theme');
+                if (mode === 'dark' || mode === 'light') {
+                    document.documentElement.setAttribute('data-theme', mode);
+                }
+            } catch (e) {
+                // Storage can be blocked. Falling through leaves the system
+                // preference in charge, which is the right default anyway.
+            }
+        })();
+    </script>
+
     <link rel="icon" href="{{ asset('images/logo-mark.png') }}" type="image/png">
 
     {{ Vite::fonts() }}
@@ -29,7 +49,7 @@
 
     @stack('schema')
 </head>
-<body class="min-h-screen bg-paper font-sans text-ink antialiased">
+<body class="min-h-screen bg-paper font-sans text-content antialiased">
     <a href="#main"
        class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded focus:bg-ink focus:px-4 focus:py-2 focus:text-paper">
         {{ __('Skip to content') }}

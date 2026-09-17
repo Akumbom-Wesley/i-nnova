@@ -28,7 +28,21 @@
     --color-accent-text: #B8460A;  /* orange AS text on white; 5.36:1 */
     --color-accent-soft: #FDF1E8;
 
-    /* Deep navy rather than black, so it reads as part of the blue family. */
+    /* The foreground. Deep navy rather than black, so type reads as part of
+       the blue family. In dark mode this becomes the near-white. */
+    --color-content: #0A1A33;
+
+    /* Shadows. Never flips: a shadow is the absence of light in either mode,
+       and flipping it would turn every card shadow into a white glow. */
+    --color-shade: #0A1A33;
+
+    /* Hairlines and dividers, as one token so they can flip with the mode. */
+    --color-hairline: #0A1A331A;
+
+    /* The contrast band. Stays dark in both modes: it is the ground the
+       white-on-navy sections are built on, so flipping it would invert
+       every one of them. In dark mode it lifts slightly above the page so
+       the bands still separate. */
     --color-ink: #0A1A33;
     --color-ink-soft: #14264A;
     --color-ink-line: #23375E;
@@ -688,7 +702,7 @@
         position: relative;
         /* The hairline is a border rather than a pseudo-element, which leaves
            the single ::before free to be the wash. */
-        border-top: 1px solid rgb(10 26 51 / 0.09);
+        border-top: 1px solid var(--color-hairline);
     }
 
     /* The wash. ::before paints before the section's children, so it sits
@@ -774,4 +788,76 @@
         animation: none;
         transform: scaleX(1);
     }
+}
+
+/* -------------------------------------------------------------------
+   Dark mode
+   -------------------------------------------------------------------
+   Every surface on the site is painted with a semantic token, so the
+   whole of dark mode is these variables taking different values. No
+   template carries a dark: variant, which is what keeps the two modes
+   from drifting apart as pages are added.
+
+   The brand colours do not change identity. Blue stays blue and orange
+   stays orange; they are only lifted enough to clear 4.5:1 against a
+   dark ground, which they would not at their light-mode values.
+
+   `ink` is deliberately not inverted. It is the ground under every
+   white-on-navy band, so flipping it would turn those sections inside
+   out. In dark mode it instead lifts slightly above the page, so the
+   bands still read as bands.
+
+   Follows the system by default; an explicit choice wins over it.
+   ------------------------------------------------------------------- */
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) {
+        --color-paper: #0B1524;
+        --color-paper-dim: #111E31;
+        --color-ink: #18293F;
+        --color-ink-soft: #1F3450;
+        --color-ink-line: #2B4166;
+
+        --color-content: #E8EDF5;
+        --color-hairline: #E8EDF524;
+        --color-muted: #9DACC2;
+
+        --color-primary: #6FA8F5;
+        --color-primary-dark: #4E8DE0;
+        --color-primary-soft: #16263F;
+
+        --color-accent: #FF7A2E;
+        --color-accent-dark: #E8620F;
+        --color-accent-text: #FFA167;
+        --color-accent-soft: #2B1B10;
+    }
+}
+
+:root[data-theme='dark'] {
+        --color-paper: #0B1524;
+        --color-paper-dim: #111E31;
+        --color-ink: #18293F;
+        --color-ink-soft: #1F3450;
+        --color-ink-line: #2B4166;
+
+        --color-content: #E8EDF5;
+        --color-hairline: #E8EDF524;
+        --color-muted: #9DACC2;
+
+        --color-primary: #6FA8F5;
+        --color-primary-dark: #4E8DE0;
+        --color-primary-soft: #16263F;
+
+        --color-accent: #FF7A2E;
+        --color-accent-dark: #E8620F;
+        --color-accent-text: #FFA167;
+    --color-accent-soft: #2B1B10;
+}
+
+/* The browser's own widgets, so form fields and scrollbars follow too. */
+:root[data-theme='dark'] { color-scheme: dark; }
+:root[data-theme='light'] { color-scheme: light; }
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) { color-scheme: dark; }
 }

@@ -177,6 +177,61 @@ Alpine.data('countUp', (raw = '') => ({
 
 window.Alpine = Alpine;
 
+/**
+ * Light and dark.
+ *
+ * Three states: following the system, forced light, forced dark. The choice
+ * is written to the same key the inline script in the document head reads, so
+ * a reload paints the right mode immediately rather than flashing the other
+ * one first.
+ */
+Alpine.data('themeToggle', () => ({
+    mode: 'system',
+
+    init() {
+        this.mode = window.localStorage.getItem('theme') || 'system';
+        this.apply();
+    },
+
+    get label() {
+        return {
+            system: 'Appearance: following your system. Switch to light.',
+            light: 'Appearance: light. Switch to dark.',
+            dark: 'Appearance: dark. Follow your system instead.',
+        }[this.mode];
+    },
+
+    cycle() {
+        this.mode = { system: 'light', light: 'dark', dark: 'system' }[this.mode];
+        this.apply();
+    },
+
+    apply() {
+        const root = document.documentElement;
+
+        if (this.mode === 'system') {
+            root.removeAttribute('data-theme');
+
+            try {
+                window.localStorage.removeItem('theme');
+            } catch (error) {
+                // Private browsing can refuse storage. The mode still applies
+                // for this page; it just will not be remembered.
+            }
+
+            return;
+        }
+
+        root.setAttribute('data-theme', this.mode);
+
+        try {
+            window.localStorage.setItem('theme', this.mode);
+        } catch (error) {
+            // As above.
+        }
+    },
+}));
+
 Alpine.start();
 
 /**
