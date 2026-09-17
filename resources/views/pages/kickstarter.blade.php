@@ -27,7 +27,7 @@
         </x-ui.reveal>
 
         <x-slot:media>
-            <x-ui.photo-cluster :images="$photos" />
+            <x-ui.photo-cluster :images="$feature" />
         </x-slot:media>
     </x-ui.page-header>
 
@@ -36,7 +36,7 @@
             <div class="mx-auto grid max-w-6xl gap-10 px-4 sm:grid-cols-3 sm:px-6">
                 @foreach ($stats as $index => $stat)
                     <x-ui.reveal :delay="$index * 110">
-                        <x-ui.stat :value="$stat->value" :label="$stat->label" :caption="$stat->caption" />
+                        <x-ui.stat :value="$stat->displayValue()" :label="$stat->label" :caption="$stat->caption" />
                     </x-ui.reveal>
                 @endforeach
             </div>
@@ -197,13 +197,13 @@
         </section>
     @endif
 
-    {{-- The first three are already in the header cluster, so the gallery
-         takes what is left rather than showing them twice. It disappears
-         entirely until there are more than three. --}}
+    {{-- The gallery. Anything placed under the Kickstarter gallery in the
+         admin lands here, photographs and video alike. --}}
     @include('sections.gallery', [
-        'images' => $photos->skip(3)->values(),
-        'eyebrow' => __('The programme in action'),
-        'title' => __('What a cohort actually looks like'),
+        'id' => 'gallery',
+        'images' => $photos,
+        'eyebrow' => __('Gallery'),
+        'title' => __('The programme in pictures and video'),
         'lead' => __('Internships running, projects being built, and the people doing it.'),
         'tone' => 'dark',
     ])

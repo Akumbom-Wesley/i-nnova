@@ -241,3 +241,72 @@ if (document.readyState === 'loading') {
 } else {
     setupReveal();
 }
+
+/**
+ * Navigation progress.
+ *
+ * Shows a bar the moment a link that leads somewhere else is followed, and
+ * again if the page is restored from the back/forward cache. Only same-tab,
+ * same-origin navigations count: an anchor, a new tab, a download or a
+ * mailto link is not a page load and should not pretend to be one.
+ */
+const setupNavigationProgress = () => {
+    const bar = document.createElement('div');
+    bar.className = 'nav-progress';
+    bar.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(bar);
+
+    const start = () => bar.setAttribute('data-loading', '');
+    const stop = () => bar.removeAttribute('data-loading');
+
+    document.addEventListener('click', (event) => {
+        if (event.defaultPrevented || event.button !== 0) {
+            return;
+        }
+
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+            return;
+        }
+
+        const link = event.target.closest('a');
+
+        if (!link || link.target === '_blank' || link.hasAttribute('download')) {
+            return;
+        }
+
+        const href = link.getAttribute('href');
+
+        if (!href || href.startsWith('#') || /^(mailto|tel|sms):/i.test(href)) {
+            return;
+        }
+
+        const destination = new URL(link.href, window.location.href);
+
+        if (destination.origin !== window.location.origin) {
+            return;
+        }
+
+        // Same page, different anchor: nothing is loading.
+        if (
+            destination.pathname === window.location.pathname &&
+            destination.search === window.location.search &&
+            destination.hash
+        ) {
+            return;
+        }
+
+        start();
+    });
+
+    window.addEventListener('beforeunload', start);
+
+    // Coming back through history serves a cached page, so the bar has to be
+    // cleared or it would still be sitting there.
+    window.addEventListener('pageshow', stop);
+};
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupNavigationProgress);
+} else {
+    setupNavigationProgress();
+}

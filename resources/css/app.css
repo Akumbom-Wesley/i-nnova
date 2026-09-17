@@ -567,14 +567,12 @@
        is never entirely still. */
     .band-sheen {
         position: relative;
-        isolation: isolate;
     }
 
-    .band-sheen::after {
+    .band-sheen::before {
         content: '';
         position: absolute;
         inset: 0;
-        z-index: -1;
         background: linear-gradient(
             115deg,
             transparent 35%,
@@ -597,7 +595,7 @@
         transition: none;
     }
 
-    .band-sheen::after {
+    .band-sheen::before {
         animation: none;
     }
 }
@@ -688,26 +686,15 @@
 @layer components {
     .section-seam {
         position: relative;
-        isolation: isolate;
+        /* The hairline is a border rather than a pseudo-element, which leaves
+           the single ::before free to be the wash. */
+        border-top: 1px solid rgb(10 26 51 / 0.09);
     }
 
+    /* The wash. ::before paints before the section's children, so it sits
+       under the content without needing a negative z-index, which would have
+       put it behind the section's own white background and hidden it. */
     .section-seam::before {
-        content: '';
-        position: absolute;
-        inset-inline: 0;
-        top: 0;
-        height: 1px;
-        background-image: linear-gradient(
-            to right,
-            transparent,
-            rgb(10 26 51 / 0.10) 12%,
-            rgb(10 26 51 / 0.10) 88%,
-            transparent
-        );
-        z-index: -1;
-    }
-
-    .section-seam::after {
         content: '';
         position: absolute;
         inset-inline: 0;
@@ -716,22 +703,75 @@
         background-image: linear-gradient(to bottom, var(--color-primary-soft), transparent);
         opacity: 0.7;
         pointer-events: none;
-        z-index: -1;
     }
 
     /* The warm variant, for a band sitting between two cool ones. */
-    .section-seam--warm::after {
+    .section-seam--warm::before {
         background-image: linear-gradient(to bottom, var(--color-accent-soft), transparent);
         opacity: 0.55;
     }
 
-    /* A short accent tick at the start of the seam, aligned to the page
-       gutter rather than the viewport edge. */
+    /* A short accent tick at the start of the seam, aligned to the page gutter
+       rather than the viewport edge.
+
+       It lives inside the content container so it inherits the gutter, which
+       means it has to be lifted back out by the section's top padding.
+       Without that it lands on top of the heading. */
     .seam-tick {
         position: absolute;
-        top: 0;
+        top: calc(var(--spacing-band) * -1);
         height: 2px;
         width: 4.5rem;
         background-color: var(--color-accent);
+    }
+}
+
+/* -------------------------------------------------------------------
+   Navigation progress
+   -------------------------------------------------------------------
+   The site is server rendered, so following a link means waiting for a
+   whole page. The bar gives that wait somewhere to show, rather than
+   the browser appearing to do nothing.
+
+   It creeps towards the right but never reaches it, because the page
+   arriving is what finishes it.
+   ------------------------------------------------------------------- */
+
+@layer components {
+    .nav-progress {
+        position: fixed;
+        inset-inline: 0;
+        top: 0;
+        height: 3px;
+        z-index: 60;
+        transform-origin: left;
+        transform: scaleX(0);
+        background-image: linear-gradient(
+            to right,
+            var(--color-primary),
+            var(--color-accent)
+        );
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s linear;
+    }
+
+    .nav-progress[data-loading] {
+        opacity: 1;
+        animation: nav-progress 12s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+    }
+}
+
+@keyframes nav-progress {
+    0%   { transform: scaleX(0); }
+    40%  { transform: scaleX(0.6); }
+    70%  { transform: scaleX(0.82); }
+    100% { transform: scaleX(0.96); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nav-progress[data-loading] {
+        animation: none;
+        transform: scaleX(1);
     }
 }

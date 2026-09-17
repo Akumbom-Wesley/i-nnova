@@ -63,12 +63,19 @@
             <div class="relative mx-auto max-w-6xl px-4 sm:px-6">
                 <x-ui.seam />
 
-                <div class="grid gap-12 lg:grid-cols-[auto_1fr] lg:gap-16">
-                    {{-- A quiet marker rather than a heading: the story speaks for
-                         itself, it just needs something to start against. --}}
-                    <div class="hidden lg:block" aria-hidden="true">
-                        <span class="block font-display text-[7rem] leading-none text-primary/10">&ldquo;</span>
-                        <span class="mt-4 block h-24 w-px bg-gradient-to-b from-accent to-transparent"></span>
+                {{-- A quiet marker rather than a heading: the story speaks for
+                     itself, it just needs something to start against.
+
+                     On a phone the marker sits above the text and the rule runs
+                     across rather than down, so the mark is still there and the
+                     column it used to occupy is not left empty. --}}
+                <div class="grid gap-6 lg:grid-cols-[auto_1fr] lg:gap-16">
+                    <div class="flex items-center gap-4 lg:block" aria-hidden="true">
+                        <span class="block font-display leading-none text-primary/15 text-[3.25rem] sm:text-[4.5rem] lg:text-[7rem] lg:text-primary/10">
+                            &ldquo;
+                        </span>
+
+                        <span class="h-px flex-1 bg-gradient-to-r from-accent to-transparent lg:mt-4 lg:block lg:h-24 lg:w-px lg:flex-none lg:bg-gradient-to-b"></span>
                     </div>
 
                     <x-ui.reveal>
@@ -86,7 +93,7 @@
             <div class="mx-auto grid max-w-6xl gap-10 px-4 sm:grid-cols-3 sm:px-6">
                 @foreach ($stats as $index => $stat)
                     <x-ui.reveal :delay="$index * 110">
-                        <x-ui.stat :value="$stat->value" :label="$stat->label" :caption="$stat->caption" />
+                        <x-ui.stat :value="$stat->displayValue()" :label="$stat->label" :caption="$stat->caption" />
                     </x-ui.reveal>
                 @endforeach
             </div>

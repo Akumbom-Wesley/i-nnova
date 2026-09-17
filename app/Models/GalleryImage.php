@@ -43,6 +43,9 @@ class GalleryImage extends Model implements HasMedia
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('image')->singleFile();
+
+        // An uploaded video, for footage not hosted on YouTube or Vimeo.
+        $this->addMediaCollection('video')->singleFile();
     }
 
     /**
@@ -116,5 +119,46 @@ class GalleryImage extends Model implements HasMedia
     public function altText(): string
     {
         return (string) ($this->alt ?: $this->title ?: '');
+    }
+    /**
+     * True when this row is a video rather than a still.
+     */
+    public function isVideo(): bool
+    {
+        return filled($this->video_url) || $this->hasMedia('video');
+    }
+
+    /**
+     * The file to play, for a video uploaded rather than linked.
+     */
+    public function videoFileUrl(): ?string
+    {
+        return $this->hasMedia('video') ? $this->getFirstMediaUrl('video') : null;
+    }
+
+    /**
+     * A YouTube or Vimeo link turned into something an iframe can load.
+     * Anything else is returned untouched, and the template links to it
+     * rather than trying to embed something it does not understand.
+     */
+    public function videoEmbedUrl(): ?string
+    {
+        $url = $this->video_url;
+
+        if (blank($url)) {
+            return null;
+        }
+
+        if (preg_match('~youtube\.com/watch\?v=([\w-]+)~', $url, $m)
+            || preg_match('~youtu\.be/([\w-]+)~', $url, $m)
+            || preg_match('~youtube\.com/embed/([\w-]+)~', $url, $m)) {
+            return 'https://www.youtube-nocookie.com/embed/' . $m[1];
+        }
+
+        if (preg_match('~vimeo\.com/(?:video/)?(\d+)~', $url, $m)) {
+            return 'https://player.vimeo.com/video/' . $m[1];
+        }
+
+        return null;
     }
 }

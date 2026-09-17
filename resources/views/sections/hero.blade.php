@@ -110,7 +110,7 @@
             <div class="mt-(--spacing-band) grid grid-cols-1 gap-10 border-t pt-12 sm:grid-cols-3 {{ $hasSlides ? 'border-white/20' : 'border-ink/10' }}">
                 @foreach ($stats as $index => $stat)
                     <x-ui.reveal :delay="$index * 120">
-                        <x-ui.stat :value="$stat->value" :label="$stat->label" :caption="$stat->caption"
+                        <x-ui.stat :value="$stat->displayValue()" :label="$stat->label" :caption="$stat->caption"
                                    :tone="$hasSlides ? 'dark' : 'light'" />
                     </x-ui.reveal>
                 @endforeach

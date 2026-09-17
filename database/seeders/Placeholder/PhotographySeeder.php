@@ -65,22 +65,22 @@ class PhotographySeeder extends Seeder
                 'Engineers who build the products and teach the programme',
             ],
 
-            // Kickstarter carries all the photography of the programme: three
-            // in the header cluster and the rest in the gallery below it. The
-            // About header is a designed panel rather than photographs, so
-            // nothing is shown twice across the two pages.
+            // Three beside the Kickstarter heading, three in the gallery under
+            // it. They are separate placements, so the gallery does not vanish
+            // when the cluster has taken everything. The About header is a
+            // designed panel, so nothing repeats across the two pages.
             [
-                'kickstarter', 'office-discussion.jpeg',
+                'kickstarter_feature', 'office-discussion.jpeg',
                 'In the room',
                 'A session under way at the Bamenda office',
             ],
             [
-                'kickstarter', 'cohort-workroom.jpeg',
+                'kickstarter_feature', 'cohort-workroom.jpeg',
                 'The workroom',
                 'Laptops open, work in progress',
             ],
             [
-                'kickstarter', 'cohort-tables.jpeg',
+                'kickstarter_feature', 'cohort-tables.jpeg',
                 'Heads down',
                 'Around the tables, mid build',
             ],
