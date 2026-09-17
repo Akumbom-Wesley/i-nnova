@@ -14,11 +14,14 @@
 
 <header x-data="{ open: false }" class="sticky top-0 z-40 border-b border-ink/10 bg-paper/90 backdrop-blur">
     <div class="mx-auto flex max-w-6xl items-center justify-between gap-6 px-4 py-4 sm:px-6">
-        <a href="{{ route('home') }}" class="flex items-center gap-3">
-            <img src="{{ asset('images/logo-mark.png') }}" alt="" width="36" height="36"
-                 class="h-9 w-9 object-contain" aria-hidden="true">
-            <span class="font-display text-xl leading-none tracking-tight">I-NNOVA</span>
-            <span class="sr-only">{{ __('Home') }}</span>
+        {{-- The cubed wordmark carries the name, so there is no text beside
+             it to repeat. The alt text is the company name rather than a
+             description of the picture. --}}
+        <a href="{{ route('home') }}" class="flex items-center">
+            <img src="{{ asset('images/wordmark-cubes.png') }}" alt="I-NNOVA"
+                 width="245" height="77" fetchpriority="high" decoding="async"
+                 class="h-9 w-auto object-contain sm:h-10">
+            <span class="sr-only">, {{ __('Home') }}</span>
         </a>
 
         <nav class="hidden items-center gap-8 md:flex" aria-label="{{ __('Primary') }}">

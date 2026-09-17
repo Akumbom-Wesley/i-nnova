@@ -15,11 +15,11 @@
 <footer class="relative overflow-hidden bg-ink text-white/75">
     <div class="mx-auto grid max-w-6xl gap-10 px-4 py-(--spacing-band-sm) sm:px-6 lg:grid-cols-[1.5fr_1fr_1fr]">
         <div>
-            <div class="flex items-center gap-3">
-                <img src="{{ asset('images/logo-mark.png') }}" alt="" width="40" height="40"
-                     loading="lazy" decoding="async" class="h-10 w-10 object-contain" aria-hidden="true">
-                <span class="font-display text-2xl leading-none tracking-tight text-white">I-NNOVA</span>
-            </div>
+            {{-- The same cubed wordmark as the header. It sits on the navy
+                 ground unaltered: the brand guide forbids recolouring it. --}}
+            <img src="{{ asset('images/wordmark-cubes.png') }}" alt="I-NNOVA"
+                 width="245" height="77" loading="lazy" decoding="async"
+                 class="h-11 w-auto object-contain">
 
             <p class="mt-5 max-w-sm text-sm leading-relaxed">
                 {{ __('Software for institutions, built in Bamenda, plus a programme building the people who write it.') }}
