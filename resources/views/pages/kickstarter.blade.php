@@ -75,7 +75,7 @@
     @endif
 
     {{-- Career Capital Score, the measure the programme actually reports on. --}}
-    <section class="relative overflow-hidden bg-primary py-(--spacing-band) text-white">
+    <section class="relative overflow-hidden bg-primary-band py-(--spacing-band) text-white">
         <x-tech.circuit class="pointer-events-none absolute -left-24 top-0 hidden w-[30rem] text-white/[0.10] lg:block" />
 
         <div class="relative mx-auto max-w-6xl px-4 sm:px-6">
@@ -197,8 +197,9 @@
         </section>
     @endif
 
-    {{-- The gallery. Anything placed under the Kickstarter gallery in the
-         admin lands here, photographs and video alike. --}}
+    {{-- A taste of the gallery: whichever photographs are marked Featured in
+         the admin, with everything else a click away. The link only appears
+         when there is more behind it than is already on screen. --}}
     @include('sections.gallery', [
         'id' => 'gallery',
         'images' => $photos,
@@ -206,6 +207,8 @@
         'title' => __('The programme in pictures and video'),
         'lead' => __('Internships running, projects being built, and the people doing it.'),
         'tone' => 'dark',
+        'ctaUrl' => $photoCount > $photos->count() ? route('kickstarter.gallery') : null,
+        'ctaLabel' => __('See all :count photographs and videos', ['count' => $photoCount]),
     ])
 
     @if ($alumni->isNotEmpty())

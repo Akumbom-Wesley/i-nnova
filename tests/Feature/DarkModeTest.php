@@ -26,6 +26,8 @@ class DarkModeTest extends TestCase
         'primary' => '#1157B6',
         'accent' => '#E85D0C',
         'accent-text' => '#B8460A',
+        'primary-band' => '#1157B6',
+        'white' => '#FFFFFF',
         // Dark
         'dark-paper' => '#0B1524',
         'dark-paper-dim' => '#111E31',
@@ -35,6 +37,7 @@ class DarkModeTest extends TestCase
         'dark-primary' => '#6FA8F5',
         'dark-accent' => '#FF7A2E',
         'dark-accent-text' => '#FFA167',
+        'dark-primary-band' => '#1B4F8C',
     ];
 
     private function luminance(string $hex): float
@@ -70,6 +73,11 @@ class DarkModeTest extends TestCase
             'orange as text on the page' => ['dark-accent-text', 'dark-paper', 4.5],
             'eyebrow orange on the contrast band' => ['dark-accent', 'dark-ink', 4.5],
             'focus ring on the page' => ['dark-accent', 'dark-paper', 3.0],
+            // The blue band does not follow `primary` into a light blue,
+            // because white type sits on it, and so do the current page
+            // in the pagination and the current gallery filter.
+            // Following it would take all of them to 2.44:1.
+            'white on the blue band' => ['white', 'dark-primary-band', 4.5],
         ];
     }
 
@@ -108,6 +116,39 @@ class DarkModeTest extends TestCase
 
         // And it must still separate from the page it sits on.
         $this->assertNotSame(self::COLORS['dark-ink'], self::COLORS['dark-paper']);
+    }
+
+    public function test_the_blue_band_stays_dark_in_both_modes(): void
+    {
+        // Same rule as ink. It is a ground white type sits on, so it must
+        // never be re-pointed at `primary`, which lightens.
+        $this->assertLessThan(0.2, $this->luminance(self::COLORS['primary-band']));
+        $this->assertLessThan(0.2, $this->luminance(self::COLORS['dark-primary-band']));
+    }
+
+    public function test_the_palette_here_is_the_palette_in_the_stylesheet(): void
+    {
+        // These constants are a copy of the stylesheet. A copy that nothing
+        // checks is a copy that drifts, and the drift would be silent: every
+        // contrast assertion above would still pass against the old values.
+        $css = (string) file_get_contents(resource_path('css/app.css'));
+
+        [$light, $dark] = explode('@media (prefers-color-scheme: dark)', $css, 2);
+
+        foreach (self::COLORS as $name => $hex) {
+            if ($name === 'white') {
+                continue;
+            }
+
+            $isDark = str_starts_with($name, 'dark-');
+            $token = '--color-' . ($isDark ? substr($name, 5) : $name);
+
+            $this->assertStringContainsString(
+                "{$token}: {$hex};",
+                $isDark ? $dark : $light,
+                "{$token} in the stylesheet no longer matches {$hex} in this test.",
+            );
+        }
     }
 
     public static function pages(): array

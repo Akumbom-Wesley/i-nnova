@@ -41,7 +41,7 @@
                             <span @class([
                                 'inline-flex items-center rounded-full px-3 py-1 font-display text-lg transition-colors duration-300 ease-[var(--ease-brand)]',
                                 'bg-accent-dark text-white' => $isLast,
-                                'bg-primary-soft text-primary group-hover:bg-primary group-hover:text-white' => ! $isLast,
+                                'bg-primary-soft text-primary group-hover:bg-primary-band group-hover:text-white' => ! $isLast,
                             ])>
                                 {{ $milestone->year }}
                             </span>

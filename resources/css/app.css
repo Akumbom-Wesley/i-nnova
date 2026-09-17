@@ -22,6 +22,13 @@
     --color-primary-dark: #0E4A9C;
     --color-primary-soft: #EAF1FA;
 
+    /* The blue band, the ground under the white-on-blue sections. Same
+       reasoning as `ink`: it is a ground that white type sits on, so it
+       cannot follow `primary` into a light blue in dark mode. Inverting
+       the page must not invert the band. It deepens instead, which keeps
+       white at 8.26:1 and still separates it from the page behind. */
+    --color-primary-band: #1157B6;
+
     /* Orange, the accent. Rationed: CTAs, active states, rules. Never a field. */
     --color-accent: #E85D0C;
     --color-accent-dark: #C74F0C;  /* hover; 4.61:1 with white text */
@@ -825,6 +832,7 @@
         --color-primary: #6FA8F5;
         --color-primary-dark: #4E8DE0;
         --color-primary-soft: #16263F;
+        --color-primary-band: #1B4F8C;
 
         --color-accent: #FF7A2E;
         --color-accent-dark: #E8620F;
@@ -847,6 +855,7 @@
         --color-primary: #6FA8F5;
         --color-primary-dark: #4E8DE0;
         --color-primary-soft: #16263F;
+        --color-primary-band: #1B4F8C;
 
         --color-accent: #FF7A2E;
         --color-accent-dark: #E8620F;
@@ -860,4 +869,77 @@
 
 @media (prefers-color-scheme: dark) {
     :root:not([data-theme='light']) { color-scheme: dark; }
+}
+
+/* -------------------------------------------------------------------
+   Pagination and the gallery lightbox
+   ------------------------------------------------------------------- */
+
+@layer components {
+    /* A page link is a 2.75rem target, which clears the 44px WCAG asks
+       for a pointer target, and stays that size on a phone. */
+    .pagination-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2.75rem;
+        height: 2.75rem;
+        padding-inline: 0.75rem;
+        border-radius: 0.75rem;
+        border: 1px solid var(--color-hairline);
+        background: var(--color-paper);
+        color: var(--color-content);
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        transition:
+            background-color 0.25s var(--ease-brand),
+            border-color 0.25s var(--ease-brand),
+            color 0.25s var(--ease-brand);
+    }
+
+    .pagination-link:hover {
+        border-color: color-mix(in srgb, var(--color-accent) 45%, transparent);
+        color: var(--color-primary);
+    }
+
+    /* The page you are on. primary-dark rather than primary, because white
+       on primary is 4.31:1 and these numerals are small. */
+    .pagination-link.is-current {
+        background: var(--color-primary-band);
+        border-color: var(--color-primary-band);
+        color: #fff;
+    }
+
+    .pagination-link.is-current:hover {
+        color: #fff;
+    }
+
+    /* Rendered rather than removed, so the row does not reflow when you
+       reach either end. */
+    .pagination-link.is-disabled {
+        opacity: 0.4;
+        cursor: default;
+    }
+
+    /* The lightbox sits above the sticky header and the nav progress bar. */
+    .lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        background: color-mix(in srgb, var(--color-ink) 92%, #000);
+    }
+
+    .lightbox-figure img {
+        max-height: min(78vh, 100%);
+        max-width: 100%;
+        object-fit: contain;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pagination-link {
+        transition: none;
+    }
 }
