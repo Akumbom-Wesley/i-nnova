@@ -65,24 +65,25 @@ class PhotographySeeder extends Seeder
                 'Engineers who build the products and teach the programme',
             ],
 
-            // About: the place and the working day.
+            // Kickstarter carries all the photography of the programme: three
+            // in the header cluster and the rest in the gallery below it. The
+            // About header is a designed panel rather than photographs, so
+            // nothing is shown twice across the two pages.
             [
-                'about', 'office-discussion.jpeg',
+                'kickstarter', 'office-discussion.jpeg',
                 'In the room',
                 'A session under way at the Bamenda office',
             ],
             [
-                'about', 'cohort-workroom.jpeg',
+                'kickstarter', 'cohort-workroom.jpeg',
                 'The workroom',
                 'Laptops open, work in progress',
             ],
             [
-                'about', 'cohort-tables.jpeg',
+                'kickstarter', 'cohort-tables.jpeg',
                 'Heads down',
                 'Around the tables, mid build',
             ],
-
-            // Kickstarter: the programme actually teaching.
             [
                 'kickstarter', 'kickstarter-security-session.jpeg',
                 'Cybersecurity, in session',

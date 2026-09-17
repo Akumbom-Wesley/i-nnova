@@ -42,7 +42,7 @@ class PhotographyTest extends TestCase
 
         $this->get($path)
             ->assertSee('https://picsum.photos/seed/test/1200/900', false)
-            ->assertSee('Engineers at work');
+            ->assertSee('Two engineers at a desk');
     }
 
     #[DataProvider('placements')]
@@ -261,5 +261,94 @@ class PhotographyTest extends TestCase
         // The featured tile takes the larger conversion, the rest take thumb.
         $this->assertStringContainsString('tile-1-wide', $html);
         $this->assertStringContainsString('tile-2-thumb', $html);
+    }
+
+    public function test_the_kickstarter_header_carries_a_photo_cluster(): void
+    {
+        foreach (range(1, 3) as $number) {
+            $this->photo(GalleryPlacement::Kickstarter, [
+                'external_url' => "https://picsum.photos/seed/ks{$number}/1200/900",
+                'sort_order' => $number,
+            ]);
+        }
+
+        $html = preg_replace('/\s+/', ' ', $this->get('/en/kickstarter')->getContent());
+
+        $this->assertStringContainsString('float-drift', $html);
+
+        // Two portraits across the top, one landscape centred beneath.
+        $this->assertSame(2, substr_count($html, 'aspect-[4/5]'));
+        $this->assertSame(1, substr_count($html, 'aspect-[16/10]'));
+    }
+
+    public function test_the_cluster_photos_are_not_repeated_in_the_gallery_below(): void
+    {
+        foreach (range(1, 3) as $number) {
+            $this->photo(GalleryPlacement::Kickstarter, [
+                'external_url' => "https://picsum.photos/seed/ks{$number}/1200/900",
+                'sort_order' => $number,
+            ]);
+        }
+
+        $html = $this->get('/en/kickstarter')->getContent();
+
+        foreach (range(1, 3) as $number) {
+            $this->assertSame(
+                1,
+                substr_count($html, "seed/ks{$number}/"),
+                "Photograph {$number} appears more than once on the page.",
+            );
+        }
+
+        // With only three, the gallery below has nothing left and disappears.
+        $this->assertStringNotContainsString('What a cohort actually looks like', $html);
+    }
+
+    public function test_the_gallery_returns_once_there_are_more_than_three(): void
+    {
+        foreach (range(1, 5) as $number) {
+            $this->photo(GalleryPlacement::Kickstarter, [
+                'external_url' => "https://picsum.photos/seed/ks{$number}/1200/900",
+                'sort_order' => $number,
+            ]);
+        }
+
+        $this->get('/en/kickstarter')->assertSee('What a cohort actually looks like');
+    }
+
+    public function test_the_cluster_is_absent_when_there_are_no_photographs(): void
+    {
+        $this->get('/en/kickstarter')
+            ->assertSuccessful()
+            ->assertDontSee('float-drift', false);
+    }
+    public function test_the_about_header_is_a_designed_panel_not_photographs(): void
+    {
+        // Every photograph of the company lives on Kickstarter. Repeating it
+        // on About would show the same three pictures twice across the site.
+        $this->photo(GalleryPlacement::About);
+
+        $html = $this->get('/en/about')->getContent();
+
+        $this->assertStringContainsString('Technology', $html);
+        $this->assertStringContainsString('Build what runs', $html);
+        $this->assertStringNotContainsString('aspect-[4/5]', $html);
+    }
+
+    public function test_the_stem_panel_needs_no_content_to_render(): void
+    {
+        // It is a designed panel, so it must stand up on an empty database.
+        $this->get('/en/about')
+            ->assertSuccessful()
+            ->assertSee('Science')
+            ->assertSee('Mathematics')
+            ->assertSee('Prove it works');
+    }
+
+    public function test_the_stem_panel_is_translated(): void
+    {
+        $this->get('/fr/about')
+            ->assertSee('Technologie')
+            ->assertSee('Construire ce qui tourne');
     }
 }

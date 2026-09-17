@@ -156,4 +156,37 @@ class AccessibilityTest extends TestCase
             $this->assertStringContainsString('aria-hidden="true"', $tag, "Unlabelled svg: {$tag}");
         }
     }
+    /**
+     * The inner page headers sit on a coloured ground. Orange measures 4.97:1
+     * on navy but only 2.42:1 on the brand blue, so the gradient is written to
+     * keep the whole text column on navy and let blue in only past it. These
+     * assert the navy end, which is what the eyebrow and the rule sit on.
+     */
+    public static function headerGroundPairs(): array
+    {
+        return [
+            'white title on the header ground' => ['paper', 'ink', 4.5],
+            'orange eyebrow on the header ground' => ['accent', 'ink', 4.5],
+            'orange rule on the header ground' => ['accent', 'ink', 3.0],
+        ];
+    }
+
+    #[DataProvider('headerGroundPairs')]
+    public function test_the_coloured_page_header_stays_legible(string $foreground, string $background, float $minimum): void
+    {
+        $ratio = $this->contrast($foreground, $background);
+
+        $this->assertGreaterThanOrEqual($minimum, round($ratio, 2));
+    }
+
+    public function test_orange_is_never_asked_to_sit_on_the_brand_blue(): void
+    {
+        // Documents why the header gradient is written the way it is. If this
+        // ever passes, the constraint has gone and the gradient can relax.
+        $this->assertLessThan(
+            3.0,
+            $this->contrast('accent', 'primary'),
+            'Orange now clears 3:1 on blue; the header gradient constraint can be revisited.',
+        );
+    }
 }

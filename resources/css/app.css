@@ -601,3 +601,75 @@
         animation: none;
     }
 }
+
+/* -------------------------------------------------------------------
+   Floating photo cluster
+   -------------------------------------------------------------------
+   Three photographs arranged as an inverted triangle beside a page
+   heading. Each drifts on its own clock so the group never pulses in
+   unison, which would read as a loading state rather than a still life.
+
+   The drift is applied to an inner wrapper so the static offset that
+   makes the triangle can stay on the outer element.
+   ------------------------------------------------------------------- */
+
+@layer components {
+    .float-drift {
+        animation: float-drift 7s ease-in-out infinite;
+        animation-delay: var(--float-delay, 0s);
+    }
+}
+
+@keyframes float-drift {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-0.7rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .float-drift {
+        animation: none;
+    }
+}
+
+/* -------------------------------------------------------------------
+   Inner page header ground
+   -------------------------------------------------------------------
+   Colour, without putting text where it cannot be read.
+
+   The orange accent measures 4.97:1 on navy but only 2.42:1 on the
+   brand blue, so it fails as an eyebrow or a rule anywhere the blue
+   reaches. The stops are therefore fixed rather than left to a
+   diagonal: navy holds the whole text column and the blue is let in
+   only past it, where the photographs sit.
+
+   On a phone there is no photo column and the text runs full width, so
+   the blue is pushed to the very bottom.
+   ------------------------------------------------------------------- */
+
+@layer components {
+    .page-header-ground {
+        background-image:
+            radial-gradient(38rem 26rem at 88% -15%, rgb(232 93 12 / 0.22), transparent 70%),
+            linear-gradient(
+                170deg,
+                var(--color-ink) 0%,
+                var(--color-ink) 74%,
+                var(--color-primary-dark) 100%
+            );
+    }
+
+    @media (min-width: 64rem) {
+        .page-header-ground {
+            background-image:
+                radial-gradient(34rem 26rem at 78% -10%, rgb(232 93 12 / 0.26), transparent 68%),
+                radial-gradient(28rem 22rem at 110% 90%, rgb(17 87 182 / 0.55), transparent 70%),
+                linear-gradient(
+                    100deg,
+                    var(--color-ink) 0%,
+                    var(--color-ink) 54%,
+                    var(--color-primary-dark) 80%,
+                    var(--color-primary) 100%
+                );
+        }
+    }
+}

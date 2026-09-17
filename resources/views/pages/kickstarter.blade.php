@@ -18,11 +18,17 @@
     >
         <x-ui.reveal :delay="260" class="mt-10 flex flex-wrap gap-4">
             @if ($settings->kickstarter_url)
-                <x-ui.button :href="$settings->kickstarter_url" size="lg">Apply now</x-ui.button>
+                <x-ui.button :href="$settings->kickstarter_url" size="lg">{{ __('Apply now') }}</x-ui.button>
             @endif
 
-            <x-ui.button href="#tracks" variant="outline" size="lg">See the tracks</x-ui.button>
+            {{-- ghost-light rather than outline: an ink border is invisible on
+                 the blue ground the header now sits on. --}}
+            <x-ui.button href="#tracks" variant="ghost-light" size="lg">{{ __('See the tracks') }}</x-ui.button>
         </x-ui.reveal>
+
+        <x-slot:media>
+            <x-ui.photo-cluster :images="$photos" />
+        </x-slot:media>
     </x-ui.page-header>
 
     @if ($stats->isNotEmpty())
@@ -191,8 +197,11 @@
         </section>
     @endif
 
+    {{-- The first three are already in the header cluster, so the gallery
+         takes what is left rather than showing them twice. It disappears
+         entirely until there are more than three. --}}
     @include('sections.gallery', [
-        'images' => $photos,
+        'images' => $photos->skip(3)->values(),
         'eyebrow' => __('The programme in action'),
         'title' => __('What a cohort actually looks like'),
         'lead' => __('Internships running, projects being built, and the people doing it.'),
