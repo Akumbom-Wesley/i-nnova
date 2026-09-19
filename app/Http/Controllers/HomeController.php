@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Enums\GalleryPlacement;
-use App\Models\CaseStudy;
 use App\Models\Client;
 use App\Models\CompanyValue;
 use App\Models\GalleryImage;
@@ -24,7 +23,8 @@ class HomeController extends Controller
             'settings' => SiteSetting::instance(),
             'products' => Product::query()->live()->ordered()->with('sector', 'media')->get(),
             'comingSoon' => Product::query()->comingSoon()->ordered()->get(),
-            'caseStudies' => CaseStudy::query()->where('is_featured', true)->ordered()->with('product', 'sector')->get(),
+            // The deployments band: clients we lead with, and what they run.
+            'deployments' => Client::query()->verified()->where('is_featured', true)->ordered()->with('products', 'sector', 'media')->get(),
             'values' => CompanyValue::query()->ordered()->with('media')->get(),
             'team' => TeamMember::query()->ordered()->limit(TeamMember::LEADERSHIP_COUNT)->with('media')->get(),
             'tracks' => KickstarterTrack::query()->where('is_active', true)->ordered()->with('media')->get(),

@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Enums\ProductStatus;
-use App\Models\CaseStudy;
+use App\Models\Client;
 use App\Models\Product;
 use App\Models\SiteSetting;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -78,7 +78,7 @@ class SeoTest extends TestCase
     {
         Product::create(['name' => ['en' => 'A Product'], 'slug' => 'a-product', 'status' => ProductStatus::Live]);
         Product::create(['name' => ['en' => 'Unshipped'], 'slug' => 'unshipped', 'status' => ProductStatus::ComingSoon]);
-        CaseStudy::create(['institution' => 'An Institution', 'slug' => 'an-institution']);
+        Client::create(['name' => 'An Institution', 'slug' => 'an-institution', 'summary' => ['en' => 'A deployment.'], 'is_verified' => true]);
 
         $response = $this->get('/sitemap.xml');
 

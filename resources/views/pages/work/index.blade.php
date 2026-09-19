@@ -39,7 +39,7 @@
                 </x-ui.reveal>
             @endif
 
-            @if ($caseStudies->isEmpty())
+            @if ($clients->isEmpty())
                 <x-ui.reveal class="mt-16 rounded-2xl border border-dashed border-content/20 p-12 text-center">
                     <p class="text-lead text-muted">Nothing published in this sector yet.</p>
 
@@ -49,12 +49,12 @@
                 </x-ui.reveal>
             @else
                 <div class="mt-14 grid gap-6 md:grid-cols-2">
-                    @foreach ($caseStudies as $index => $caseStudy)
+                    @foreach ($clients as $index => $client)
                         <x-ui.reveal :delay="$index * 110" class="h-full">
-                            <a href="{{ route('work.show', $caseStudy) }}"
+                            <a href="{{ route('work.show', $client) }}"
                                class="card-lift group flex h-full flex-col rounded-2xl border border-content/10 bg-paper p-8 hover:border-accent/40 hover:shadow-xl hover:shadow-shade/5">
                                 <div class="flex items-start gap-6">
-                                    @php $logo = $caseStudy->getFirstMediaUrl('logo', 'thumb') ?: $caseStudy->getFirstMediaUrl('logo'); @endphp
+                                    @php $logo = $client->getFirstMediaUrl('logo', 'thumb') ?: $client->getFirstMediaUrl('logo'); @endphp
 
                                     @if ($logo)
                                         <img src="{{ $logo }}" alt="" width="80" height="80" loading="lazy"
@@ -62,19 +62,19 @@
                                     @endif
 
                                     <div class="min-w-0">
-                                        @if ($caseStudy->sector)
-                                            <span class="text-eyebrow font-semibold uppercase text-muted">{{ $caseStudy->sector->name }}</span>
+                                        @if ($client->sector)
+                                            <span class="text-eyebrow font-semibold uppercase text-muted">{{ $client->sector->name }}</span>
                                         @endif
 
-                                        <h2 class="mt-2 font-display text-h3 text-content">{{ $caseStudy->institution }}</h2>
+                                        <h2 class="mt-2 font-display text-h3 text-content">{{ $client->name }}</h2>
 
-                                        @if ($caseStudy->product)
-                                            <p class="mt-2 text-sm font-semibold text-primary">{{ $caseStudy->product->name }}</p>
+                                        @if ($client->products->isNotEmpty())
+                                            <p class="mt-2 text-sm font-semibold text-primary">{{ $client->products->pluck('name')->join(', ') }}</p>
                                         @endif
                                     </div>
                                 </div>
 
-                                <p class="mt-6 flex-1 leading-relaxed text-muted">{{ $caseStudy->summary }}</p>
+                                <p class="mt-6 flex-1 leading-relaxed text-muted">{{ $client->summary }}</p>
 
                                 <span class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary" aria-hidden="true">
                                     {{ __('Read the case study') }}

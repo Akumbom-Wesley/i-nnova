@@ -1,6 +1,6 @@
-@props(['caseStudies'])
+@props(['clients'])
 
-@if ($caseStudies->isNotEmpty())
+@if ($clients->isNotEmpty())
     <section class="bg-paper py-(--spacing-band)">
         <div class="mx-auto max-w-6xl px-4 sm:px-6">
             <x-ui.section-header
@@ -10,17 +10,17 @@
             />
 
             <div class="mt-16 grid gap-6 md:grid-cols-2">
-                @foreach ($caseStudies as $index => $caseStudy)
+                @foreach ($clients as $index => $client)
                     @php
                         // Institution crests are supplied as large source artwork, so
                         // always prefer the conversion. The SAHIK crest is 1.4 MB at
                         // full size and renders here at 80px.
-                        $logo = $caseStudy->getFirstMediaUrl('logo', 'thumb')
-                            ?: $caseStudy->getFirstMediaUrl('logo');
+                        $logo = $client->getFirstMediaUrl('logo', 'thumb')
+                            ?: $client->getFirstMediaUrl('logo');
                     @endphp
 
                     <x-ui.reveal :delay="$index * 120" class="h-full">
-                        <a href="{{ route('work.show', $caseStudy) }}"
+                        <a href="{{ route('work.show', $client) }}"
                            class="card-lift group flex h-full flex-col rounded-2xl border border-content/10 bg-paper p-8 hover:border-accent/40 hover:shadow-xl hover:shadow-shade/5">
                             <div class="flex items-start gap-6">
                                 @if ($logo)
@@ -29,23 +29,23 @@
                                 @endif
 
                                 <div class="min-w-0">
-                                    @if ($caseStudy->sector)
+                                    @if ($client->sector)
                                         <span class="text-eyebrow font-semibold uppercase text-muted">
-                                            {{ $caseStudy->sector->name }}
+                                            {{ $client->sector->name }}
                                         </span>
                                     @endif
 
-                                    <h3 class="mt-2 font-display text-h3 text-content">{{ $caseStudy->institution }}</h3>
+                                    <h3 class="mt-2 font-display text-h3 text-content">{{ $client->name }}</h3>
 
-                                    @if ($caseStudy->product)
+                                    @if ($client->products->isNotEmpty())
                                         <p class="mt-2 text-sm font-semibold text-primary">
-                                            {{ $caseStudy->product->name }}
+                                            {{ $client->products->pluck('name')->join(', ') }}
                                         </p>
                                     @endif
                                 </div>
                             </div>
 
-                            <p class="mt-6 flex-1 leading-relaxed text-muted">{{ $caseStudy->summary }}</p>
+                            <p class="mt-6 flex-1 leading-relaxed text-muted">{{ $client->summary }}</p>
 
                             <span class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary" aria-hidden="true">
                                 {{ __('Read the case study') }}

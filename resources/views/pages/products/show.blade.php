@@ -105,16 +105,16 @@
                     </x-ui.reveal>
                 @endif
 
-                @if ($product->caseStudies->isNotEmpty())
+                @if ($product->clients->isNotEmpty())
                     <x-ui.reveal from="right" :delay="90">
                         <h2 class="text-eyebrow font-semibold uppercase text-muted">In service at</h2>
 
                         <ul class="mt-6 space-y-3">
-                            @foreach ($product->caseStudies as $caseStudy)
+                            @foreach ($product->clients as $client)
                                 <li>
-                                    <a href="{{ route('work.show', $caseStudy) }}"
+                                    <a href="{{ route('work.show', $client) }}"
                                        class="link-underline font-semibold text-primary">
-                                        {{ $caseStudy->institution }}
+                                        {{ $client->name }}
                                     </a>
                                 </li>
                             @endforeach

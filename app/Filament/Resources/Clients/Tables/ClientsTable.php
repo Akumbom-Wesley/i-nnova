@@ -36,13 +36,30 @@ class ClientsTable
                     ->openUrlInNewTab()
                     ->toggleable(),
 
+                TextColumn::make('products.name')
+                    ->label('Runs')
+                    ->badge()
+                    ->placeholder('None yet')
+                    ->toggleable(),
+
                 IconColumn::make('is_verified')
                     ->label('Verified')
                     ->boolean(),
+
+                // Whether this client has a page of its own. It is the summary
+                // that decides, so it is worth showing rather than leaving
+                // people to guess why some appear under Our work and some do not.
+                IconColumn::make('has_a_page')
+                    ->label('Has a page')
+                    ->boolean()
+                    ->getStateUsing(fn ($record): bool => $record->isTold()),
             ])
             ->filters([
                 TernaryFilter::make('is_verified')
                     ->label('Verified'),
+
+                TernaryFilter::make('is_featured')
+                    ->label('On the home page'),
             ])
             ->recordActions([
                 EditAction::make(),

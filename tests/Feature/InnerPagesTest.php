@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Enums\ProductStatus;
-use App\Models\CaseStudy;
+use App\Models\Client;
 use App\Models\CompanyValue;
 use App\Models\KickstarterMentor;
 use App\Models\KickstarterTrack;
@@ -89,8 +89,8 @@ class InnerPagesTest extends TestCase
         $education = Sector::create(['name' => ['en' => 'Education'], 'slug' => 'education']);
         $health = Sector::create(['name' => ['en' => 'Health'], 'slug' => 'health']);
 
-        CaseStudy::create(['institution' => 'A School', 'slug' => 'a-school', 'sector_id' => $education->id]);
-        CaseStudy::create(['institution' => 'A Hospital', 'slug' => 'a-hospital', 'sector_id' => $health->id]);
+        Client::create(['name' => 'A School', 'slug' => 'a-school', 'sector_id' => $education->id, 'summary' => ['en' => 'A school.'], 'is_verified' => true]);
+        Client::create(['name' => 'A Hospital', 'slug' => 'a-hospital', 'sector_id' => $health->id, 'summary' => ['en' => 'A hospital.'], 'is_verified' => true]);
 
         $this->get('/en/work')
             ->assertSee('A School')
@@ -104,7 +104,7 @@ class InnerPagesTest extends TestCase
     public function test_an_empty_sector_filter_says_so_instead_of_showing_nothing(): void
     {
         $health = Sector::create(['name' => ['en' => 'Health'], 'slug' => 'health']);
-        CaseStudy::create(['institution' => 'A Hospital', 'slug' => 'a-hospital', 'sector_id' => $health->id]);
+        Client::create(['name' => 'A Hospital', 'slug' => 'a-hospital', 'sector_id' => $health->id, 'summary' => ['en' => 'A hospital.'], 'is_verified' => true]);
 
         $this->get('/en/work?sector=does-not-exist')
             ->assertSuccessful()
@@ -119,10 +119,13 @@ class InnerPagesTest extends TestCase
             'status' => ProductStatus::Live,
         ]);
 
-        $caseStudy = CaseStudy::create([
-            'institution' => 'Sapientia Higher Institute',
+        $client = Client::create([
+            'name' => 'Sapientia Higher Institute',
             'slug' => 'sahik',
-            'product_id' => $product->id,
+            // A summary is what earns a client its own page, and only a
+            // verified client is ever rendered.
+            'summary' => ['en' => 'A school management deployment.'],
+            'is_verified' => true,
             'challenge' => ['en' => '<p>The challenge faced.</p>'],
             'solution' => ['en' => '<p>What we built.</p>'],
             'results' => ['en' => '<p>What changed.</p>'],
@@ -130,7 +133,9 @@ class InnerPagesTest extends TestCase
             'quote_attribution' => 'A Registrar',
         ]);
 
-        $response = $this->get("/en/work/{$caseStudy->slug}");
+        $client->products()->attach($product);
+
+        $response = $this->get("/en/work/{$client->slug}");
 
         $response->assertSee('The challenge faced.', false);
         $response->assertSee('What we built.', false);

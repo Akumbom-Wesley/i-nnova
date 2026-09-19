@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CaseStudy;
+use App\Models\Client;
 use App\Models\Product;
 use Illuminate\Http\Response;
 
@@ -30,8 +30,9 @@ class SitemapController extends Controller
             $routes[] = ['name' => 'products.show', 'params' => ['product' => $product->slug], 'priority' => '0.8', 'frequency' => 'monthly'];
         }
 
-        foreach (CaseStudy::query()->ordered()->get() as $caseStudy) {
-            $routes[] = ['name' => 'work.show', 'params' => ['caseStudy' => $caseStudy->slug], 'priority' => '0.7', 'frequency' => 'monthly'];
+        // Only clients with a story told about them have a page to list.
+        foreach (Client::query()->told()->ordered()->get() as $client) {
+            $routes[] = ['name' => 'work.show', 'params' => ['client' => $client->slug], 'priority' => '0.7', 'frequency' => 'monthly'];
         }
 
         return response()

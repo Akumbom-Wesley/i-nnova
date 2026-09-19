@@ -15,6 +15,7 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Support\Enums\Width;
 use Filament\Widgets\AccountWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -33,6 +34,10 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->brandName('I-NNOVA')
+            // Content stops at 7xl rather than filling the monitor. Forms
+            // here are short fields in two columns, and stretched across a
+            // wide screen they read as scattered rather than grouped.
+            ->maxContentWidth(Width::SevenExtraLarge)
             ->brandLogo(asset('images/logo.png'))
             ->brandLogoHeight('2rem')
             ->favicon(asset('images/logo-mark.png'))

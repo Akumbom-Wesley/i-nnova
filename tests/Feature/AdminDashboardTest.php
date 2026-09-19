@@ -39,6 +39,7 @@ class AdminDashboardTest extends TestCase
             ->assertSee('Latest enquiries')
             ->assertSee('Ada Example');
     }
+
     public function test_the_launch_checklist_lists_what_is_outstanding(): void
     {
         \App\Models\Client::create(['name' => 'Unconfirmed Institution', 'is_verified' => false]);

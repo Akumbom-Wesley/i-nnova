@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AboutController;
-use App\Http\Controllers\CaseStudyController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
@@ -29,8 +29,8 @@ Route::prefix('{locale}')
         Route::get('/products', [ProductController::class, 'index'])->name('products.index');
         Route::get('/products/{product:slug}', [ProductController::class, 'show'])->name('products.show');
 
-        Route::get('/work', [CaseStudyController::class, 'index'])->name('work.index');
-        Route::get('/work/{caseStudy:slug}', [CaseStudyController::class, 'show'])->name('work.show');
+        Route::get('/work', [ClientController::class, 'index'])->name('work.index');
+        Route::get('/work/{client:slug}', [ClientController::class, 'show'])->name('work.show');
 
         Route::get('/about', AboutController::class)->name('about');
         Route::get('/kickstarter', KickstarterController::class)->name('kickstarter');

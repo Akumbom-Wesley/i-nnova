@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
@@ -77,9 +78,13 @@ class Product extends Model implements HasMedia
         return $this->belongsTo(Sector::class);
     }
 
-    public function caseStudies(): HasMany
+    /**
+     * The institutions running this product. Many to many, because an
+     * institution can run more than one of ours.
+     */
+    public function clients(): BelongsToMany
     {
-        return $this->hasMany(CaseStudy::class);
+        return $this->belongsToMany(Client::class)->withTimestamps();
     }
 
     public function testimonials(): HasMany

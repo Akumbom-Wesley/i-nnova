@@ -156,6 +156,7 @@ class AccessibilityTest extends TestCase
             $this->assertStringContainsString('aria-hidden="true"', $tag, "Unlabelled svg: {$tag}");
         }
     }
+
     /**
      * The inner page headers sit on a coloured ground. Orange measures 4.97:1
      * on navy but only 2.42:1 on the brand blue, so the gradient is written to
