@@ -14,7 +14,7 @@
             <div class="flex flex-wrap items-end justify-between gap-8">
                 <x-ui.section-header
                     eyebrow="{{ __('Leadership') }}"
-                    title="{{ __('The people who run it') }}"
+                    title="{{ __('Meet the Executive Team') }}"
                 />
 
                 <x-ui.reveal from="right">
