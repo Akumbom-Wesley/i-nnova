@@ -7,12 +7,18 @@ use Illuminate\Http\Request;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-        web: __DIR__.'/../routes/web.php',
-        commands: __DIR__.'/../routes/console.php',
+        web: __DIR__ . '/../routes/web.php',
+        commands: __DIR__ . '/../routes/console.php',
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // TLS is terminated by the web server in front of PHP, so without
+        // this every request looks like plain HTTP from in here. The canonical
+        // tag, og:url, the hreflang alternates and the sitemap are all built
+        // from the request, and would each advertise an http:// address for a
+        // site served over https://. Trusting any proxy is right for a single
+        // host where nothing but the local web server can reach PHP.
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
