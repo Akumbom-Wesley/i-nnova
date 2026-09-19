@@ -23,12 +23,17 @@ use Filament\Schemas\Components\Tabs\Tab;
  */
 class LocaleTabs
 {
-    public static function make(Closure $components, string $label = 'Content'): Tabs
+    /**
+     * $columns pairs short fields up inside a tab. It defaults to one, which
+     * is right for a tab that is mostly prose, and is worth raising where the
+     * tab is a row of short inputs each otherwise taking a whole line.
+     */
+    public static function make(Closure $components, string $label = 'Content', int $columns = 1): Tabs
     {
         $tabs = [];
 
         foreach (config('site.locales') as $locale => $name) {
-            $tabs[] = Tab::make($name)->schema($components($locale));
+            $tabs[] = Tab::make($name)->schema($components($locale))->columns($columns);
         }
 
         return Tabs::make($label)

@@ -349,6 +349,7 @@ class PhotographyTest extends TestCase
             ->assertSuccessful()
             ->assertDontSee('float-drift', false);
     }
+
     public function test_the_about_header_is_a_designed_panel_not_photographs(): void
     {
         // Every photograph of the company lives on Kickstarter. Repeating it

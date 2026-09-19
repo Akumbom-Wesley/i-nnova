@@ -28,7 +28,7 @@ class SectorsTable
 
                 TextColumn::make('case_studies_count')
                     ->label('Case studies')
-                    ->counts('caseStudies'),
+                    ->counts('clients'),
             ])
             ->recordActions([
                 EditAction::make(),

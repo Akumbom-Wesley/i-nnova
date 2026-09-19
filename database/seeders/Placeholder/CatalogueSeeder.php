@@ -3,7 +3,7 @@
 namespace Database\Seeders\Placeholder;
 
 use App\Enums\ProductStatus;
-use App\Models\CaseStudy;
+use App\Models\Client;
 use App\Models\Product;
 use App\Models\Sector;
 use Database\Seeders\Concerns\AttachesPlaceholderImages;
@@ -16,7 +16,7 @@ use Illuminate\Database\Seeder;
  * roll-up, so the names and positioning are real. The long-form copy is still
  * placeholder and Sprint 5 replaces it.
  *
- * PAXHI and SAHIK are client institutions, not products. SAHIK is Sapientia
+ * PAXHI and SAHIK are clients, not products. SAHIK is Sapientia
  * Higher Institute of the Diocese of Kumba. Both are seeded as case studies
  * carrying their own crest.
  */
@@ -29,7 +29,7 @@ class CatalogueSeeder extends Seeder
         $sectors = $this->sectors();
         $products = $this->products($sectors);
 
-        $this->caseStudies($sectors, $products);
+        $this->clients($sectors, $products);
     }
 
     /** @return array<string, Sector> */
@@ -176,34 +176,38 @@ class CatalogueSeeder extends Seeder
      * @param  array<string, Sector>  $sectors
      * @param  array<string, Product>  $products
      */
-    private function caseStudies(array $sectors, array $products): void
+    /**
+     * PAXHI and SAHIK are clients running our software, which is all a case
+     * study ever was. They are seeded verified, unlike the placeholder logos
+     * in SocialProofSeeder, because these two are real relationships.
+     */
+    private function clients(array $sectors, array $products): void
     {
         $rows = [
             [
                 'slug' => 'sahik',
-                'institution' => 'Sapientia Higher Institute of the Diocese of Kumba',
+                'name' => 'Sapientia Higher Institute of the Diocese of Kumba',
                 'short' => 'SAHIK',
                 'sector' => 'education',
-                'product' => 'edutrust-schools',
+                'products' => ['edutrust-schools'],
                 'logo' => 'sahik.png',
             ],
             [
                 'slug' => 'paxhi',
-                'institution' => 'PAXHI',
+                'name' => 'PAXHI',
                 'short' => 'PAXHI',
                 'sector' => null,
-                'product' => null,
+                'products' => [],
                 'logo' => 'paxhi.png',
             ],
         ];
 
         foreach ($rows as $order => $row) {
-            $caseStudy = CaseStudy::updateOrCreate(
+            $client = Client::updateOrCreate(
                 ['slug' => $row['slug']],
                 [
-                    'institution' => $row['institution'],
+                    'name' => $row['name'],
                     'sector_id' => $row['sector'] ? $sectors[$row['sector']]->id : null,
-                    'product_id' => $row['product'] ? $products[$row['product']]->id : null,
                     'summary' => [
                         'en' => 'Placeholder summary of the deployment, one paragraph long.',
                         'fr' => 'Resume provisoire du deploiement, un paragraphe.',
@@ -215,14 +219,19 @@ class CatalogueSeeder extends Seeder
                     'quote_attribution' => 'Placeholder Name',
                     'quote_role' => ['en' => 'Placeholder role', 'fr' => 'Role provisoire'],
                     'sort_order' => $order,
+                    'is_verified' => true,
                     'is_featured' => true,
                 ],
             );
 
-            // The real crest, not a generated stand-in.
-            $this->attachFile($caseStudy, 'logo', public_path('images/' . $row['logo']), $row['short']);
+            $client->products()->sync(
+                collect($row['products'])->map(fn (string $slug): int => $products[$slug]->id)->all(),
+            );
 
-            $this->attachImage($caseStudy, 'cover', $row['short'], 1600, 900);
+            // The real crest, not a generated stand-in.
+            $this->attachFile($client, 'logo', public_path('images/' . $row['logo']), $row['short']);
+
+            $this->attachImage($client, 'cover', $row['short'], 1600, 900);
         }
     }
 }

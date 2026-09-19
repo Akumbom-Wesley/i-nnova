@@ -42,8 +42,7 @@ class TeamMemberForm
                             ->collection('photo')
                             ->image()
                             ->imageEditor()
-                            ->avatar()
-                            ->columnSpanFull(),
+                            ->avatar(),
                     ])
                     ->columns(2),
 
@@ -67,7 +66,7 @@ class TeamMemberForm
                             RichEditor::make("bio.{$locale}")
                                 ->label('Bio')
                                 ->columnSpanFull(),
-                        ]),
+                        ], columns: 2),
                     ]),
 
                 Section::make('Links and placement')
@@ -81,6 +80,7 @@ class TeamMemberForm
                             ->label('Order')
                             ->numeric()
                             ->default(0)
+                            ->columnSpanFull()
                             ->helperText('Lowest first. This order is used on the About page and on the home page, and the first three people in it are the ones the home page shows.'),
                     ])
                     ->columns(2),

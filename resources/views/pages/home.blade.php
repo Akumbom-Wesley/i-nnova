@@ -14,7 +14,7 @@
     @include('sections.hero', ['settings' => $settings, 'stats' => $stats, 'slides' => $slides])
     @include('sections.products', ['products' => $products, 'comingSoon' => $comingSoon])
     @include('sections.stem', ['tracks' => $tracks])
-    @include('sections.deployments', ['caseStudies' => $caseStudies])
+    @include('sections.deployments', ['clients' => $deployments])
     @include('sections.photo-strip', ['images' => $photos])
     @include('sections.trusted', ['partners' => $partners, 'clients' => $clients])
     @include('sections.values', ['values' => $values])

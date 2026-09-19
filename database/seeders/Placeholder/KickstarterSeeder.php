@@ -2,10 +2,10 @@
 
 namespace Database\Seeders\Placeholder;
 
+use App\Enums\StatSource;
 use App\Models\AlumniOutcome;
 use App\Models\KickstarterMentor;
 use App\Models\KickstarterTrack;
-use App\Enums\StatSource;
 use App\Models\Stat;
 use Database\Seeders\Concerns\AttachesPlaceholderImages;
 use Illuminate\Database\Seeder;

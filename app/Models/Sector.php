@@ -23,8 +23,8 @@ class Sector extends Model
         return $this->hasMany(Product::class);
     }
 
-    public function caseStudies(): HasMany
+    public function clients(): HasMany
     {
-        return $this->hasMany(CaseStudy::class);
+        return $this->hasMany(Client::class);
     }
 }

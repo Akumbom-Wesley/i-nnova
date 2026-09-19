@@ -39,6 +39,7 @@ trait AttachesPlaceholderImages
             ->usingName($label)
             ->toMediaCollection($collection);
     }
+
     /**
      * Attaches a real asset from disk rather than a generated placeholder.
      * Used for the genuine brand and institution artwork in public/images.
@@ -66,5 +67,4 @@ trait AttachesPlaceholderImages
             ->usingName($label)
             ->toMediaCollection($collection);
     }
-
 }

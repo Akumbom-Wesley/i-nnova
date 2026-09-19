@@ -1,44 +1,48 @@
 @extends('layouts.app')
 
 @php
-    $seoTitle = $caseStudy->institution . ' | ' . __('Work') . ' | I-NNOVA';
-    $seoDescription = $caseStudy->summary ?? '';
-    $seoImage = $caseStudy->getFirstMediaUrl('cover') ?: null;
+    $seoTitle = $client->name . ' | ' . __('Work') . ' | I-NNOVA';
+    $seoDescription = $client->summary ?? '';
+    $seoImage = $client->getFirstMediaUrl('cover') ?: null;
     $seoType = 'article';
 @endphp
 
 @section('content')
     <x-ui.page-header
-        :eyebrow="$caseStudy->sector?->name"
-        :title="$caseStudy->institution"
-        :lead="$caseStudy->summary"
+        :eyebrow="$client->sector?->name"
+        :title="$client->name"
+        :lead="$client->summary"
         :back="route('work.index')"
         back-label="{{ __('All work') }}"
         motif="network"
     >
-        @php $logo = $caseStudy->getFirstMediaUrl('logo', 'thumb') ?: $caseStudy->getFirstMediaUrl('logo'); @endphp
+        @php $logo = $client->getFirstMediaUrl('logo', 'thumb') ?: $client->getFirstMediaUrl('logo'); @endphp
 
-        @if ($logo || $caseStudy->product)
+        @if ($logo || $client->products->isNotEmpty())
             <x-ui.reveal :delay="260" class="mt-10 flex flex-wrap items-center gap-8">
                 @if ($logo)
-                    <img src="{{ $logo }}" alt="{{ $caseStudy->institution }}" width="96" height="96"
+                    <img src="{{ $logo }}" alt="{{ $client->name }}" width="96" height="96"
                          class="h-24 w-24 object-contain">
                 @endif
 
-                @if ($caseStudy->product)
+                @foreach ($client->products as $clientProduct)
                     <div>
-                        <p class="text-eyebrow font-semibold uppercase text-muted">Product deployed</p>
-                        <a href="{{ route('products.show', $caseStudy->product) }}"
+                        {{-- Singular or plural, because an institution can run
+                             one of ours or several. --}}
+                        <p class="text-eyebrow font-semibold uppercase text-muted">
+                            {{ $loop->first ? ($client->products->count() > 1 ? 'Products deployed' : 'Product deployed') : '' }}
+                        </p>
+                        <a href="{{ route('products.show', $clientProduct) }}"
                            class="link-underline mt-2 inline-block font-display text-h3 text-primary">
-                            {{ $caseStudy->product->name }}
+                            {{ $clientProduct->name }}
                         </a>
                     </div>
-                @endif
+                @endforeach
             </x-ui.reveal>
         @endif
     </x-ui.page-header>
 
-    @php $coverMedia = $caseStudy->getFirstMedia('cover'); @endphp
+    @php $coverMedia = $client->getFirstMedia('cover'); @endphp
 
     @if ($coverMedia)
         <div class="mx-auto max-w-6xl px-4 sm:px-6">
@@ -46,7 +50,7 @@
                 <img src="{{ $coverMedia->getUrl('wide') ?: $coverMedia->getUrl() }}"
                      srcset="{{ $coverMedia->getSrcset('wide') }}"
                      sizes="(min-width: 72rem) 72rem, 100vw"
-                     alt="{{ $caseStudy->institution }}" width="1600" height="900"
+                     alt="{{ $client->name }}" width="1600" height="900"
                      fetchpriority="high" decoding="async" class="w-full object-cover">
             </x-ui.reveal>
         </div>
@@ -55,9 +59,9 @@
     <section class="bg-paper py-(--spacing-band)">
         <div class="mx-auto max-w-6xl space-y-16 px-4 sm:px-6">
             @foreach ([
-                ['Challenge', $caseStudy->challenge],
-                ['Solution', $caseStudy->solution],
-                ['Results', $caseStudy->results],
+                ['Challenge', $client->challenge],
+                ['Solution', $client->solution],
+                ['Results', $client->results],
             ] as $index => [$heading, $body])
                 @if (filled($body))
                     <x-ui.reveal :delay="$index * 80" class="grid gap-8 lg:grid-cols-[14rem_1fr]">
@@ -74,15 +78,15 @@
         </div>
     </section>
 
-    @if (filled($caseStudy->quote))
+    @if (filled($client->quote))
         <section class="bg-ink py-(--spacing-band) text-white">
             <div class="mx-auto max-w-4xl px-4 text-center sm:px-6">
                 <x-ui.reveal from="scale">
-                    <blockquote class="font-display text-h2">{{ $caseStudy->quote }}</blockquote>
+                    <blockquote class="font-display text-h2">{{ $client->quote }}</blockquote>
 
-                    @if ($caseStudy->quote_attribution)
+                    @if ($client->quote_attribution)
                         <figcaption class="mt-8 text-white/60">
-                            {{ collect([$caseStudy->quote_attribution, $caseStudy->quote_role, $caseStudy->institution])->filter()->implode(', ') }}
+                            {{ collect([$client->quote_attribution, $client->quote_role, $client->name])->filter()->implode(', ') }}
                         </figcaption>
                     @endif
                 </x-ui.reveal>
@@ -90,7 +94,7 @@
         </section>
     @endif
 
-    @php $gallery = $caseStudy->getMedia('images'); @endphp
+    @php $gallery = $client->getMedia('images'); @endphp
 
     @if ($gallery->isNotEmpty())
         <section class="bg-paper py-(--spacing-band)">
@@ -98,7 +102,7 @@
                 @foreach ($gallery as $index => $image)
                     <x-ui.reveal :delay="$index * 90" from="scale" class="overflow-hidden rounded-xl border border-content/10">
                         <img src="{{ $image->getUrl('thumb') ?: $image->getUrl() }}"
-                             alt="{{ $caseStudy->institution }}" width="600" height="400" loading="lazy" decoding="async" class="w-full object-cover">
+                             alt="{{ $client->name }}" width="600" height="400" loading="lazy" decoding="async" class="w-full object-cover">
                     </x-ui.reveal>
                 @endforeach
             </div>

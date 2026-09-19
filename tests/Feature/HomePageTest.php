@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Enums\ProductStatus;
-use App\Models\CaseStudy;
+use App\Models\Client;
 use App\Models\CompanyValue;
 use App\Models\KickstarterTrack;
 use App\Models\Product;
@@ -62,10 +62,11 @@ class HomePageTest extends TestCase
 
     public function test_it_names_the_institutions_behind_deployments(): void
     {
-        CaseStudy::create([
-            'institution' => 'Sapientia Higher Institute of the Diocese of Kumba',
+        Client::create([
+            'name' => 'Sapientia Higher Institute of the Diocese of Kumba',
             'slug' => 'sahik',
             'summary' => ['en' => 'A summary of the deployment.'],
+            'is_verified' => true,
             'is_featured' => true,
         ]);
 
@@ -119,6 +120,7 @@ class HomePageTest extends TestCase
         // so a reader with motion disabled loses nothing.
         $this->assertStringContainsString('Products live', $html);
     }
+
     public function test_rendering_a_page_leaves_no_output_buffer_open(): void
     {
         // Blade treats ('name', null) as the start of a block section
@@ -131,5 +133,4 @@ class HomePageTest extends TestCase
 
         $this->assertSame($before, ob_get_level(), 'Rendering the home page leaked an output buffer.');
     }
-
 }

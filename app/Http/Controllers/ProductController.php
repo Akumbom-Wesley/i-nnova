@@ -19,7 +19,7 @@ class ProductController extends Controller
 
     public function show(Product $product): View
     {
-        $product->load('sector', 'caseStudies', 'testimonials');
+        $product->load('sector', 'clients', 'testimonials');
 
         return view('pages.products.show', [
             'settings' => SiteSetting::instance(),

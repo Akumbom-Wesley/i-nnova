@@ -48,7 +48,6 @@ class PartnerForm
                             ->helperText('Nothing appears on the site until this is on. A logo for a relationship that has not been confirmed must never be published.')
                             ->columnSpanFull(),
 
-
                         TextInput::make('sort_order')
                             ->label('Order')
                             ->numeric()

@@ -20,7 +20,6 @@ class AdminPanelTest extends TestCase
     {
         return [
             'products' => ['products'],
-            'case studies' => ['case-studies'],
             'team members' => ['team-members'],
             'values' => ['company-values'],
             'testimonials' => ['testimonials'],

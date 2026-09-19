@@ -2,7 +2,7 @@
 
 namespace App\Filament\Widgets;
 
-use App\Models\CaseStudy;
+use App\Models\Client;
 use App\Models\GalleryImage;
 use App\Models\KickstarterTrack;
 use App\Models\Lead;
@@ -37,11 +37,11 @@ class ContentOverview extends StatsOverviewWidget
                 ->color($live > 0 ? 'success' : 'gray')
                 ->url(route('filament.admin.resources.products.index')),
 
-            Stat::make('Deployments', (string) CaseStudy::query()->count())
-                ->description('Case studies published')
+            Stat::make('Deployments', (string) Client::query()->verified()->count())
+                ->description('Verified clients running our software')
                 ->descriptionIcon('heroicon-o-briefcase')
                 ->color('info')
-                ->url(route('filament.admin.resources.case-studies.index')),
+                ->url(route('filament.admin.resources.clients.index')),
 
             Stat::make('Team', (string) TeamMember::query()->count())
                 ->description(KickstarterTrack::query()->where('is_active', true)->count() . ' accelerator tracks running')

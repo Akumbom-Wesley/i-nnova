@@ -64,6 +64,7 @@ class SiteSetting extends Model implements HasMedia
     {
         static::$resolved = null;
     }
+
     /**
      * Street level. Used when the admin leaves the zoom empty.
      */

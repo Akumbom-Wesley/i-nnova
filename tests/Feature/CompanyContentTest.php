@@ -64,6 +64,7 @@ class CompanyContentTest extends TestCase
                 ->assertDontSee('innovacm.com');
         }
     }
+
     public function test_each_about_band_carries_a_seam_so_a_new_section_registers(): void
     {
         \App\Models\CompanyValue::create(['title' => ['en' => 'Innovation First']]);

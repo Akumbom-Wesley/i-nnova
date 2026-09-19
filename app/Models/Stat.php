@@ -71,7 +71,7 @@ class Stat extends Model
             StatSource::BusinessesServed => $this->businessesServed(),
             StatSource::YearsBuilding => $this->yearsBuilding(),
             StatSource::SectorsServed => Sector::query()
-                ->where(fn (Builder $query) => $query->has('products')->orHas('caseStudies'))
+                ->where(fn (Builder $query) => $query->has('products')->orHas('clients'))
                 ->count(),
             StatSource::TeamMembers => TeamMember::query()->count(),
             StatSource::AcceleratorTracks => KickstarterTrack::query()->where('is_active', true)->count(),
@@ -80,18 +80,16 @@ class Stat extends Model
     }
 
     /**
-     * Institutions with a published case study, plus verified clients that do
-     * not already have one, so the same organisation is never counted twice.
+     * Verified clients.
+     *
+     * This used to merge case study institutions with client names and
+     * lowercase both to avoid counting the same organisation twice. With one
+     * model there is only one row per institution, so the deduplication has
+     * nothing left to do.
      */
     private function businessesServed(): int
     {
-        $institutions = CaseStudy::query()->pluck('institution')
-            ->map(fn (string $name): string => mb_strtolower(trim($name)));
-
-        $clients = Client::query()->verified()->pluck('name')
-            ->map(fn (string $name): string => mb_strtolower(trim($name)));
-
-        return $institutions->merge($clients)->unique()->count();
+        return Client::query()->verified()->count();
     }
 
     private function yearsBuilding(): int
