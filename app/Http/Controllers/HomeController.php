@@ -7,8 +7,8 @@ use App\Models\CaseStudy;
 use App\Models\Client;
 use App\Models\CompanyValue;
 use App\Models\GalleryImage;
-use App\Models\Partner;
 use App\Models\KickstarterTrack;
+use App\Models\Partner;
 use App\Models\Product;
 use App\Models\SiteSetting;
 use App\Models\Stat;
@@ -26,7 +26,7 @@ class HomeController extends Controller
             'comingSoon' => Product::query()->comingSoon()->ordered()->get(),
             'caseStudies' => CaseStudy::query()->where('is_featured', true)->ordered()->with('product', 'sector')->get(),
             'values' => CompanyValue::query()->ordered()->with('media')->get(),
-            'team' => TeamMember::query()->where('is_featured', true)->ordered()->with('media')->get(),
+            'team' => TeamMember::query()->ordered()->limit(TeamMember::LEADERSHIP_COUNT)->with('media')->get(),
             'tracks' => KickstarterTrack::query()->where('is_active', true)->ordered()->with('media')->get(),
             'testimonials' => Testimonial::query()->where('is_featured', true)->ordered()->with('media')->get(),
             'stats' => Stat::query()->context(Stat::CONTEXT_SITE)->ordered()->get(),

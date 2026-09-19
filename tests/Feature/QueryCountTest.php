@@ -72,7 +72,7 @@ class QueryCountTest extends TestCase
     {
         $this->seedProducts(2);
 
-        TeamMember::create(['name' => 'A', 'slug' => 'a', 'is_featured' => true]);
+        TeamMember::create(['name' => 'A', 'slug' => 'a']);
         Testimonial::create(['quote' => ['en' => 'Good'], 'person_name' => 'B', 'is_featured' => true]);
         GalleryImage::create(['placement' => GalleryPlacement::Home, 'external_url' => 'https://example.com/1.jpg', 'is_active' => true]);
 
@@ -81,7 +81,7 @@ class QueryCountTest extends TestCase
         $this->seedProducts(6, 3);
 
         foreach (range(1, 6) as $number) {
-            TeamMember::create(['name' => "T{$number}", 'slug' => "t{$number}", 'is_featured' => true]);
+            TeamMember::create(['name' => "T{$number}", 'slug' => "t{$number}"]);
             Testimonial::create(['quote' => ['en' => 'Good'], 'person_name' => "P{$number}", 'is_featured' => true]);
             GalleryImage::create([
                 'placement' => GalleryPlacement::Home,
