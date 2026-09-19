@@ -42,32 +42,10 @@ class TeamMemberForm
                             ->collection('photo')
                             ->image()
                             ->imageEditor()
-                            ->avatar(),
+                            ->avatar()
+                            ->columnSpanFull(),
                     ])
                     ->columns(2),
-
-                Section::make('Role')
-                    ->schema([
-                        LocaleTabs::make(fn (string $locale) => [
-                            TextInput::make("role.{$locale}")
-                                ->label('Role')
-                                ->required(LocaleTabs::isDefault($locale))
-                                ->maxLength(120),
-
-                            TextInput::make("department.{$locale}")
-                                ->label('Department')
-                                ->maxLength(80)
-                                ->helperText('Groups the full team section on the About page.'),
-
-                            TextInput::make("credentials.{$locale}")
-                                ->label('Credentials')
-                                ->maxLength(160),
-
-                            RichEditor::make("bio.{$locale}")
-                                ->label('Bio')
-                                ->columnSpanFull(),
-                        ], columns: 2),
-                    ]),
 
                 Section::make('Links and placement')
                     ->schema([
@@ -82,6 +60,37 @@ class TeamMemberForm
                             ->default(0)
                             ->columnSpanFull()
                             ->helperText('Lowest first. This order is used on the About page and on the home page, and the first three people in it are the ones the home page shows.'),
+                    ])
+                    ->columns(2),
+
+                // Full width, and last. The form container is a two-column grid on large
+                // screens, so a section left at the default span-1 sits in half the page
+                // with dead space beside it. Person and Links are compact enough to pair
+                // across the top row; this one holds a rich editor per locale and needs
+                // the whole width.
+                Section::make('Role')
+                    ->columnSpanFull()
+                    ->schema([
+                        LocaleTabs::make(fn (string $locale) => [
+                            TextInput::make("role.{$locale}")
+                                ->label('Role')
+                                ->required(LocaleTabs::isDefault($locale))
+                                ->maxLength(120),
+
+                            TextInput::make("department.{$locale}")
+                                ->label('Department')
+                                ->maxLength(80)
+                                ->helperText('Groups the full team section on the About page.'),
+
+                            TextInput::make("credentials.{$locale}")
+                                ->label('Credentials')
+                                ->maxLength(160)
+                                ->columnSpanFull(),
+
+                            RichEditor::make("bio.{$locale}")
+                                ->label('Bio')
+                                ->columnSpanFull(),
+                        ], columns: 2),
                     ])
                     ->columns(2),
             ]);
