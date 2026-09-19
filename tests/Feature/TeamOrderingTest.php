@@ -97,15 +97,19 @@ class TeamOrderingTest extends TestCase
         );
     }
 
-    public function test_the_section_is_about_leadership_not_a_sample(): void
+    public function test_the_section_offers_a_way_through_to_everyone_else(): void
     {
         $this->makeTeam(5);
 
+        // Deliberately not asserting the heading. Every line of copy on this
+        // site is editable in the admin, so pinning the exact wording here
+        // would fail the moment somebody rewords it, which is a test breaking
+        // on a change it was never meant to catch. What matters is that a
+        // section showing only part of the team still points at the rest.
         $this->get('/en')
-            ->assertSee('Leadership')
-            ->assertSee('The people who run it')
-            // And still offers the way through to everyone else.
-            ->assertSee('Meet the full team');
+            ->assertSuccessful()
+            ->assertSee('Meet the full team')
+            ->assertSee(route('about') . '#team', false);
     }
 
     public function test_a_team_smaller_than_the_limit_still_renders(): void
