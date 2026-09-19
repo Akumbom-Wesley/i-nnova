@@ -79,6 +79,7 @@ class AboutSeeder extends Seeder
             $this->attachImage($value, 'image', $row['title']['en'], 1200, 800);
         }
     }
+
     /**
      * The real leadership team, taken from the company's own site. Anyone
      * beyond these three is added in the admin.
@@ -98,7 +99,6 @@ class AboutSeeder extends Seeder
                     'en' => '<p>Visionary leader and software engineer with over eight years building digital solutions for African businesses.</p>',
                     'fr' => '<p>Dirigeant visionnaire et ingenieur logiciel, plus de huit ans a construire des solutions numeriques pour les entreprises africaines.</p>',
                 ],
-                'featured' => true,
             ],
             [
                 'name' => 'Akumbom Wesley',
@@ -112,7 +112,6 @@ class AboutSeeder extends Seeder
                     'en' => '<p>Full-stack developer and architect specialising in Laravel, Vue.js and cloud infrastructure.</p>',
                     'fr' => '<p>Developpeur full-stack et architecte, specialise en Laravel, Vue.js et infrastructure cloud.</p>',
                 ],
-                'featured' => true,
             ],
             [
                 'name' => 'Feteh Ndimbe Diran',
@@ -126,7 +125,6 @@ class AboutSeeder extends Seeder
                     'en' => '<p>Educator and developer, set on nurturing the next generation of African tech talent.</p>',
                     'fr' => '<p>Educateur et developpeur, engage a former la prochaine generation de talents tech africains.</p>',
                 ],
-                'featured' => true,
             ],
         ];
 
@@ -139,8 +137,9 @@ class AboutSeeder extends Seeder
                     'department' => $row['department'],
                     'credentials' => $row['credentials'],
                     'bio' => $row['bio'],
+                    // Order is what puts the executives on the home page:
+                    // the first three in this list are the three it shows.
                     'sort_order' => $order,
-                    'is_featured' => $row['featured'],
                 ],
             );
 
@@ -149,6 +148,7 @@ class AboutSeeder extends Seeder
             $this->attachImage($member, 'photo', $row['name'], 800, 800, 'ink');
         }
     }
+
     private function process(): void
     {
         $rows = [

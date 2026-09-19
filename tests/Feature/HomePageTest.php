@@ -75,7 +75,7 @@ class HomePageTest extends TestCase
     public function test_it_shows_values_team_tracks_and_testimonials(): void
     {
         CompanyValue::create(['title' => ['en' => 'Community Impact']]);
-        TeamMember::create(['name' => 'Ada Example', 'slug' => 'ada-example', 'role' => ['en' => 'Engineer'], 'is_featured' => true]);
+        TeamMember::create(['name' => 'Ada Example', 'slug' => 'ada-example', 'role' => ['en' => 'Engineer']]);
         KickstarterTrack::create(['name' => ['en' => 'Cybersecurity'], 'slug' => 'cybersecurity', 'is_active' => true]);
         Testimonial::create(['quote' => ['en' => 'It runs every day.'], 'person_name' => 'Grace Example', 'is_featured' => true]);
 

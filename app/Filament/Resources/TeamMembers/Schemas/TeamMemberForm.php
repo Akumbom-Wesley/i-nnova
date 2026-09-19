@@ -6,7 +6,6 @@ use App\Filament\Support\LocaleTabs;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
@@ -81,10 +80,8 @@ class TeamMemberForm
                         TextInput::make('sort_order')
                             ->label('Order')
                             ->numeric()
-                            ->default(0),
-
-                        Toggle::make('is_featured')
-                            ->label('Show in the home page team row'),
+                            ->default(0)
+                            ->helperText('Lowest first. This order is used on the About page and on the home page, and the first three people in it are the ones the home page shows.'),
                     ])
                     ->columns(2),
             ]);

@@ -2,19 +2,27 @@
 
 namespace App\Filament\Resources\TeamMembers\Tables;
 
+use App\Models\TeamMember;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 
 class TeamMembersTable
 {
     public static function configure(Table $table): Table
     {
+        // Resolved once per table render rather than once per row, so marking
+        // the home page three costs a single query no matter how many people
+        // are listed.
+        $onHomePage = TeamMember::query()
+            ->ordered()
+            ->limit(TeamMember::LEADERSHIP_COUNT)
+            ->pluck('id')
+            ->all();
+
         return $table
             ->defaultSort('sort_order')
             ->reorderable('sort_order')
@@ -33,13 +41,16 @@ class TeamMembersTable
                     ->placeholder('Unassigned')
                     ->toggleable(),
 
-                IconColumn::make('is_featured')
-                    ->label('Home page')
-                    ->boolean(),
-            ])
-            ->filters([
-                TernaryFilter::make('is_featured')
-                    ->label('On the home page'),
+                // Which three the home page shows is decided by the order
+                // above, so it is worth saying out loud. Otherwise dragging a
+                // row has an effect on another page that nothing here admits.
+                TextColumn::make('on_home_page')
+                    ->label('')
+                    ->badge()
+                    ->color('success')
+                    ->getStateUsing(fn (TeamMember $record): ?string => in_array($record->getKey(), $onHomePage, true)
+                        ? 'On the home page'
+                        : null),
             ])
             ->recordActions([
                 EditAction::make(),

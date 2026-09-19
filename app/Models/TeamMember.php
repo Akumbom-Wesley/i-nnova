@@ -22,11 +22,19 @@ class TeamMember extends Model implements HasMedia
 
     protected $guarded = [];
 
+    /**
+     * How many people the home page shows.
+     *
+     * The first three by the order set in the admin, which is how the
+     * executives get there: put them at the top. One control rather than an
+     * order field and a separate featured flag that could disagree with it.
+     */
+    public const LEADERSHIP_COUNT = 3;
+
     protected function casts(): array
     {
         return [
             'socials' => 'array',
-            'is_featured' => 'boolean',
         ];
     }
 
