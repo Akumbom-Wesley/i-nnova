@@ -68,7 +68,7 @@
             <x-ui.reveal :delay="160" class="mt-8 flex items-center gap-4">
                 <span class="h-px w-10 bg-accent" aria-hidden="true"></span>
                 <p class="font-display text-h3 {{ $hasSlides ? 'text-white' : 'text-primary' }}">
-                    {!! __('Driven by :stem to solve real world problems', ['stem' => '<span class="text-accent">STEM</span>']) !!}
+                    {!! str_replace(':stem', '<span class="text-accent">STEM</span>', e(__('Driven by :stem to solve real world problems'))) !!}
                 </p>
             </x-ui.reveal>
 

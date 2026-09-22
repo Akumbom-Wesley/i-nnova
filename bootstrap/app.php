@@ -19,6 +19,10 @@ return Application::configure(basePath: dirname(__DIR__))
         // site served over https://. Trusting any proxy is right for a single
         // host where nothing but the local web server can reach PHP.
         $middleware->trustProxies(at: '*');
+
+        // Applies to the admin panel as well as the public site, though the
+        // policy itself differs between them.
+        $middleware->web(append: [\App\Http\Middleware\SecurityHeaders::class]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

@@ -79,7 +79,7 @@
                     </div>
 
                     <x-ui.reveal>
-                        <x-ui.prose class="text-lead">{!! $settings->about_story !!}</x-ui.prose>
+                        <x-ui.prose class="text-lead"><x-ui.rich-text :html="$settings->about_story" /></x-ui.prose>
                     </x-ui.reveal>
                 </div>
             </div>
@@ -126,7 +126,7 @@
 
                             <div class="rule-draw relative mt-4 h-0.5 w-10 bg-accent" aria-hidden="true"></div>
 
-                            <div class="relative mt-4 leading-relaxed text-muted [&_p]:m-0">{!! $value->body !!}</div>
+                            <div class="relative mt-4 leading-relaxed text-muted [&_p]:m-0"><x-ui.rich-text :html="$value->body" /></div>
                         </x-ui.reveal>
                     @endforeach
                 </div>

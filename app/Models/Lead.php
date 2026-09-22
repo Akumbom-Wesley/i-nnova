@@ -11,7 +11,26 @@ class Lead extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    /**
+     * Named rather than guarded. Everything here arrives from a form a
+     * stranger can post to, so the safe default is that a column is not
+     * writable until somebody decides it should be. status and read_at are
+     * the point: both are set by us, and neither should ever be settable by
+     * the person filling in the form.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'name',
+        'email',
+        'phone',
+        'organisation',
+        'subject',
+        'message',
+        'status',
+        'locale',
+        'ip_address',
+    ];
 
     protected function casts(): array
     {

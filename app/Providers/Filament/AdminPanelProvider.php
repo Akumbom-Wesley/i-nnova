@@ -6,6 +6,7 @@ use App\Filament\Widgets\ContentOverview;
 use App\Filament\Widgets\EnquiriesChart;
 use App\Filament\Widgets\LaunchChecklist;
 use App\Filament\Widgets\RecentEnquiries;
+use App\Http\Middleware\SecurityHeaders;
 use Filament\FontProviders\BunnyFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -66,6 +67,10 @@ class AdminPanelProvider extends PanelProvider
                 EnquiriesChart::class,
             ])
             ->middleware([
+                // The panel builds its own stack rather than using the web group,
+                // so this has to be named here as well, or the admin ends up
+                // the one set of pages with no headers on it.
+                SecurityHeaders::class,
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,

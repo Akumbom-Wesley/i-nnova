@@ -54,7 +54,7 @@
             <div>
                 @if ($product->isLive())
                     <x-ui.reveal>
-                        <x-ui.prose>{!! $product->description !!}</x-ui.prose>
+                        <x-ui.prose><x-ui.rich-text :html="$product->description" /></x-ui.prose>
                     </x-ui.reveal>
                 @else
                     {{--

@@ -25,7 +25,7 @@
         inline and tiny on purpose: a separate file would arrive too late
         to be any use.
     --}}
-    <script>
+    <script nonce="{{ $cspNonce ?? '' }}">
         (function () {
             try {
                 var mode = localStorage.getItem('theme');
