@@ -41,8 +41,13 @@ class Partner extends Model implements HasMedia
     public function registerMediaConversions(?Media $media = null): void
     {
         // Contain rather than crop: a partner logo must never be cut into.
+        //
+        // Sized for the wall at three times its rendered height. The mark is
+        // 112px tall on a large screen, and a phone with a 3x display asks for
+        // every one of these pixels; at the previous 480x240 the logos were
+        // visibly soft once the row was made bigger.
         $this->addMediaConversion('wall')
-            ->fit(Fit::Contain, 480, 240)
+            ->fit(Fit::Contain, 900, 400)
             ->quality(92)
             ->nonQueued();
     }

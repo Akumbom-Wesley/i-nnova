@@ -209,7 +209,7 @@
 
     @include('sections.timeline', ['milestones' => $milestones])
 
-    @include('sections.trusted', ['partners' => $partners, 'clients' => $clients])
+    @include('sections.partners', ['partners' => $partners])
 
     {{-- The first three sit in the header cluster, so the gallery takes
          what is left rather than showing them twice. --}}

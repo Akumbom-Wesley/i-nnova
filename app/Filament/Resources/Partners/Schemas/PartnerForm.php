@@ -29,7 +29,7 @@ class PartnerForm
                         SpatieMediaLibraryFileUpload::make('logo')
                             ->collection('logo')
                             ->image()
-                            ->helperText('Use the partner\'s own logo file. It is scaled to fit, never cropped.')
+                            ->helperText('Use the partner\'s own logo, as a PNG with a transparent background, at least 900px wide. It is scaled to fit and never cropped, and it is shown in white on the dark band, so a logo on a white rectangle will appear as a white block.')
                             ->columnSpanFull(),
 
                         LocaleTabs::make(fn (string $locale) => [

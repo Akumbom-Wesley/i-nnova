@@ -68,21 +68,30 @@ class ComponentLibraryTest extends TestCase
         $this->assertStringNotContainsString('Unconfirmed Institution', $html);
     }
 
-    public function test_the_clients_section_is_absent_when_nothing_is_verified(): void
+    public function test_an_unconfirmed_client_never_reaches_the_home_page(): void
     {
-        Client::create(['name' => 'Unconfirmed Institution', 'is_verified' => false]);
+        Client::create([
+            'name' => 'Unconfirmed Institution',
+            'is_verified' => false,
+            'is_featured' => true,
+        ]);
 
-        $this->get('/en')->assertDontSee('Trusted partners and clients');
+        $this->get('/en')->assertDontSee('Unconfirmed Institution');
     }
 
-    public function test_the_clients_section_appears_once_a_client_is_verified(): void
+    public function test_a_confirmed_client_appears_in_the_deployments_band(): void
     {
-        Client::create(['name' => 'Confirmed Institution', 'is_verified' => true]);
+        // Clients used to sit in the logo wall beside the partners. That band
+        // is partners only now, so the home page shows clients where there is
+        // something to say about them: the deployments band, which names the
+        // institution and what it runs.
+        Client::create([
+            'name' => 'Confirmed Institution',
+            'is_verified' => true,
+            'is_featured' => true,
+        ]);
 
-        $response = $this->get('/en');
-
-        $response->assertSee('Trusted partners and clients');
-        $response->assertSee('Confirmed Institution');
+        $this->get('/en')->assertSee('Confirmed Institution');
     }
 
     public function test_the_feature_list_renders_each_item(): void

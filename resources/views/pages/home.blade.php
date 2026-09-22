@@ -16,7 +16,7 @@
     @include('sections.stem', ['tracks' => $tracks])
     @include('sections.deployments', ['clients' => $deployments])
     @include('sections.photo-strip', ['images' => $photos])
-    @include('sections.trusted', ['partners' => $partners, 'clients' => $clients])
+    @include('sections.partners', ['partners' => $partners])
     @include('sections.values', ['values' => $values])
     @include('sections.team', ['team' => $team])
     @include('sections.kickstarter', ['settings' => $settings])
