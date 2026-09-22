@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Vite;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -60,6 +61,39 @@ class SecurityHeaders
         return $response;
     }
 
+    /**
+     * The Vite dev server, when one is running, as an origin to allow.
+     *
+     * Only while it is actually serving, and never in production, so a hot
+     * file left behind by a stray build cannot widen the live policy.
+     *
+     * @return array{http: string, ws: string}|null
+     */
+    private function viteDevOrigins(): ?array
+    {
+        if (app()->isProduction() || ! Vite::isRunningHot()) {
+            return null;
+        }
+
+        $parts = parse_url(trim((string) @file_get_contents(public_path('hot'))));
+
+        if (! is_array($parts) || ! isset($parts['host'])) {
+            return null;
+        }
+
+        // An IPv6 host has to keep its brackets to be a valid origin, and the
+        // default hot file uses [::1].
+        $host = str_contains($parts['host'], ':') ? '[' . trim($parts['host'], '[]') . ']' : $parts['host'];
+        $authority = $host . (isset($parts['port']) ? ':' . $parts['port'] : '');
+        $scheme = $parts['scheme'] ?? 'http';
+
+        return [
+            'http' => $scheme . '://' . $authority,
+            // Hot module reloading talks over a socket on the same port.
+            'ws' => ($scheme === 'https' ? 'wss' : 'ws') . '://' . $authority,
+        ];
+    }
+
     private function policy(Request $request, string $nonce): string
     {
         // The admin is Livewire, which writes its own inline scripts and
@@ -71,6 +105,14 @@ class SecurityHeaders
             return "frame-ancestors 'self'";
         }
 
+        // While npm run dev is running, the stylesheet and the scripts are
+        // served by Vite on its own port, which is a different origin to the
+        // application. Without naming it the page loads with no styling at
+        // all, which is what a policy written only for production does.
+        $vite = $this->viteDevOrigins();
+        $http = $vite === null ? '' : ' ' . $vite['http'];
+        $socket = $vite === null ? '' : ' ' . $vite['http'] . ' ' . $vite['ws'];
+
         $directives = [
             "default-src 'self'",
 
@@ -80,20 +122,20 @@ class SecurityHeaders
             // rather than expressions, so every x-data and @click in the site
             // would have to be rewritten. The nonce is doing the real work:
             // script injected by an attacker has no way to guess it.
-            "script-src 'self' 'unsafe-eval' 'nonce-{$nonce}'",
+            "script-src 'self' 'unsafe-eval' 'nonce-{$nonce}'{$http}",
 
             // Style attributes are used throughout for animation timings, and
             // an attribute cannot carry a nonce. A stylesheet is a far weaker
             // vector than a script.
-            "style-src 'self' 'unsafe-inline'",
+            "style-src 'self' 'unsafe-inline'{$http}",
 
             // Photographs can be pointed at any host from the admin, so the
             // policy cannot name them in advance. https: at least rules out
             // plain http and anything smuggled in through another scheme.
-            "img-src 'self' data: https:",
+            "img-src 'self' data: https:{$http}",
 
-            "font-src 'self' data:",
-            "connect-src 'self'",
+            "font-src 'self' data:{$http}",
+            "connect-src 'self'{$socket}",
             'frame-src ' . implode(' ', self::EMBED_HOSTS),
             "media-src 'self' https:",
 
