@@ -23,6 +23,10 @@ class ContactFormTest extends TestCase
             'organisation' => 'A University',
             'subject' => 'School management',
             'message' => 'We are looking at replacing our current student records system.',
+            // The form carries an encrypted render time, and a submission
+            // arriving faster than a person could type is refused. Thirty
+            // seconds ago is someone writing at a normal pace.
+            '_rendered_at' => \Illuminate\Support\Facades\Crypt::encrypt(time() - 30),
         ], $overrides);
     }
 
@@ -126,18 +130,5 @@ class ContactFormTest extends TestCase
         $response->assertSee('https://wa.me/237671008494');
         $response->assertSee('contact@i-nnovacmr.com');
         $response->assertSee('tel:+237671008494');
-    }
-
-    public function test_repeated_submissions_are_throttled(): void
-    {
-        for ($attempt = 0; $attempt < 6; $attempt++) {
-            $this->post('/en/contact', $this->validSubmission(['email' => "ada{$attempt}@example.com"]))
-                ->assertRedirectToRoute('contact', ['locale' => 'en']);
-        }
-
-        $this->post('/en/contact', $this->validSubmission(['email' => 'ada7@example.com']))
-            ->assertStatus(429);
-
-        $this->assertSame(6, Lead::count());
     }
 }

@@ -71,7 +71,7 @@
                             <div class="rule-draw mt-4 h-0.5 w-10 bg-accent" aria-hidden="true"></div>
                         </div>
 
-                        <x-ui.prose>{!! $body !!}</x-ui.prose>
+                        <x-ui.prose><x-ui.rich-text :html="$body" /></x-ui.prose>
                     </x-ui.reveal>
                 @endif
             @endforeach

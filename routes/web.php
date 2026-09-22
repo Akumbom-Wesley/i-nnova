@@ -38,7 +38,7 @@ Route::prefix('{locale}')
 
         Route::get('/contact', [ContactController::class, 'show'])->name('contact');
         Route::post('/contact', [ContactController::class, 'store'])
-            ->middleware('throttle:6,1')
+            ->middleware('throttle:contact')
             ->name('contact.store');
     });
 

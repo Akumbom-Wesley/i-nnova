@@ -31,7 +31,11 @@
                     <div role="alert"
                          class="mb-10 rounded-2xl border border-accent-text/30 bg-accent-soft p-6">
                         <p class="font-semibold text-accent-text">
-                            Please check {{ $errors->count() === 1 ? 'one field' : $errors->count() . ' fields' }} below.
+                            @if ($errors->has('form'))
+                                {{ $errors->first('form') }}
+                            @else
+                                Please check {{ $errors->count() === 1 ? 'one field' : $errors->count() . ' fields' }} below.
+                            @endif
                         </p>
                     </div>
                 @endif

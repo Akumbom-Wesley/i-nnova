@@ -20,7 +20,7 @@
                         <div class="rule-draw mt-4 h-0.5 w-10 bg-accent" aria-hidden="true"></div>
 
                         <div class="mt-4 leading-relaxed text-muted [&_p]:m-0">
-                            {!! $value->body !!}
+                            <x-ui.rich-text :html="$value->body" />
                         </div>
                     </x-ui.reveal>
                 @endforeach
