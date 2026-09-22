@@ -56,7 +56,19 @@ class SecurityHeaders
             $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
         }
 
-        $response->headers->set('Content-Security-Policy', $this->policy($request, $nonce));
+        // Enforced in production, reported everywhere else.
+        //
+        // The policy exists to protect the live site. Locally it was only ever
+        // able to do one thing, which is block an asset the dev server is
+        // serving from a different port and leave the site looking broken with
+        // no clue as to why. Report-only still writes every violation to the
+        // console, so the policy can be read and fixed there, without a
+        // mistake in it stopping anyone working.
+        $header = app()->isProduction()
+            ? 'Content-Security-Policy'
+            : 'Content-Security-Policy-Report-Only';
+
+        $response->headers->set($header, $this->policy($request, $nonce));
 
         return $response;
     }

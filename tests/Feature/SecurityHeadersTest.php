@@ -29,7 +29,7 @@ class SecurityHeadersTest extends TestCase
 
     public function test_the_policy_shuts_the_doors_that_matter(): void
     {
-        $csp = $this->get('/en')->headers->get('Content-Security-Policy');
+        $csp = $this->csp($this->get('/en'));
 
         // Where a stolen session would be sent.
         $this->assertStringContainsString("connect-src 'self'", $csp);
@@ -47,7 +47,7 @@ class SecurityHeadersTest extends TestCase
     {
         $response = $this->get('/en');
         $html = $response->getContent();
-        $csp = $response->headers->get('Content-Security-Policy');
+        $csp = $this->csp($response);
 
         $this->assertSame(1, preg_match("/'nonce-([A-Za-z0-9+\/=]+)'/", $csp, $matches));
 
@@ -61,15 +61,15 @@ class SecurityHeadersTest extends TestCase
     {
         // A predictable nonce is the same as no nonce: injected script can
         // simply include it.
-        $first = $this->get('/en')->headers->get('Content-Security-Policy');
-        $second = $this->get('/en')->headers->get('Content-Security-Policy');
+        $first = $this->csp($this->get('/en'));
+        $second = $this->csp($this->get('/en'));
 
         $this->assertNotSame($first, $second);
     }
 
     public function test_the_hosts_we_embed_from_are_allowed_and_others_are_not(): void
     {
-        $csp = $this->get('/en')->headers->get('Content-Security-Policy');
+        $csp = $this->csp($this->get('/en'));
 
         $this->assertStringContainsString('https://www.openstreetmap.org', $csp);
         $this->assertStringContainsString('https://player.vimeo.com', $csp);
@@ -91,7 +91,7 @@ class SecurityHeadersTest extends TestCase
         $response = $this->get('/en');
         $html = $response->getContent();
 
-        $directives = $this->directives($response->headers->get('Content-Security-Policy'));
+        $directives = $this->directives($this->csp($response));
 
         $page = parse_url(config('app.url'));
         $self = ($page['host'] ?? 'localhost') . ':' . ($page['port'] ?? '');
@@ -127,6 +127,32 @@ class SecurityHeadersTest extends TestCase
         if ($checked === 0) {
             $this->markTestSkipped('Nothing off origin on the page, so there is no policy to check. Run npm run dev for the case this test exists for.');
         }
+    }
+
+    public function test_the_policy_is_enforced_in_production_and_only_reported_elsewhere(): void
+    {
+        // Locally the policy can only do one useful thing, which is tell you
+        // it is wrong. Blocking as well just leaves the site looking broken.
+        $response = $this->get('/en');
+
+        $this->assertTrue($response->headers->has('Content-Security-Policy-Report-Only'));
+        $this->assertFalse($response->headers->has('Content-Security-Policy'));
+
+        app()->detectEnvironment(fn () => 'production');
+
+        $live = $this->get('/en');
+
+        $this->assertTrue($live->headers->has('Content-Security-Policy'));
+        $this->assertFalse($live->headers->has('Content-Security-Policy-Report-Only'));
+    }
+
+    /**
+     * Whichever of the two headers this environment sends.
+     */
+    private function csp(\Illuminate\Testing\TestResponse $response): string
+    {
+        return (string) ($response->headers->get('Content-Security-Policy')
+            ?? $response->headers->get('Content-Security-Policy-Report-Only'));
     }
 
     /**
@@ -202,7 +228,7 @@ class SecurityHeadersTest extends TestCase
         // so without this the test passes when the panel is not even loaded.
         $response->assertOk();
 
-        $csp = $response->headers->get('Content-Security-Policy');
+        $csp = $this->csp($response);
 
         // Livewire writes its own inline script and rewrites the DOM as it
         // goes. Only the framing rule applies here, which is the part that
