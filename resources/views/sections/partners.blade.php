@@ -7,22 +7,26 @@
 @endphp
 
 @if ($shown->isNotEmpty())
-    <section class="band-sheen relative overflow-hidden bg-ink py-(--spacing-band)" aria-labelledby="partners">
-        <x-tech.waveform class="pointer-events-none absolute inset-x-0 bottom-0 h-24 w-full text-white/[0.10]" />
+    {{--
+        A light ground, because the marks are shown as they were supplied and
+        most real logos are drawn to sit on white. On the dark band the ones
+        carrying their own background read as pale rectangles.
 
+        Padded tighter than a full band: this section is a heading and a row of
+        logos, and the standard band spacing left it floating well clear of the
+        section above it.
+    --}}
+    <section class="relative overflow-hidden bg-paper-dim py-(--spacing-band-sm)" aria-labelledby="partners">
         <div class="relative mx-auto max-w-6xl px-4 sm:px-6">
-            {{--
-                One word and the marks, nothing else. A logo wall that carries
-                an eyebrow, a heading and a sub-heading spends most of its
-                height on text about the logos rather than on the logos.
-            --}}
             <x-ui.reveal from="none" class="text-center">
-                <h2 id="partners" class="font-display text-h2 text-white">{{ __('Partners') }}</h2>
+                <h2 id="partners" class="font-display text-h2 text-content">{{ __('Partners') }}</h2>
 
-                <div class="rule-draw mx-auto mt-6 h-0.5 w-16 bg-accent" aria-hidden="true"></div>
+                <div class="rule-draw mx-auto mt-4 h-0.5 w-16 bg-accent" aria-hidden="true"></div>
             </x-ui.reveal>
-
-            <x-ui.partner-wall :partners="$shown" class="mt-14 sm:mt-20" />
         </div>
+
+        {{-- Outside the container on purpose. A row that slides should run to
+             both edges of the screen, not stop short inside a margin. --}}
+        <x-ui.partner-wall :partners="$shown" class="mt-8 sm:mt-10" />
     </section>
 @endif

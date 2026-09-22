@@ -943,3 +943,85 @@
         transition: none;
     }
 }
+
+/*
+    Partner wall.
+
+    The row scrolls only when it is too wide to fit, which is decided at
+    runtime rather than guessed here, because how many partners there are is a
+    CMS decision. The gap lives in a custom property so the flex gap and the
+    distance the track travels cannot drift apart: the track is two identical
+    copies, and a loop is seamless only when it moves by exactly one copy plus
+    one gap.
+*/
+.partner-marquee {
+    --marquee-gap: 3rem;
+}
+
+@media (min-width: 640px) {
+    .partner-marquee {
+        --marquee-gap: 4rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .partner-marquee {
+        --marquee-gap: 5rem;
+    }
+}
+
+.partner-track {
+    display: flex;
+    gap: var(--marquee-gap);
+    width: max-content;
+}
+
+.partner-list {
+    display: flex;
+    align-items: center;
+    gap: var(--marquee-gap);
+}
+
+.partner-track--scrolling {
+    animation: partner-marquee var(--marquee-duration, 40s) linear infinite;
+}
+
+/* A reader who wants to look at one mark can stop the row by pointing at it. */
+.partner-marquee:hover .partner-track--scrolling,
+.partner-marquee:focus-within .partner-track--scrolling {
+    animation-play-state: paused;
+}
+
+@keyframes partner-marquee {
+    from {
+        transform: translateX(0);
+    }
+
+    /*
+        Half the track is one copy plus half a gap, so half a gap more is
+        needed to land the second copy exactly where the first began.
+    */
+    to {
+        transform: translateX(calc(-50% - (var(--marquee-gap) / 2)));
+    }
+}
+
+/* Softens both ends so marks enter and leave rather than being cut off. */
+.partner-marquee--scrolling {
+    mask-image: linear-gradient(to right, transparent, #000 5rem, #000 calc(100% - 5rem), transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .partner-track--scrolling {
+        animation: none;
+    }
+
+    /*
+        Nothing is moving, so the row has to be reachable by hand instead, and
+        the faded ends would only hide the marks at each end.
+    */
+    .partner-marquee--scrolling {
+        mask-image: none;
+        overflow-x: auto;
+    }
+}

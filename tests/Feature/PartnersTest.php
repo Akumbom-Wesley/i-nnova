@@ -175,6 +175,44 @@ class PartnersTest extends TestCase
         $this->assertGreaterThanOrEqual(336, $width);
     }
 
+    public function test_a_logo_is_shown_as_supplied_rather_than_waiting_for_a_hover(): void
+    {
+        // The first version held every mark to one tone and restored the real
+        // logo on hover. With monochrome artwork that looks tidy; with a logo
+        // that carries its own background it is a grey rectangle until the
+        // reader happens to point at it.
+        $partner = $this->partner();
+        $partner->addMedia(UploadedFile::fake()->image('logo.png', 1200, 600))
+            ->toMediaCollection('logo');
+
+        $html = $this->get('/en')->getContent();
+
+        $this->assertStringNotContainsString('brightness-0', $html);
+        $this->assertStringNotContainsString('invert', $html);
+    }
+
+    public function test_the_duplicate_row_is_hidden_from_assistive_technology(): void
+    {
+        // A marquee needs a second copy of the row to loop without a seam.
+        // That copy is decoration, and without this a screen reader reads
+        // every partner twice as the price of a visual trick.
+        $this->partner(['name' => 'A Real Partner']);
+
+        $html = $this->get('/en')->getContent();
+
+        preg_match_all('/<ul[^>]*class="partner-list"[^>]*>/', $html, $lists);
+
+        $this->assertCount(2, $lists[0], 'The wall should draw the row twice so the loop has no seam.');
+
+        $hidden = array_filter($lists[0], fn (string $tag) => str_contains($tag, 'aria-hidden="true"'));
+
+        $this->assertCount(1, $hidden, 'Exactly one of the two rows is real; the other must be hidden from assistive technology.');
+
+        // Both copies carry the name, which is the point: one is read, one is
+        // only looked at.
+        $this->assertSame(2, substr_count($html, 'A Real Partner'));
+    }
+
     public function test_the_admin_counts_partnerships_awaiting_confirmation(): void
     {
         $this->partner(['name' => 'Confirmed']);
