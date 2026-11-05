@@ -1,71 +1,93 @@
 # Deployment
 
-The live site is **https://i-nnovacmr.com**, served from an AWS EC2 instance in
-`us-east-1`. This file is the runbook: what is where, how to ship a change, and
-what to check when something looks wrong.
+The live site is **https://i-nnovacmr.com**, served from an Oracle Cloud VPS.
+This file is the runbook: what is where, how to ship a change, and what to
+check when something looks wrong.
 
 **No secrets live in this file.** The repository is public. See
 [Where the secrets are](#where-the-secrets-are).
+
+## History
+
+Until November 2026 the site ran on an AWS EC2 instance (`3.217.74.87`). That
+instance was taken down with no backup of any kind, and the live database and
+uploads went with it. The site was rebuilt on the current server on
+5 November 2026 from a developer's local copy of the content, last edited on
+22 September. Anything changed on the live site after that date was lost.
+
+That is why the server now backs itself up every night, and why the copies
+must also be pulled off the server. See [Backups](#backups).
 
 ## The box
 
 | | |
 | --- | --- |
-| Host | `3.217.74.87` |
-| Access | `ssh -i i-nnova_key.pem ec2-user@3.217.74.87` |
-| OS | Amazon Linux 2023 |
-| Resources | 2 vCPU, 916 MB RAM, 8 GB disk |
-| Web server | nginx 1.28.3 |
-| PHP | 8.5.4 via php-fpm, running as user `apache` on `/run/php-fpm/www.sock` |
-| Database | MariaDB 10.5.29 |
-| Also installed | Composer 2.10.2, Node 20.20.2, git 2.50.1, certbot 4.2.0 |
+| Host | `138.2.210.63` |
+| Access | `ssh -i ssh-key-2026-09-28.key ubuntu@138.2.210.63` |
+| OS | Ubuntu 24.04 LTS |
+| Resources | 2 vCPU, about 1 GB RAM, 2 GB swap, 45 GB disk |
+| Web server | nginx 1.24 |
+| PHP | 8.4 via php8.4-fpm, in its own pool, for this site. 8.3 is the box default |
+| Database | MySQL 8.0 |
+| Also installed | Composer, git, certbot |
 
-`ec2-user` has passwordless sudo.
+`ubuntu` has passwordless sudo.
 
 ### This box is shared
 
-Three other things run here. **Do not assume you can restart, reconfigure or
-clear anything without checking what else it affects.**
+Other apps run here. **Do not assume you can restart, reconfigure or clear
+anything without checking what else it affects.**
 
-| Site | Path | Database | State |
-| --- | --- | --- | --- |
-| i-nnovacmr.com | `/var/www/innova` | `innovadb` | Live, HTTPS |
-| nailblissbyfaith.com | `/var/www/Mrs-Muki-Site` | none (static) | Live, HTTPS. A third party's site |
-| EduTrust | `/var/www/edutrustshsm` | `edutrustshsmdb` | Reachable only at `http://3.217.74.87`, no TLS |
-| Tontine | `/var/www/tontine` | `tontinedb` | **Unreachable.** Its `server_name` is `tontine.com`, which points at Cloudflare and belongs to someone else |
+| App | Path | Notes |
+| --- | --- | --- |
+| i-nnovacmr.com | `/var/www/innova` | This site. Database `innovadb` |
+| E-Ride | `/var/www/e-ride` | Served on the bare IP over HTTP, plus a Reverb websocket service (`reverb.service`, port 6001). Uses PHP 8.3 |
+| EduTrust | `/var/www/edutrustshsm` | Files only, no nginx site enabled |
 
-php-fpm is a single shared pool. A change to `/etc/php-fpm.d/` or `php.ini`
-affects all four. Per-site PHP settings go in the nginx block instead, via
-`fastcgi_param PHP_VALUE` (this site already does that for upload limits).
+### Two PHP versions, on purpose
+
+The site needs PHP 8.4 or newer (Symfony 8). The box's default `php` is 8.3,
+which E-Ride uses, and it stays that way. So:
+
+- **Always run this site's commands with `php8.4`**, for example
+  `php8.4 artisan migrate`, and Composer as `php8.4 /usr/bin/composer`.
+  Plain `php artisan` runs on 8.3 and fails.
+- PHP 8.4 comes from the `ppa:ondrej/php` repository.
+- The site has its own php-fpm pool, `[innova]`, on `/run/php/innova.sock`.
+  Its settings (upload limits, memory, worker count) live in that pool file,
+  so changing them affects nothing else. The stock 8.4 `www` pool is disabled.
+- After `update-alternatives` or a PHP package install, check that `php -v`
+  still says 8.3, or E-Ride's Reverb service breaks on its next restart.
 
 ### Memory is the binding constraint
 
-916 MB of RAM with a 1 GB swap file at `/swapfile` (`vm.swappiness=10`). Before
-the swap existed there was no margin at all, and an OOM kill would have taken
-the other three sites down with it.
+About 1 GB of RAM, shared. **Do not run `npm install` or `npm run build` on
+this box.** Assets are built locally and shipped by `deploy.sh`.
 
-**Do not run `npm install` or `npm run build` on this box.** Assets are built
-locally and shipped. `node_modules` is never installed there, which also keeps
-roughly 300 MB off a disk that has about 2.9 GB free.
+The pool is `pm = ondemand` with at most 4 workers, so an idle site costs only
+its master process.
 
-`pm.max_children` is set to 50, which is far more workers than this much memory
-can hold. It has not been changed because it is shared with the other sites,
-but it should come down to 8 to 10.
+## Oracle Cloud networking
+
+Oracle Cloud filters traffic **before** it reaches the server, in the VCN's
+Security List (or a Network Security Group). Ports 80 and 443 must be open
+there to `0.0.0.0/0` as well as in `ufw` on the box. When they are closed,
+the site times out from outside while `ufw` and nginx look perfectly healthy.
 
 ## Application layout
 
 ```
 /var/www/innova
-  .env                  production config, mode 640, owner ec2-user:apache
+  .env                  production config, mode 640
   public/               nginx document root
   public/build/         built CSS and JS, shipped from a developer machine
   public/storage        symlink to storage/app/public
-  storage/app/public/   uploaded media, 2775 so php-fpm can write
+  storage/app/public/   uploaded media
 ```
 
-Ownership is `ec2-user:apache` throughout. `storage` and `bootstrap/cache` are
-`2775` on directories and `664` on files; the setgid bit keeps admin uploads in
-the `apache` group so php-fpm can keep writing to them.
+Ownership is `ubuntu:www-data` throughout. `storage` and `bootstrap/cache` are
+`2775` on directories and `664` on files, so php-fpm (running as `www-data`)
+can keep writing uploads and caches.
 
 ### Environment
 
@@ -74,60 +96,46 @@ the `apache` group so php-fpm can keep writing to them.
 `MAIL_MAILER=log`, because nothing sends mail yet (see
 [Known gaps](#known-gaps)).
 
-The `innova` database user is granted rights on `innovadb` only and cannot see
-`edutrustshsmdb` or `tontinedb`.
+No queue worker is needed: image conversions are set to run during the upload
+request.
+
+The `innova` database user has rights on `innovadb` only.
+
+## Server configuration in the repo
+
+The previous server's nginx config was never saved anywhere, so it went with
+the server. Copies of everything set up by hand on this one are in
+`docs/server/`:
+
+| File | Installed at |
+| --- | --- |
+| `innova.conf` | `/etc/nginx/sites-available/innova.conf`, symlinked into `sites-enabled` |
+| `innova-fpm.conf` | `/etc/php/8.4/fpm/pool.d/innova.conf` |
+| `innova-backup.sh` | `/usr/local/bin/innova-backup`, run from `/etc/cron.d/innova-backup` |
+
+The live nginx file also holds the HTTPS lines certbot added. If you change
+one of these on the server, change the copy here too.
 
 ## Deploying a change
 
-Assets are built locally because Vite will not fit in this much memory.
-
-**1. Locally, build and ship the assets:**
+From a developer machine, on an up to date `main`:
 
 ```bash
-npm run build
-tar czf - public/build | ssh -i i-nnova_key.pem ec2-user@3.217.74.87 \
-  'tar xzf - -C /var/www/innova'
+./deploy.sh
 ```
 
-**2. On the box:**
-
-```bash
-cd /var/www/innova
-git fetch origin main && git reset --hard origin/main
-nice -n 15 composer install --no-dev --optimize-autoloader --no-interaction
-php artisan migrate --force
-php artisan optimize
-
-sudo chown -R ec2-user:apache /var/www/innova
-sudo find /var/www/innova/storage /var/www/innova/bootstrap/cache -type d -exec chmod 2775 {} +
-sudo find /var/www/innova/storage /var/www/innova/bootstrap/cache -type f -exec chmod 664 {} +
-sudo chmod 640 /var/www/innova/.env
-```
-
-**3. After adding any new `__('...')` string to a view**, so it stays editable
-in the admin:
-
-```bash
-php artisan site:sync-texts
-```
-
-`nice -n 15` matters: it keeps Composer yielding to the live sites on a box
-with two cores.
+It refuses to run on a dirty tree or anything other than `origin/main`, runs
+the tests, builds assets locally, ships them, then on the server pulls,
+installs, migrates, syncs the site texts, caches and fixes permissions. It
+prints the commit to roll back to.
 
 ## nginx
 
-Config lives in `/etc/nginx/conf.d/`, loaded alphabetically as `*.conf`.
+Sites live in `/etc/nginx/sites-available/` and are enabled by symlink in
+`sites-enabled/`.
 
-| File | Purpose |
-| --- | --- |
-| `000-default-reject.conf` | Explicit HTTPS default. Sorts first so an unknown hostname gets the connection closed rather than whichever real site happens to come first |
-| `innova.conf` | This site. Apex serves the app, `www` 301s to the apex |
-| `nailblissbyfaith.com.conf` | Third party static site |
-| `edutrustshsm.conf` | EduTrust, on the bare IP |
-| `tontine.conf` | Tontine, currently matching nothing |
-
-**Always validate before reloading. A reload with a bad config takes all four
-sites down.**
+**Always validate before reloading. A reload with a bad config takes every
+site on the box down.**
 
 ```bash
 sudo nginx -t && sudo systemctl reload nginx
@@ -135,42 +143,25 @@ sudo nginx -t && sudo systemctl reload nginx
 
 ### Health check
 
-Run this after any change. It checks every site by name without needing DNS:
-
 ```bash
-for t in "i-nnovacmr.com|https" "nailblissbyfaith.com|https" \
-         "3.217.74.87|http" "tontine.com|http"; do
-  n=${t%%|*}; s=${t##*|}
-  printf '%-26s %s\n' "$n" \
-    "$(curl -s -o /dev/null -w '%{http_code}' -k -H "Host: $n" "$s://127.0.0.1/")"
+for p in /en /fr /admin/login; do
+  printf '%-14s %s\n' $p \
+    "$(curl -s -o /dev/null -w '%{http_code}' -k -H 'Host: i-nnovacmr.com' https://127.0.0.1$p)"
 done
 ```
 
-Expected: `302` for i-nnovacmr.com (the locale redirect to `/en`), `200` for
-nailbliss, `302` for EduTrust (its login redirect), `200` for Tontine.
+Expected: `200` for each.
 
 ## Certificates
 
-Let's Encrypt via certbot, covering `i-nnovacmr.com` and `www.i-nnovacmr.com`,
-issued 19 September 2026 and valid to 18 December 2026.
-
-Renewal runs from a systemd timer, twice daily with an hour of jitter:
+Let's Encrypt via certbot (`/usr/bin/certbot`, the Ubuntu package), covering
+`i-nnovacmr.com` and `www.i-nnovacmr.com`. Ubuntu's own `certbot.timer`
+renews every certificate on the box twice a day:
 
 ```bash
-systemctl list-timers certbot-renew.timer
+systemctl list-timers certbot.timer
 sudo certbot renew --dry-run
 ```
-
-The unit is `/etc/systemd/system/certbot-renew.{service,timer}` and it reloads
-nginx only when a certificate actually changed. It covers **every** certificate
-on the host, including nailblissbyfaith.com.
-
-Note that certbot is at `/usr/local/bin/certbot`, not `/usr/bin/certbot`. The
-unit file needs the full path or it fails with `203/EXEC`.
-
-**Before this timer existed there was no renewal of any kind on this box.** The
-nailblissbyfaith.com certificate would have expired on 14 November 2026 and
-that site would have gone dark.
 
 ## DNS
 
@@ -179,15 +170,46 @@ there. Both records point at the box:
 
 | Type | Name | Value |
 | --- | --- | --- |
-| A | `@` | `3.217.74.87` |
-| A | `www` | `3.217.74.87` |
+| A | `@` | `138.2.210.63` |
+| A | `www` | `138.2.210.63` |
 
-The previous site still exists on Hostinger's own hosting. It is no longer
-reachable, because DNS points here, but the files are still there. That makes
-**rollback a DNS change**: point the A records back at Hostinger and the old
-site returns.
+The site from before the rebuild still exists on Hostinger's own hosting at
+`185.77.97.29`. It is the much older design, but pointing the A records there
+is a last resort if this server is unavailable.
 
 `i-nnova.com` is a different company's site on Wix. It is not ours.
+
+## Backups
+
+Every night at 02:30 UTC, `/usr/local/bin/innova-backup` writes the database
+and the uploaded media to `/var/backups/innova`, keeping 14 days. A night costs
+about 75 MB, almost all of it media.
+
+**Those copies live on the same server.** They cover a bad migration or a
+mistaken delete, not losing the server, which is exactly what happened last
+time. Pull the latest set to a machine you control regularly, at least after
+any real content change:
+
+```bash
+KEY=~/OneDrive/Desktop/Duke/I-NNOVA/keys/ssh-key-2026-09-28.key
+DEST=~/OneDrive/Desktop/Duke/I-NNOVA/backups
+ssh -i "$KEY" ubuntu@138.2.210.63 \
+  'sudo sh -c "cd /var/backups/innova && tar cf - \$(ls -t innovadb-* | head -1) \$(ls -t media-* | head -1)"' \
+  | tar xf - -C "$DEST"
+```
+
+To restore the database from a dump:
+
+```bash
+gunzip -c innovadb-YYYYMMDD-HHMM.sql.gz | sudo mysql innovadb
+```
+
+And the media:
+
+```bash
+sudo tar xzf media-YYYYMMDD-HHMM.tar.gz -C /var/www/innova/storage/app
+sudo chown -R ubuntu:www-data /var/www/innova/storage/app/public
+```
 
 ## The admin
 
@@ -197,12 +219,12 @@ Every user row can sign in and edit everything. There are no roles, so only
 create accounts for people who should have full access.
 
 ```bash
-cd /var/www/innova && php artisan make:filament-user
+cd /var/www/innova && php8.4 artisan make:filament-user
 ```
 
 Everything on the public site is editable from here, including the fixed
 strings in the templates, which are synced into the `site_texts` table by
-`php artisan site:sync-texts`.
+`php8.4 artisan site:sync-texts`.
 
 ## Where the secrets are
 
@@ -210,33 +232,20 @@ Nothing secret is committed to this repository, and nothing should be.
 
 | Secret | Where it lives |
 | --- | --- |
-| SSH private key | `i-nnova_key.pem`, on the maintainer's machine. Never commit it |
+| SSH private key | `keys/ssh-key-2026-09-28.key`, on the maintainer's machine. Never commit it |
 | Database password | `/var/www/innova/.env` on the server, mode 640 |
-| `APP_KEY` | Same file. Losing it makes existing encrypted values unreadable |
-| Admin login | Set at deploy time, then changed by the owner. Keep it in a password manager |
-
-To read the database password when you need it:
-
-```bash
-ssh -i i-nnova_key.pem ec2-user@3.217.74.87 'sudo grep DB_PASSWORD /var/www/innova/.env'
-```
+| `APP_KEY` | Same file. Losing it logs everyone out and makes encrypted values unreadable, so keep a copy off the server |
+| Admin login | Keep it in a password manager |
 
 ## Known gaps
 
 Ordered by how much they matter.
 
-- **There are no backups.** Nothing on this box is backed up, this site
-  included, and neither are EduTrust or Tontine. The database is about 1.1 MB
-  and media about 34 MB, so this is cheap to fix and has simply not been done.
-  Backups on the same EBS volume would protect against a bad migration or a
-  mistaken delete but not against losing the instance; copies belong in S3.
+- **Backups do not leave the server on their own.** See [Backups](#backups).
+  An automatic off-site copy (object storage, or a scheduled pull) is the next
+  step.
 - **Nobody is told when an enquiry arrives.** The contact form writes a `Lead`
   row and sends no mail, so someone has to open the admin and look.
-- **EduTrust has no TLS.** It answers on a bare IP over plain HTTP, so staff
-  passwords for a school management system cross the network unencrypted. It
-  needs a hostname before it can have a certificate.
-- **Tontine is unreachable** and has been for some time. Either give it a
-  hostname or remove it and reclaim 361 MB.
 - **Contact details are missing** from the footer. The placeholders were
   deliberately excluded and a test keeps them out, so the real phone number and
   email address need entering in the admin.
@@ -244,4 +253,3 @@ Ordered by how much they matter.
   but a public site collecting enquiries should have both.
 - **The photography is still stand-ins.** Real photographs replace them by
   upload in the admin, with no code change.
-- **`pm.max_children = 50`** on a 916 MB box, as above.

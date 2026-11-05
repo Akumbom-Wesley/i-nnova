@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 /**
@@ -27,9 +28,19 @@ return new class extends Migration
             $table->json('value')->nullable();
             $table->timestamps();
 
-            $table->unique('key', 'site_texts_key_unique');
             $table->index('group');
         });
+
+        // MySQL refuses a unique index on a whole TEXT column, which MariaDB
+        // and SQLite accept. A 700 character prefix fits its 3072 byte key
+        // limit in utf8mb4, and the longest key on the site is under 150.
+        $connection = DB::connection();
+
+        if ($connection->getDriverName() === 'mysql' && ! $connection->isMaria()) {
+            DB::statement('ALTER TABLE site_texts ADD UNIQUE site_texts_key_unique (`key`(700))');
+        } else {
+            Schema::table('site_texts', fn (Blueprint $table) => $table->unique('key', 'site_texts_key_unique'));
+        }
     }
 
     public function down(): void
